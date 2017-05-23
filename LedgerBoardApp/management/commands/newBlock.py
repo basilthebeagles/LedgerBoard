@@ -11,4 +11,5 @@ class NewBLock(BaseCommand):
 
     def handle(self, *args, **options):
         print('')
+#get all posts with no index. Add index. somehow hash them all along with other block data. Save block hash and add to new block.
 #basically get highest block index. Add timestamp. save. hash. Create new block with hash.
