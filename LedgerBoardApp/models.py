@@ -16,7 +16,7 @@ class Post(models.Model):
 
     publicKeyOfSender = models.CharField(max_length=64)
 
-    signature = models.CharField(max_length=64)
+    signature = models.CharField(max_length=128)
 
     timestamp = models.DateField()
 
@@ -33,8 +33,7 @@ class Post(models.Model):
     #reject if post exists with same selfHash
 
 
-    def checkForDuplicate(self):
-        Post.
+
 
 
 
