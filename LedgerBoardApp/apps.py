@@ -1,5 +1,6 @@
 from django.apps import AppConfig
 
 
-class LedgerboardappConfig(AppConfig):
+class LedgerBoardAppConfig(AppConfig):
+
     name = 'LedgerBoardApp'

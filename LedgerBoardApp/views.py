@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 # Create your views here.
 import hashlib
 
@@ -6,10 +5,10 @@ import ecdsa
 from django.http import HttpResponse
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
+
 from ecdsa import VerifyingKey
 
-import rsa
-
+from LedgerBoardApp.models import Post
 
 
 @csrf_exempt
@@ -59,14 +58,17 @@ def newPost(request):
         response.status_code = 406
         return response
 
+    if Post.objects.filter(postHash = postHash).exists():
+        response.content = "Exact post already exists."
+        response.status_code = 406
+        return response
 
-
+    postRecord = Post(publicKeyOfSender = publicKey, signature = signature, postHash= postHash, content = content, timeStamp = timeStamp)
 
 
     #check for duplicate
 
-    #postRecord = Post(publicKeyOfSender = publicKey, signature = signature, postHash= postHash, content = content, timeStamp = timeStamp)
-
+    postRecord.save()
     #save the record.
     #after that I just need to make the block logic & timestamp check
 

@@ -16,9 +16,9 @@ class Post(models.Model):
 
     publicKeyOfSender = models.CharField(max_length=64)
 
-    signature = models.CharField(max_length=128)
+    signature = models.CharField(max_length=128 )
 
-    timestamp = models.DateField()
+    timeStamp = models.IntegerField
 
     content  = models.CharField(max_length=140)
 
