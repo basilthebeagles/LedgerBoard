@@ -4,11 +4,10 @@ from django.db import models
 # Create your models here.
 class Block(models.Model):
 
-    index = models.IntegerField
-    index.primary_key = True
+    index = models.IntegerField(primary_key = True)
 
     previousBlockHash = models.CharField(max_length=64)
-    timestamp = models.DateField()
+    timeStamp = models.IntegerField(null = True)
     #can put hash logic here
 
 
@@ -18,19 +17,16 @@ class Post(models.Model):
 
     signature = models.CharField(max_length=128 )
 
-    timeStamp = models.IntegerField
 
     content  = models.CharField(max_length=140)
 
     postHash = models.CharField(max_length=64, primary_key= True)
 
+    timeStamp = models.IntegerField()
 
 
-    blockIndex = models.IntegerField
+    blockIndex = models.IntegerField(null=True, blank=True)
 
-
-
-    #reject if post exists with same selfHash
 
 
 

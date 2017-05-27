@@ -1,6 +1,6 @@
 # Create your views here.
 import hashlib
-
+import time
 import ecdsa
 from django.http import HttpResponse
 # Create your views here.
@@ -8,19 +8,27 @@ from django.views.decorators.csrf import csrf_exempt
 
 from ecdsa import VerifyingKey
 
+from LedgerBoardApp.models import Block
+
+
 from LedgerBoardApp.models import Post
 
-
+"b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
 @csrf_exempt
 
 def newPost(request):
     #error handling pls
+
+    #gen = Block(index = 0, previousBlockHash= "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9", timeStamp= time.time())
+
+    #gen.save()
+
     response = HttpResponse()
     rawPostData = request.POST
 
     publicKey = str(rawPostData.__getitem__('pubk'))
 
-    timeStamp = rawPostData.__getitem__('ts') #verify this later
+    timeStamp = int(rawPostData.__getitem__('ts')) #verify this later
 
 
     signature =  str(rawPostData.__getitem__('sig'))
@@ -44,10 +52,14 @@ def newPost(request):
         response.status_code = 406
         return response
 
+    if abs(timeStamp - time.time()) > 5:
+        response.content = "Post is too old."
+        response.status_code = 406
+        return response
 
-    #IMPORTANT. CHECK TIME IS NOT +- 30s
+    #IMPORTANT. CHECK TIME IS NOT +- 5s
 #sig is signed postHash
-    totalPostContent = publicKey + content + timeStamp
+    totalPostContent = publicKey + content + str(timeStamp)
 
     postHash = hashlib.sha256(totalPostContent.encode('utf-8')).hexdigest()
 
@@ -62,6 +74,7 @@ def newPost(request):
         response.content = "Exact post already exists."
         response.status_code = 406
         return response
+
 
     postRecord = Post(publicKeyOfSender = publicKey, signature = signature, postHash= postHash, content = content, timeStamp = timeStamp)
 
