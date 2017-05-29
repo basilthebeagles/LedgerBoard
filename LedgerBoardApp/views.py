@@ -13,7 +13,6 @@ from LedgerBoardApp.models import Block
 
 from LedgerBoardApp.models import Post
 
-"b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
 @csrf_exempt
 
 def newPost(request):
@@ -39,7 +38,7 @@ def newPost(request):
 
     if publicKey.__len__() != 128:
         response.status_code = 406
-        response.content = "Public key must be 64 characters long."
+        response.content = "Public key must be 128 characters long."
         return response
 
     if signature.__len__() != 128:
@@ -52,16 +51,15 @@ def newPost(request):
         response.status_code = 406
         return response
 
-    if abs(timeStamp - time.time()) > 5:
+    if abs(timeStamp - time.time()) > 30:
         response.content = "Post is too old."
         response.status_code = 406
         return response
 
-    #IMPORTANT. CHECK TIME IS NOT +- 5s
-#sig is signed postHash
-    totalPostContent = publicKey + content + str(timeStamp)
+    #sig is signed postHash
+    totalPostContentBytes = bytes.fromhex(publicKey) + bytes(content.encode('utf-8')) + bytes(timeStamp)
 
-    postHash = hashlib.sha256(totalPostContent.encode('utf-8')).hexdigest()
+    postHash = hashlib.sha256(totalPostContentBytes).hexdigest()
 
     print(str(postHash))
 
@@ -96,9 +94,12 @@ def verifySig(signature, publicKey, postHash):
 
     vk = VerifyingKey.from_string(bytes.fromhex(publicKey), curve=ecdsa.SECP256k1)
 
-    if vk.verify(bytes.fromhex(signature), bytes.fromhex(postHash)):#if postHash is a hex string then use bytes.fromhex
-        print("verified")
-        return True
-    else:
+    try:
+        if vk.verify(bytes.fromhex(signature), bytes.fromhex(postHash)):#if postHash is a hex string then use bytes.fromhex
+            print("verified")
+            return True
+
+    except:
         return False
+
 

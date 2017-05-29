@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from LedgerBoardApp.models import Block
+from django.db.models import Max
 from django.db import models
 import time
 import hashlib
@@ -8,44 +8,50 @@ from LedgerBoardApp.models import Block
 
 
 
-class NewBlock(BaseCommand):
+
+class Command(BaseCommand):
 
     def add_arguments(self, parser):
         print('')
 
     def handle(self, *args, **options):
 
-        protoBlock = Block.objects.all().aggregate(max('blockIndex'))
+        protoBlock = Block.objects.latest('index')
 
-        protoBlockIndex = protoBlock.index()
+        print(protoBlock)
+        protoBlockIndex = protoBlock.index
 
-        blockTimeStamp = time.time()
+        blockTimeStamp = int(time.time())
 
         unblockedPosts = Post.objects.filter(blockIndex = None, timeStamp__lt = (blockTimeStamp) )
 
-        appendedPostHashes = ""
+        appendedPostHashesBytes = b''
 
         unblockedPosts.order_by('timeStamp')
 
         for post in unblockedPosts:
-            if post.timeStamp() <= Block.objects.all().aggregate(max('blockTimeStamp')):
+            if post.timeStamp <= Block.objects.latest('timeStamp').timeStamp:
                 post.delete()
             else:
                 post.blockIndex = protoBlockIndex
-                appendedPostHashes += post.postHash()
+                appendedPostHashesBytes += bytes.fromhex(post.postHash)
                 post.save()
 
 
 
-
+        print(appendedPostHashesBytes)
 
         protoBlock.timeStamp = blockTimeStamp
 
+        protoBlock.save()
 
+        print("here")
+        protoBlockTotalContents = bytes(protoBlockIndex) + bytes(blockTimeStamp) + bytes(appendedPostHashesBytes)
 
-        protoBlockTotalContents = str(protoBlockIndex) + str(blockTimeStamp) + appendedPostHashes
+        print("here1")
 
-        protoBlockHash = hashlib.sha256(protoBlockTotalContents.encode('utf-8')).hexdigest()
+        protoBlockHash = hashlib.sha256(protoBlockTotalContents).hexdigest()
+        print("here2")
 
         newBlock = Block(index = (protoBlockIndex + 1), previousBlockHash= str(protoBlockHash))
 
