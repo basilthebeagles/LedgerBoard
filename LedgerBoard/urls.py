@@ -21,5 +21,7 @@ from LedgerBoardApp import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url(r'newPost/', views.newPost)
+    url(r'newPost/', views.newPost),
+    url(r'handShake/', views.handShake),
+
 ]

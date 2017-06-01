@@ -25,11 +25,17 @@ content = "testing 54321"
 #fix not working wont verify on back end
 timeStamp = int(time.time()) + 30
 print(timeStamp)
-print('here1')
-totalPostContentBytes = bytes.fromhex(publicKey) + bytes(content.encode('utf-8')) + bytes(timeStamp)
-print('here2')
 
-postHash = hashlib.sha256(totalPostContentBytes).hexdigest()
+print('here1')
+
+
+
+
+
+totalPostContent= publicKey + content + str(timeStamp)
+print('here2')
+print(str(totalPostContent))
+postHash = hashlib.sha256(totalPostContent.encode('utf-8')).hexdigest()
 
 print(postHash)
 
@@ -49,3 +55,5 @@ vk = ecdsa.VerifyingKey.from_string(bytes.fromhex(publicKey), curve=ecdsa.SECP25
 
 
 print(vk.verify(bytes.fromhex(signature), bytes.fromhex(postHash)) )# if postHash is a hex string then use bytes.fromhex
+
+

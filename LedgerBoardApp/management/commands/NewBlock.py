@@ -7,7 +7,7 @@ from LedgerBoardApp.models import Post
 from LedgerBoardApp.models import Block
 
 
-
+#this is more suited to a miner so add send block out to nodes stuff
 
 class Command(BaseCommand):
 
@@ -25,7 +25,7 @@ class Command(BaseCommand):
 
         unblockedPosts = Post.objects.filter(blockIndex = None, timeStamp__lt = (blockTimeStamp) )
 
-        appendedPostHashesBytes = b''
+        appendedPostHashesArray = [] #array is more efficent
 
         unblockedPosts.order_by('timeStamp')
 
@@ -34,23 +34,22 @@ class Command(BaseCommand):
                 post.delete()
             else:
                 post.blockIndex = protoBlockIndex
-                appendedPostHashesBytes += bytes.fromhex(post.postHash)
+                appendedPostHashesArray.append(post.postHash)
                 post.save()
 
 
 
-        print(appendedPostHashesBytes)
 
         protoBlock.timeStamp = blockTimeStamp
 
         protoBlock.save()
 
         print("here")
-        protoBlockTotalContents = bytes(protoBlockIndex) + bytes(blockTimeStamp) + bytes(appendedPostHashesBytes)
+        protoBlockTotalContents = str(protoBlockIndex) + str(blockTimeStamp) + str(appendedPostHashesArray)
 
         print("here1")
 
-        protoBlockHash = hashlib.sha256(protoBlockTotalContents).hexdigest()
+        protoBlockHash = hashlib.sha256(protoBlockTotalContents.encode('utf-8')).hexdigest()
         print("here2")
 
         newBlock = Block(index = (protoBlockIndex + 1), previousBlockHash= str(protoBlockHash))

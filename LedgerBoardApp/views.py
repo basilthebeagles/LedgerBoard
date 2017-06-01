@@ -1,17 +1,15 @@
 # Create your views here.
-import hashlib
-import time
-import ecdsa
-from django.http import HttpResponse
-# Create your views here.
-from django.views.decorators.csrf import csrf_exempt
 
-from ecdsa import VerifyingKey
 
 from LedgerBoardApp.models import Block
 
+from LedgerBoardApp.postHelperFunctions import postHandler
+from LedgerBoardApp.nodeHelperFunctions import newNode
 
-from LedgerBoardApp.models import Post
+
+from django.http import HttpResponse
+# Create your views here.
+from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 
@@ -24,82 +22,91 @@ def newPost(request):
 
     response = HttpResponse()
     rawPostData = request.POST
+    try:
+        publicKey = str(rawPostData.__getitem__('pubk'))
 
-    publicKey = str(rawPostData.__getitem__('pubk'))
+        timeStamp = int(rawPostData.__getitem__('ts')) #verify this later
 
-    timeStamp = int(rawPostData.__getitem__('ts')) #verify this later
-
-
-    signature =  str(rawPostData.__getitem__('sig'))
-
-    content = str(rawPostData.__getitem__('content'))
+        content = str(rawPostData.__getitem__('content'))
 
 
+        signature =  str(rawPostData.__getitem__('sig'))
 
-    if publicKey.__len__() != 128:
+    except:
         response.status_code = 406
-        response.content = "Public key must be 128 characters long."
+        response.content = "Missing content."
         return response
 
-    if signature.__len__() != 128:
+    feedback = postHandler(publicKey, timeStamp, content, signature, True)
+
+    if feedback[0] != "":
         response.status_code = 406
-        response.content = "Signature must be 128 characters long."
+        response.content = feedback
         return response
-
-    if content.__len__() > 140:
-        response.content = "Post must be less than or equal to 140 characters long."
-        response.status_code = 406
-        return response
-
-    if abs(timeStamp - time.time()) > 30:
-        response.content = "Post is too old."
-        response.status_code = 406
-        return response
-
-    #sig is signed postHash
-    totalPostContentBytes = bytes.fromhex(publicKey) + bytes(content.encode('utf-8')) + bytes(timeStamp)
-
-    postHash = hashlib.sha256(totalPostContentBytes).hexdigest()
-
-    print(str(postHash))
-
-    if verifySig(signature, publicKey, postHash) == False:
-        response.content = "Error in verifying signature."
-        response.status_code = 406
-        return response
-
-    if Post.objects.filter(postHash = postHash).exists():
-        response.content = "Exact post already exists."
-        response.status_code = 406
-        return response
-
-
-    postRecord = Post(publicKeyOfSender = publicKey, signature = signature, postHash= postHash, content = content, timeStamp = timeStamp)
-
-
-    #check for duplicate
-
-    postRecord.save()
-    #save the record.
-    #after that I just need to make the block logic & timestamp check
 
     print('bjj')
+    response.status_code = 201
+    response.content = "Success."
 
     return response
 
-def verifySig(signature, publicKey, postHash):
 
-
-
-
-    vk = VerifyingKey.from_string(bytes.fromhex(publicKey), curve=ecdsa.SECP256k1)
+def newBlock(request):
+    response = HttpResponse()
+    rawPostData = request.POST
 
     try:
-        if vk.verify(bytes.fromhex(signature), bytes.fromhex(postHash)):#if postHash is a hex string then use bytes.fromhex
-            print("verified")
-            return True
+        blockIndex = int(rawPostData.__getitem__('index'))
+        previousBlockHash = rawPostData.__getitem__('prevBlockHash')
+        timeStamp = rawPostData.__getitem__('ts')
+
+        nonce = int(rawPostData.__getitem__('index'))
+       # postArray = we'll figure this out...
 
     except:
-        return False
+        response.status_code = 406
+        response.content = "Missing content."
+        return response
+
+    feedback =
 
 
+def handShake(request):
+
+    response = HttpResponse()
+    rawPostData = request.POST
+    host = ""
+    version = ""
+   # defaultStatus = False
+
+    try:
+        if rawPostData.__getitem__('programName') == 'LedgerBoard':
+            try:
+                host = str(request.get_host())
+                version = str(rawPostData.__getitem__('vers'))
+                #defaultStatus = rawPostData.__getitem__('defaultStatus')
+
+
+
+            except:
+                response.status_code = 406
+                response.content = "Missing content in handshake"
+
+
+
+
+    except:
+
+        response.status_code = 421
+        response.content = "Wrong program"
+        return response
+
+    feedback = newNode(host, version)
+    if feedback != "":
+        response.status_code = 406
+        response.content = feedback
+        return response
+
+    response.status_code = 200
+    response.content = "Connection created."
+    return response

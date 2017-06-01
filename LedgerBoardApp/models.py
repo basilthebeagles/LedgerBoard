@@ -8,6 +8,9 @@ class Block(models.Model):
 
     previousBlockHash = models.CharField(max_length=64)
     timeStamp = models.IntegerField(null = True)
+
+    blockHash = models.CharField(max_length=64)
+    nonce = models.IntegerField(null = True)
     #can put hash logic here
 
 
@@ -29,7 +32,13 @@ class Post(models.Model):
 
 
 
+class Node(models.Model):
 
+    host = models.CharField(max_length=64) #changeThisToSomethingBetter
+    version = models.CharField(max_length=64) #changeThisToSomethingBetter
+
+    #defaultStatus = models.BinaryField()
+    secondsSinceLastInteraction = models.IntegerField()
 
 
 
