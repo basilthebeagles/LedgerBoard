@@ -24,25 +24,45 @@ def verifySig(signature, publicKey, postHash):
         return False
 
 
-def postHandler(publicKey, timeStamp, content, signature, save):
+def newPost(publicKey, timeStamp, content, signature):
 
-    feedback = ""
 
-    if publicKey.__len__() != 128:
-        feedback = "Public key must be 128 characters long."
-        return feedback
-
-    if signature.__len__() != 128:
-        feedback = "Signature must be 128 characters long."
-        return feedback
-
-    if content.__len__() > 140:
-        feedback = "Post must be less than or equal to 140 characters long."
-        return feedback
 
     if abs(timeStamp - time.time()) > 30:
-        feedback = "Post is too old."
-        return feedback
+
+        return "Post is too old."
+
+
+
+    response = verifyPost(publicKey, timeStamp, content, signature)
+
+    if response[0] != "":
+        return response[0]
+
+
+    postRecord = Post(publicKeyOfSender=publicKey, signature=signature, postHash=response[1], content=content,
+                          timeStamp=timeStamp)
+
+    postRecord.save()
+
+    return ""
+#pass on post to other nodes!!!!!!!!!!!!
+
+def verifyPost(publicKey, timeStamp, content, signature):
+
+
+    if publicKey.__len__() != 128:
+        return ("Public key must be 128 characters long.", "")
+
+    if signature.__len__() != 128:
+
+        return ("Signature must be 128 characters long.", "")
+
+    if content.__len__() > 140:
+
+        return ("Post must be less than or equal to 140 characters long.", "")
+
+
 
     #sig is signed postHash
     totalPostContent = publicKey + str(timeStamp) + content
@@ -52,20 +72,11 @@ def postHandler(publicKey, timeStamp, content, signature, save):
     print(str(postHash))
 
     if verifySig(signature, publicKey, postHash) == False:
-        feedback = "Error in verifying signature."
-        return feedback
+
+        return ("Error in verifying signature.", "")
 
     if Post.objects.filter(postHash = postHash).exists():
-        feedback = "Exact post already exists."
-        return feedback
 
-    if save == True:
-        postRecord = Post(publicKeyOfSender=publicKey, signature=signature, postHash=feedback[1], content=content,
-                          timeStamp=timeStamp)
+        return ("Exact post already exists.", postHash)
 
-        postRecord.save()
-
-    return feedback
-
-#pass on post to other nodes!!!!!!!!!!!!
-
+    return ("", postHash)

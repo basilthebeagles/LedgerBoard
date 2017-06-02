@@ -45,7 +45,7 @@ class Command(BaseCommand):
         protoBlock.save()
 
         print("here")
-        protoBlockTotalContents = str(protoBlockIndex) + str(blockTimeStamp) + str(appendedPostHashesArray)
+        protoBlockTotalContents = str(protoBlockIndex) + str(blockTimeStamp) + str(appendedPostHashesArray) #forgot prev block hash
 
         print("here1")
 

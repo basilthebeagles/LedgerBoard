@@ -37,7 +37,7 @@ def newPost(request):
         response.content = "Missing content."
         return response
 
-    feedback = postHandler(publicKey, timeStamp, content, signature, True)
+    feedback = postHandler(publicKey, timeStamp, content, signature)
 
     if feedback[0] != "":
         response.status_code = 406
@@ -58,9 +58,10 @@ def newBlock(request):
     try:
         blockIndex = int(rawPostData.__getitem__('index'))
         previousBlockHash = rawPostData.__getitem__('prevBlockHash')
-        timeStamp = rawPostData.__getitem__('ts')
+        timeStamp = int(rawPostData.__getitem__('ts'))
 
         nonce = int(rawPostData.__getitem__('index'))
+        postTupleArray = rawPostData.__getitem__('ts')
        # postArray = we'll figure this out...
 
     except:
