@@ -3,8 +3,9 @@
 
 from LedgerBoardApp.models import Block
 
-from LedgerBoardApp.postHelperFunctions import postHandler
+from LedgerBoardApp.postHelperFunctions import newPost
 from LedgerBoardApp.nodeHelperFunctions import newNode
+from LedgerBoardApp.blockHelperFunctions import blockHandler
 
 
 from django.http import HttpResponse
@@ -12,6 +13,8 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
+
+#create a getconnections view
 
 def newPost(request):
     #error handling pls
@@ -50,7 +53,7 @@ def newPost(request):
 
     return response
 
-
+#create 'pass on' function
 def newBlock(request):
     response = HttpResponse()
     rawPostData = request.POST
@@ -59,18 +62,26 @@ def newBlock(request):
         blockIndex = int(rawPostData.__getitem__('index'))
         previousBlockHash = rawPostData.__getitem__('prevBlockHash')
         timeStamp = int(rawPostData.__getitem__('ts'))
-
+        target = int(rawPostData.__getitem__('target'))
         nonce = int(rawPostData.__getitem__('index'))
-        postTupleArray = rawPostData.__getitem__('ts')
-       # postArray = we'll figure this out...
+
 
     except:
         response.status_code = 406
         response.content = "Missing content."
         return response
 
-    feedback =
+    feedback = blockHandler(blockIndex, previousBlockHash, timeStamp, target, nonce, True)
 
+    if feedback != "":
+        response.status_code = 406
+        response.content = feedback
+        return response
+
+    response.status_code = 201
+    response.content = "Success."
+    #pass on
+    return response
 
 def handShake(request):
 
@@ -111,3 +122,4 @@ def handShake(request):
     response.status_code = 200
     response.content = "Connection created."
     return response
+

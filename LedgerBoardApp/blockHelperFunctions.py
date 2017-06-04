@@ -3,6 +3,7 @@ from django.db.models import Max
 from django.db import models
 import time
 import hashlib
+import bcrypt
 from LedgerBoardApp.models import Post
 from LedgerBoardApp.models import Block
 from operator import itemgetter, attrgetter
@@ -11,9 +12,6 @@ from LedgerBoardApp.postHelperFunctions import verifyPost
 #need OrphanBlock procedures
 
 
-def receiveNewBlock(blockIndex, previousBlockHashFromNewBlock, timeStamp, nonce, postTupleArray):
-
-    feedBack = ""
 
 
 
@@ -22,24 +20,15 @@ def receiveNewBlock(blockIndex, previousBlockHashFromNewBlock, timeStamp, nonce,
 
 
 
-    #post array [0][0] pubk [0][1] ts [0][2] content
-    #below should be in verifyBlock function
-    #sort given postArray so ts order. Compare to original if same then keep otherwise reject
-    #check previousBlockHash is the same as the most recent blocks hash.
-    #create long chain of postHashes, storing them in [3] for each post
 
-   #in progress: hash block together with nonce. If below difficulty then accept! (create function to calc difficulty based on last 2056 blocks.
-    #above should be in verifyBlock function
-    #create new block object and save
-    #add block index to all posts in the postobjectarray. Save. Then delete all posts with no block index that are inbertween block ts of prev block (inclusive) and block ts of new block (exclusive)
-    #pass on block to other nodes.
 
-def blockHandler(blockIndex, previousBlockHash, timeStamp, nonce, postTupleArray, saveBlockStatus):
+
+def blockHandler(blockIndex, previousBlockHash, blockTimeStamp, blockTarget, blockNonce, newBlockStatus):
 
 
     currentTime = int(time.time())
 
-    if timeStamp > currentTime:
+    if blockTimeStamp > currentTime:
         return "Block is from the future."
 
     previousBlock = Block.objects.latest('index')
@@ -51,16 +40,16 @@ def blockHandler(blockIndex, previousBlockHash, timeStamp, nonce, postTupleArray
 
         return "Block does not fit on chain."
 
-    sortedPostTupleArray = sorted(postTupleArray, key=itemgetter(1))  # sort by ts
 
-    if postTupleArray != sortedPostTupleArray:
-        return "Posts are not ordered by timestamp."
 
     if previousBlock.index >= blockIndex:
 
         return "Block is old."
 
-    earliestPost = sortedPostTupleArray[0]
+    if blockTarget != getTargetForBlock(blockIndex):
+        return "Wrong target."
+
+    '''earliestPost = sortedPostTupleArray[0]
     latestPost = sortedPostTupleArray[-1]
 
     if earliestPost[1] < previousBlock.timeStamp:
@@ -70,30 +59,85 @@ def blockHandler(blockIndex, previousBlockHash, timeStamp, nonce, postTupleArray
     if latestPost[1] >= timeStamp:
 
         return "Includes later posts."
+    '''
+    unblockedPosts = Post.objects.filter(blockIndex=None, timeStamp__lt=(blockTimeStamp))
+    unblockedPosts.order_by('timeStamp')
+
+    postObjectArrayToBeSaved = []
+    postObjectArrayToBeDeleted = []
 
     appendedPostHashesArray = []
 
-    postObjectArrayToBeSaved = []
 
-    for post in sortedPostTupleArray:
-        response = verifyPost(post[0], post[1], post[2], post[3])
+    for post in unblockedPosts:
+        if post.timeStamp < Block.objects.latest('timeStamp').timeStamp:
+            if newBlockStatus:
+                postObjectArrayToBeDeleted.append(post)
+        else:
+            post.blockIndex = blockIndex
+            appendedPostHashesArray.append(post.postHash)
+            if newBlockStatus:
+                postObjectArrayToBeSaved.append(post)
 
-        if response[0] != "" or response != "Exact post already exists.":
-            return "Error in verifying posts."
 
-        if saveBlockStatus and response[0] == "Exact post already exists.":
-            postObject = Post.objects.get(postHash=response[1])
-            postObjectArrayToBeSaved.append(postObject)
 
-        if saveBlockStatus:
-            postObject = Post(publicKeyOfSender=post[0], signature=post[3], postHash=response[1], content=post[2],
-                          timeStamp=post[1])
-            postObjectArrayToBeSaved.append(postObject)
 
-        appendedPostHashesArray.append(response[1])
-    blockTotalContents = str(blockIndex) + str(timeStamp) + str(previousBlockHash) + str(appendedPostHashesArray)
+    blockTotalContents = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(appendedPostHashesArray)
+    blockPreHash = hashlib.sha256(blockTotalContents.encode('utf-8')).hexdigest()
+    blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt= bytes(blockNonce), rounds= 100, desired_key_bytes= 512).hex()
 
-    blockHash = hashlib.pbkdf2_hmac('sha512', blockTotalContents.encode('utf-8'), bytes(nonce), 1000000).hex()
+    if int(blockHash, 16) < blockTarget:
+
+        if newBlockStatus:
+            for post in postObjectArrayToBeSaved:
+                post.save()
+            for post in postObjectArrayToBeDeleted:
+                post.delete()
+            newBlock = Block(index= blockIndex, previousBlockHash=previousBlockHash, timeStamp=blockTimeStamp, blockHash=blockHash, nonce= blockNonce, target=blockTarget)
+            newBlock.save()
+
+        return ""
+    else:
+
+        return "Block did not meet target."
+
+
+def getTargetForBlock(index):
+    indexRangeB = index - 1
+    indexRangeA = index - 2016
+
+
+    blocksToCheck = Block.objects.filter(timeStamp__lte = (indexRangeB), timeStamp__gte = (indexRangeA)).order_by('index')
+
+    earliestBlock = blocksToCheck.earliest('index')
+    latestBlock = blocksToCheck.latest('index')
+
+
+    blocksToTargetChange = 0
+    firstTarget = earliestBlock.target
+
+    for block in blocksToCheck:
+        if block.target == firstTarget:
+            blocksToTargetChange += 1
+
+    target = 1
+
+
+
+    if blocksToTargetChange != 2016:
+        target = int(latestBlock.target)
+    else:
+
+        timeBetweenAandB = latestBlock.timeStamp - earliestBlock.timeStamp
+
+        target = (1209600/timeBetweenAandB) * latestBlock.target
+    return target
+
+
+
+
+
+
 
 
 

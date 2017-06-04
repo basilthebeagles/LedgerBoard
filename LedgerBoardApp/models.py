@@ -11,6 +11,11 @@ class Block(models.Model):
 
     blockHash = models.CharField(max_length=64)
     nonce = models.IntegerField(null = True)
+
+    target = models.IntegerField()
+
+
+
     #can put hash logic here
 
 
