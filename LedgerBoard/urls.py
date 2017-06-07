@@ -22,6 +22,11 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'newPost/', views.newPost),
+    url(r'newBlock/', views.newBlock()),
+
     url(r'handShake/', views.handShake),
+    url(r'getBlockByIndex/', views.getBlockByIndex()),
+
+
 
 ]

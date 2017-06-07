@@ -1,11 +1,10 @@
 import hashlib
 import time
 import ecdsa
-from LedgerBoardApp.models import Post
 
 
 from ecdsa import VerifyingKey
-
+from LedgerBoardApp.models import Post
 
 
 def verifySig(signature, publicKey, postHash):
@@ -24,13 +23,13 @@ def verifySig(signature, publicKey, postHash):
         return False
 
 
-def newPost(publicKey, timeStamp, content, signature):
+def newPost(publicKey, timeStamp, content, signature, IBD):
 
 
+    if IBD != True:
+        if abs(timeStamp - time.time()) > 30:
 
-    if abs(timeStamp - time.time()) > 30:
-
-        return "Post is too old."
+            return "Post is too old."
 
 
 

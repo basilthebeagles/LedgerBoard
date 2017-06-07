@@ -1,13 +1,12 @@
-from django.core.management.base import BaseCommand, CommandError
-from django.db.models import Max
-from django.db import models
 import time
 import hashlib
+import time
+
 import bcrypt
-from LedgerBoardApp.models import Post
+
 from LedgerBoardApp.models import Block
-from operator import itemgetter, attrgetter
-from LedgerBoardApp.postHelperFunctions import verifyPost
+from LedgerBoardApp.models import Post
+
 
 #need OrphanBlock procedures
 
@@ -23,7 +22,7 @@ from LedgerBoardApp.postHelperFunctions import verifyPost
 
 
 
-def blockHandler(blockIndex, previousBlockHash, blockTimeStamp, blockTarget, blockNonce, newBlockStatus):
+def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blockNonce, newBlockStatus):
 
 
     currentTime = int(time.time())
@@ -82,7 +81,7 @@ def blockHandler(blockIndex, previousBlockHash, blockTimeStamp, blockTarget, blo
 
 
 
-    blockTotalContents = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(appendedPostHashesArray)
+    blockTotalContents = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockTarget)+ str(appendedPostHashesArray)
     blockPreHash = hashlib.sha256(blockTotalContents.encode('utf-8')).hexdigest()
     blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt= bytes(blockNonce), rounds= 100, desired_key_bytes= 512).hex()
 

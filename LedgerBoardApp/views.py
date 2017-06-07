@@ -1,16 +1,16 @@
 # Create your views here.
 
 
-from LedgerBoardApp.models import Block
-
-from LedgerBoardApp.postHelperFunctions import newPost
-from LedgerBoardApp.nodeHelperFunctions import newNode
-from LedgerBoardApp.blockHelperFunctions import blockHandler
-
-
 from django.http import HttpResponse
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
+
+from LedgerBoardApp.helperFunctions.blockHelperFunctions import blockHandler
+from LedgerBoardApp.helperFunctions.distributeEntity import distributeEntity
+from LedgerBoardApp.helperFunctions.getBlockByIndex import getBlockByIndex
+from LedgerBoardApp.helperFunctions.nodeHelperFunctions import newNode
+from LedgerBoardApp.helperFunctions.postHelperFunctions import newPost
+
 
 @csrf_exempt
 
@@ -40,7 +40,7 @@ def newPost(request):
         response.content = "Missing content."
         return response
 
-    feedback = postHandler(publicKey, timeStamp, content, signature)
+    feedback = newPost(publicKey, timeStamp, content, signature, False)
 
     if feedback[0] != "":
         response.status_code = 406
@@ -51,19 +51,21 @@ def newPost(request):
     response.status_code = 201
     response.content = "Success."
 
+    postDataArray = [publicKey, timeStamp, content, signature]
+    distributeEntity(postDataArray, "post", request.get_host())
+
     return response
 
-#create 'pass on' function
 def newBlock(request):
     response = HttpResponse()
     rawPostData = request.POST
 
     try:
         blockIndex = int(rawPostData.__getitem__('index'))
-        previousBlockHash = rawPostData.__getitem__('prevBlockHash')
         timeStamp = int(rawPostData.__getitem__('ts'))
+        previousBlockHash = rawPostData.__getitem__('prevBlockHash')
         target = int(rawPostData.__getitem__('target'))
-        nonce = int(rawPostData.__getitem__('index'))
+        nonce = int(rawPostData.__getitem__('nonce'))
 
 
     except:
@@ -71,7 +73,7 @@ def newBlock(request):
         response.content = "Missing content."
         return response
 
-    feedback = blockHandler(blockIndex, previousBlockHash, timeStamp, target, nonce, True)
+    feedback = blockHandler(blockIndex, timeStamp, previousBlockHash, target, nonce, True)
 
     if feedback != "":
         response.status_code = 406
@@ -80,6 +82,11 @@ def newBlock(request):
 
     response.status_code = 201
     response.content = "Success."
+
+    blockDataArray = [blockIndex, timeStamp, previousBlockHash, target, nonce]
+
+    distributeEntity(blockDataArray, "block", request.get_host())
+
     #pass on
     return response
 
@@ -96,6 +103,8 @@ def handShake(request):
             try:
                 host = str(request.get_host())
                 version = str(rawPostData.__getitem__('vers'))
+                time = int(rawPostData.__getitem__('currentTime'))
+                currentTime = time.time()
                 #defaultStatus = rawPostData.__getitem__('defaultStatus')
 
 
@@ -113,6 +122,11 @@ def handShake(request):
         response.content = "Wrong program"
         return response
 
+    if abs(currentTime - time) > 5:
+        response.status_code = 403
+        response.content = "Clock is out of sync."
+        return response
+
     feedback = newNode(host, version)
     if feedback != "":
         response.status_code = 406
@@ -123,3 +137,41 @@ def handShake(request):
     response.content = "Connection created."
     return response
 
+def getBlockByIndex(request):
+    response = HttpResponse()
+    rawPostData = request.POST
+
+    try:
+        blockIndex = int(rawPostData.__getitem__('index'))
+    except:
+        response.status_code = 406
+        response.content = "Missing index."
+
+    feedback = getBlockByIndex(blockIndex)
+    if feedback[0] == "":
+        response.content = str(feedback[1])
+        response.status_code = 200
+        return response
+    else:
+        response.content = feedback[0]
+        response.status_code = 404
+        return response
+
+
+def getPostsBetweenTimestamps(request):
+    response = HttpResponse()
+    rawPostData = request.POST
+
+
+    #flesh this all out.
+
+    feedback = ""
+
+    if feedback[0] == "":
+        response.content = str(feedback[1])
+        response.status_code = 200
+        return response
+    else:
+        response.content = feedback[0]
+        response.status_code = 404
+        return response
