@@ -25,8 +25,8 @@ urlpatterns = [
     url(r'newBlock/', views.newBlock()),
 
     url(r'handShake/', views.handShake),
-    url(r'getBlockByIndex/', views.getBlockByIndex()),
-
-
+    url(r'getBlocks/', views.getBlocks()),
+    url(r'getPosts/', views.getPosts()),
+    url(r'getNodes/', views.getNodes()),
 
 ]

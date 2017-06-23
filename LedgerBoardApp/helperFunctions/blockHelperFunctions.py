@@ -22,7 +22,7 @@ from LedgerBoardApp.models import Post
 
 
 
-def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blockNonce, newBlockStatus):
+def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blockNonce, newBlockStatus, miningStatus):
 
 
     currentTime = int(time.time())
@@ -83,22 +83,51 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
     blockTotalContents = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockTarget)+ str(appendedPostHashesArray)
     blockPreHash = hashlib.sha256(blockTotalContents.encode('utf-8')).hexdigest()
-    blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt= bytes(blockNonce), rounds= 100, desired_key_bytes= 512).hex()
+    if miningStatus:
+        nonce = 16
+        while nonce != 0:
+            blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt= bytes(nonce), rounds= 100, desired_key_bytes= 512).hex()
+            if metTarget(blockHash, blockTarget) and newBlockStatus:
 
-    if int(blockHash, 16) < blockTarget:
+                blockNonce = nonce
+                break
+            elif metTarget(blockHash, blockTarget):
+                return str(blockNonce)
 
-        if newBlockStatus:
-            for post in postObjectArrayToBeSaved:
-                post.save()
-            for post in postObjectArrayToBeDeleted:
-                post.delete()
-            newBlock = Block(index= blockIndex, previousBlockHash=previousBlockHash, timeStamp=blockTimeStamp, blockHash=blockHash, nonce= blockNonce, target=blockTarget)
-            newBlock.save()
+            nonce -= 1
+
+
+        if nonce == 0:
+            return "Could not mine."
+
+
+
+    else:
+        blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt= bytes(blockNonce), rounds= 100, desired_key_bytes= 512).hex()
+
+
+    if newBlockStatus and metTarget(blockHash, blockTarget):
+        for post in postObjectArrayToBeSaved:
+            post.save()
+        for post in postObjectArrayToBeDeleted:
+            post.delete()
+        newBlock = Block(index=blockIndex, previousBlockHash=previousBlockHash, timeStamp=blockTimeStamp,
+                         blockHash=blockHash, nonce=blockNonce, target=blockTarget)
+        newBlock.save()
 
         return ""
     else:
+        return "Did not meet target."
 
-        return "Block did not meet target."
+def metTarget(blockHash, blockTarget):
+    if int(blockHash, 16) < blockTarget:
+
+
+
+        return True
+    else:
+
+        return False
 
 
 def getTargetForBlock(index):

@@ -16,7 +16,6 @@ class Block(models.Model):
 
 
 
-    #can put hash logic here
 
 
 class Post(models.Model):

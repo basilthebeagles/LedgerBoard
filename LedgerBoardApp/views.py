@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from LedgerBoardApp.helperFunctions.blockHelperFunctions import blockHandler
 from LedgerBoardApp.helperFunctions.distributeEntity import distributeEntity
-from LedgerBoardApp.helperFunctions.getBlockByIndex import getBlockByIndex
+from LedgerBoardApp.helperFunctions.getBlocks import getBlockByIndex
 from LedgerBoardApp.helperFunctions.nodeHelperFunctions import newNode
 from LedgerBoardApp.helperFunctions.postHelperFunctions import newPost
 
@@ -87,7 +87,6 @@ def newBlock(request):
 
     distributeEntity(blockDataArray, "block", request.get_host())
 
-    #pass on
     return response
 
 def handShake(request):
@@ -137,17 +136,27 @@ def handShake(request):
     response.content = "Connection created."
     return response
 
-def getBlockByIndex(request):
+def getBlocks(request):
     response = HttpResponse()
     rawPostData = request.POST
 
+
+
+
+def getPosts(request):
+    response = HttpResponse()
+    rawPostData = request.POST
+
+
     try:
-        blockIndex = int(rawPostData.__getitem__('index'))
+        attribute = rawPostData.__getitem__('attribute')
+        attributeParameter = rawPostData.__getitem__('attributeData')
+
     except:
         response.status_code = 406
-        response.content = "Missing index."
+        response.content = "Missing data."
 
-    feedback = getBlockByIndex(blockIndex)
+    feedback = getPosts(attribute, attributeParameter)
     if feedback[0] == "":
         response.content = str(feedback[1])
         response.status_code = 200
@@ -157,16 +166,21 @@ def getBlockByIndex(request):
         response.status_code = 404
         return response
 
-
-def getPostsBetweenTimestamps(request):
+def getNodes(request):
     response = HttpResponse()
     rawPostData = request.POST
 
+    ''' 
+    try:
+        attribute = rawPostData.__getitem__('attribute')
+        attributeParameter = rawPostData.__getitem__('attributeData')
 
-    #flesh this all out.
+    except:
+        response.status_code = 406
+        response.content = "Missing data."
+    '''
 
-    feedback = ""
-
+    feedback = getNodes()#attribute, attributeParameter)
     if feedback[0] == "":
         response.content = str(feedback[1])
         response.status_code = 200
