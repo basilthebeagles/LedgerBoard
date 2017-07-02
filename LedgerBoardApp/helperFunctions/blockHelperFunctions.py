@@ -1,12 +1,17 @@
-import time
 import hashlib
 import time
+import requests
 
 import bcrypt
+import operator
 
 from LedgerBoardApp.models import Block
 from LedgerBoardApp.models import Post
+from LedgerBoardApp.models import Data
+from LedgerBoardApp.helperFunctions import getNodes
 
+
+import random
 
 #need OrphanBlock procedures
 
@@ -32,10 +37,23 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
     previousBlock = Block.objects.latest('index')
 
+    amalgationA = str(previousBlock.index) + str(previousBlock.timeStamp) + str(previousBlock.timeStamp) + str(previousBlock.nonce)
+    amalgationB = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockNonce)
 
+    if amalgationA == amalgationB:
+        return "Block already exists on chain."
+    
 
 
     if previousBlock.blockHash != previousBlockHash:
+
+
+        #replace this with time since good block
+
+
+
+
+
 
         return "Block does not fit on chain."
 
@@ -62,24 +80,49 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
     unblockedPosts = Post.objects.filter(blockIndex=None, timeStamp__lt=(blockTimeStamp))
     unblockedPosts.order_by('timeStamp')
 
+
+
+
+
+
+
+
+
     postObjectArrayToBeSaved = []
     postObjectArrayToBeDeleted = []
 
     appendedPostHashesArray = []
 
+    postNum = 0
 
     for post in unblockedPosts:
-        if post.timeStamp < Block.objects.latest('timeStamp').timeStamp:
+
+
+        if postNum > 1023:
+            postObjectArrayToBeDeleted.append(post)
+
+        elif post.timeStamp < Block.objects.latest('timeStamp').timeStamp:
             if newBlockStatus:
                 postObjectArrayToBeDeleted.append(post)
+
+
         else:
             post.blockIndex = blockIndex
             appendedPostHashesArray.append(post.postHash)
             if newBlockStatus:
                 postObjectArrayToBeSaved.append(post)
 
+        postNum += 1
 
 
+
+
+
+
+
+
+
+    blockHash = ''
 
     blockTotalContents = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockTarget)+ str(appendedPostHashesArray)
     blockPreHash = hashlib.sha256(blockTotalContents.encode('utf-8')).hexdigest()
@@ -114,6 +157,9 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
         newBlock = Block(index=blockIndex, previousBlockHash=previousBlockHash, timeStamp=blockTimeStamp,
                          blockHash=blockHash, nonce=blockNonce, target=blockTarget)
         newBlock.save()
+
+        badBlockHandler(True)
+        #set unchainable thing to zero
 
         return ""
     else:
@@ -164,14 +210,68 @@ def getTargetForBlock(index):
 
 
 
+def badChainFixer():
+
+    nodes = getNodes.getNodes()
+
+    counter = 0
+
+    nodeData = {}
+
+
+    for node in nodes:
+
+
+        url = "http://" + node.host + "getHeight/"
+
+        r = requests.get(url, timeout = 0.1)
+
+        height = r.content
+
+        nodeData[node.host] = height
+
+
+        counter += 1
+
+        if counter == 20:
+            break
+
+    sorted_nodeData = sorted(nodeData.items(), key=operator.itemgetter(0), reverse=True)
 
 
 
 
+def badBlockHandler(chainableBlockOccured):
+    firstbadBlockTime = 0
 
 
 
+    firstBadBlockTimeObject = Data.objects.get(datumTitle="Time of First Bad Block After Chainable Block")
+    if chainableBlockOccured:
+        firstBadBlockTimeObject.datumContent = 0
+        firstBadBlockTimeObject.save()
+        return
 
+    firstBadBlockTime = int(firstBadBlockTimeObject.datumContent)
+
+    currentTime = time.time()
+
+    if firstBadBlockTimeObject.datumContent == 0:
+        firstBadBlockTimeObject.datumContent = int(time.time())
+        return
+
+    timeToStartBadChainProcedures = firstBadBlockTime + 2400 + random.randint(0, 2400)
+
+    if currentTime - timeToStartBadChainProcedures > 0:
+
+        #StartBadChainProcedures
+
+    else:
+
+        firstBadBlockTimeObject.datumContent = timeToStartBadChainProcedures
+        firstBadBlockTimeObject.save()
+
+    return
 
 
 

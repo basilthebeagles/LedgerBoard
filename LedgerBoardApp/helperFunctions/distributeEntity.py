@@ -32,8 +32,8 @@ def distributeEntity(dataArray, type, originHost):
 
         }
 
-
-    nodes = Node.objects.exclude(host=originHost)
+    if originHost != 'self':
+        nodes = Node.objects.exclude(host=originHost)
 
     feedbackDictionary = {}
 

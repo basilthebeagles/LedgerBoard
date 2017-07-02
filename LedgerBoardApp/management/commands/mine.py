@@ -6,6 +6,9 @@ import hashlib
 from LedgerBoardApp.models import Post
 from LedgerBoardApp.models import Block
 from LedgerBoardApp.helperFunctions import blockHelperFunctions
+from LedgerBoardApp.helperFunctions import distributeEntity
+
+
 
 
 
@@ -38,6 +41,9 @@ class Command(BaseCommand):
                 feedback = blockHelperFunctions.blockHandler(protoIndex, currentTime, protoPreviousBlockHash, protoTarget, 16, True, True) #get final nonce from here
 
                 if feedback == "":
-                    break
+                                break
 
+                newBlock = Block.objects.get(index=protoIndex)
+                newBlockDataArray = [newBlock.index, newBlock.timeStamp, newBlock.previousBlockHash, newBlock.target, newBlock.nonce]
 
+                distributeEntity(newBlockDataArray, 'block', 'self')

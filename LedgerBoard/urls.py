@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'getBlocks/', views.getBlocks()),
     url(r'getPosts/', views.getPosts()),
     url(r'getNodes/', views.getNodes()),
+    url(r'getHeight/', views.getHeight()),
 
 ]

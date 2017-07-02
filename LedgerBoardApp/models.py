@@ -46,4 +46,7 @@ class Node(models.Model):
 
 
 
-    
+class Data(models.Model):
+
+    datumTitle =  models.CharField(max_length=64)
+    datumContent = models.CharField(max_length=64)

@@ -1,5 +1,5 @@
 from LedgerBoardApp.models import Node
-
+import random
 
 def getNodes():
 
@@ -14,6 +14,9 @@ def getNodes():
             nodeDataArray.append(node.version)
             nodeDataArray.append(node.secondsSinceLastInteraction)
             nodeArray.append(nodeDataArray)
+
+
+        random.shuffle(nodeArray)
 
         return ("", nodeArray)
 

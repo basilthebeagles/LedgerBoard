@@ -1,13 +1,23 @@
 # Create your views here.
+#need to handle orphans etc.
+
 
 
 from django.http import HttpResponse
+#from django.http import JsonResponse
+
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 
 from LedgerBoardApp.helperFunctions.blockHelperFunctions import blockHandler
 from LedgerBoardApp.helperFunctions.distributeEntity import distributeEntity
-from LedgerBoardApp.helperFunctions.getBlocks import getBlockByIndex
+from LedgerBoardApp.helperFunctions.getBlocks import getBlocks
+from LedgerBoardApp.helperFunctions.getPosts import getPosts
+from LedgerBoardApp.helperFunctions.getNodes import getNodes
+from LedgerBoardApp.helperFunctions.getHeight import getHeight
+
+
+
 from LedgerBoardApp.helperFunctions.nodeHelperFunctions import newNode
 from LedgerBoardApp.helperFunctions.postHelperFunctions import newPost
 
@@ -68,12 +78,13 @@ def newBlock(request):
         nonce = int(rawPostData.__getitem__('nonce'))
 
 
+
     except:
         response.status_code = 406
         response.content = "Missing content."
         return response
 
-    feedback = blockHandler(blockIndex, timeStamp, previousBlockHash, target, nonce, True)
+    feedback = blockHandler(blockIndex, timeStamp, previousBlockHash, target, nonce, True, False)
 
     if feedback != "":
         response.status_code = 406
@@ -141,6 +152,25 @@ def getBlocks(request):
     rawPostData = request.POST
 
 
+    try:
+        attribute = rawPostData.__getitem__('attribute')
+        attributeParameter = rawPostData.__getitem__('attributeData')
+
+    except:
+        response.status_code = 406
+        response.content = "Missing data."
+
+    feedback = getPosts(attribute, attributeParameter)
+    if feedback[0] == "":
+        response.content = str(feedback[1])
+        response.status_code = 200
+        return response
+    else:
+        response.content = feedback[0]
+        response.status_code = 404
+        return response
+
+
 
 
 def getPosts(request):
@@ -189,3 +219,29 @@ def getNodes(request):
         response.content = feedback[0]
         response.status_code = 404
         return response
+
+
+def getHeight(request):
+    response = HttpResponse()
+    rawPostData = request.POST
+
+    ''' 
+    try:
+        attribute = rawPostData.__getitem__('attribute')
+        attributeParameter = rawPostData.__getitem__('attributeData')
+
+    except:
+        response.status_code = 406
+        response.content = "Missing data."
+    '''
+
+    feedback = getHeight()
+    if feedback[0] == "":
+        response.content = str(feedback[1])
+        response.status_code = 200
+        return response
+    else:
+        response.content = feedback[0]
+        response.status_code = 404
+        return response
+
