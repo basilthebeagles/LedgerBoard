@@ -8,7 +8,15 @@ import operator
 from LedgerBoardApp.models import Block
 from LedgerBoardApp.models import Post
 from LedgerBoardApp.models import Data
-from LedgerBoardApp.helperFunctions import getNodes
+from LedgerBoardApp.models import Node
+
+from LedgerBoardApp.helperFunctions import getHeight
+from LedgerBoardApp.helperFunctions import postHelperFunctions
+from LedgerBoardApp.helperFunctions import nodeHelperFunctions
+
+
+
+import ast
 
 
 import random
@@ -27,7 +35,7 @@ import random
 
 
 
-def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blockNonce, newBlockStatus, miningStatus):
+def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blockNonce, newBlockStatus, miningStatus, orphanBlockFix):
 
 
     currentTime = int(time.time())
@@ -35,7 +43,10 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
     if blockTimeStamp > currentTime:
         return "Block is from the future."
 
-    previousBlock = Block.objects.latest('index')
+    if orphanBlockFix:
+        previousBlock = Block.objects.get(index=(blockIndex -1))
+    else:
+        previousBlock = Block.objects.latest('index')
 
     amalgationA = str(previousBlock.index) + str(previousBlock.timeStamp) + str(previousBlock.timeStamp) + str(previousBlock.nonce)
     amalgationB = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockNonce)
@@ -50,7 +61,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
         #replace this with time since good block
 
-
+        badBlockHandler(False)
 
 
 
@@ -59,7 +70,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
 
 
-    if previousBlock.index >= blockIndex:
+    if previousBlock.index >= blockIndex and (orphanBlockFix != True ):
 
         return "Block is old."
 
@@ -210,36 +221,142 @@ def getTargetForBlock(index):
 
 
 
-def badChainFixer():
+def badChainFixer(firstBadBlockTimeObject):
+    rebuildStatus = Data.objects.get(datumTitle="Rebuilding")
 
-    nodes = getNodes.getNodes()
+    if rebuildStatus.datumContent == "True":
 
-    counter = 0
+        return "error"
+    else:
+        rebuildStatus.datumContent = "True"
+        rebuildStatus.save()
 
-    nodeData = {}
+    # StartBadChainProcedures
 
+    currentIndex = getHeight()
 
-    for node in nodes:
-
-
-        url = "http://" + node.host + "getHeight/"
-
-        r = requests.get(url, timeout = 0.1)
-
-        height = r.content
-
-        nodeData[node.host] = height
+    postsOfLatestBlock = Post.objects.filter(blockIndex=int(currentIndex))
 
 
-        counter += 1
+    for post in postsOfLatestBlock:
+        post.blockIndex = None
 
-        if counter == 20:
-            break
-
-    sorted_nodeData = sorted(nodeData.items(), key=operator.itemgetter(0), reverse=True)
+        post.save()
 
 
+    latestBlock = Block.objects.get(index=currentIndex)
 
+
+    count = 0
+
+    feedback = nodeHelperFunctions.getHighestNode(latestBlock.index)
+
+    if feedback != '':
+        return 'error'
+
+    #sorted_nodeData = sorted(nodeData.items(), key=operator.itemgetter(0), reverse=True)
+
+    highestNode = feedback[1]
+
+
+
+
+    blockIndexRange = [currentIndex, highestNode['Height']]
+
+
+
+    url = "http://" + highestNode['Host'] + "getBlocks/"
+
+
+
+    payload = {'attribute' : 'index', 'attributeParameters' : str(blockIndexRange)}
+
+
+    blockArray = []
+    try:
+        r = requests.get(url, timeout=0.1, payload=payload)
+
+
+        blockArray = ast.literal_eval(str(r.content))
+    except:
+        print('error')
+        return 'errror'
+
+    orphanBlockFix = True
+
+    for block in blockArray:
+        latestBlock = Block.objects.latest('index')
+
+        if orphanBlockFix:
+
+            if block[0] != latestBlock.index:
+                return 'error'
+
+        url = "http://" + highestNode['Host'] + "getPosts/"
+
+        postTimeStampRange = [latestBlock.timeStamp, block[1]]
+
+        payload = {'attribute': 'timeStamp', 'attributeParameters': str(postTimeStampRange)}
+
+        postArray = []
+        try:
+            r = requests.get(url, timeout=0.1, payload=payload)
+
+            postArray = ast.literal_eval(str(r.content))
+
+            if postArray.__len__() > 1023:
+                return 'error'
+
+            if orphanBlockFix:
+                previousBlockTimeStamp =  Block.objects.get(index=(latestBlock.index -1)).timeStamp
+            else:
+                previousBlockTimeStamp =  Block.objects.get(index=(latestBlock.index)).timeStamp
+
+
+            postsInTimeStampRange = Post.objects.filter(timeStamp__gte=previousBlockTimeStamp, timeStamp__lt=block[1])
+
+            for post in postsInTimeStampRange:
+                post.delete()
+
+            for post in postArray:
+
+                postFeedback = postHelperFunctions.newPost(post[0], post[1], post[2], post[3], True)
+
+                if postFeedback[0] != "" or "Exact post already exists.":
+                    node = Node.objects.get(host=highestNode['Host'])
+
+                    node.timeOfBlackList = time.time()
+                    node.save()
+                    return 'error'
+
+
+
+            blockFeedback = blockHandler(block[0], block[1], block[2], block[3], block[4], True, False , orphanBlockFix)
+
+
+
+            if blockFeedback[0] != '':
+                return 'error'
+
+
+            if orphanBlockFix == True:
+                latestBlock.delete()
+                orphanBlockFix = False
+
+        except:
+            print('error')
+            return 'error'
+
+    latestBlock.delete()
+
+
+    firstBadBlockTimeObject.datumContent = 0
+    firstBadBlockTimeObject.save()
+
+    rebuildStatus.datumContent = "False"
+
+    rebuildStatus.save()
+    return ''
 
 def badBlockHandler(chainableBlockOccured):
     firstbadBlockTime = 0
@@ -264,7 +381,8 @@ def badBlockHandler(chainableBlockOccured):
 
     if currentTime - timeToStartBadChainProcedures > 0:
 
-        #StartBadChainProcedures
+        badChainFixer(firstBadBlockTimeObject)
+
 
     else:
 

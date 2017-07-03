@@ -1,5 +1,6 @@
 from LedgerBoardApp.models import Node
 import random
+import requests
 
 def getNodes():
 
@@ -23,3 +24,5 @@ def getNodes():
 
     except:
         return ("No nodes.", [])
+
+

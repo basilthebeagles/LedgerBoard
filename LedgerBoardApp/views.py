@@ -122,6 +122,7 @@ def handShake(request):
             except:
                 response.status_code = 406
                 response.content = "Missing content in handshake"
+                return response
 
 
 
@@ -154,13 +155,14 @@ def getBlocks(request):
 
     try:
         attribute = rawPostData.__getitem__('attribute')
-        attributeParameter = rawPostData.__getitem__('attributeData')
+        attributeParameters = rawPostData.__getitem__('attributeParameters')
 
     except:
         response.status_code = 406
         response.content = "Missing data."
+        return response
 
-    feedback = getPosts(attribute, attributeParameter)
+    feedback = getPosts(attribute, attributeParameters)
     if feedback[0] == "":
         response.content = str(feedback[1])
         response.status_code = 200
@@ -185,6 +187,7 @@ def getPosts(request):
     except:
         response.status_code = 406
         response.content = "Missing data."
+        return response
 
     feedback = getPosts(attribute, attributeParameter)
     if feedback[0] == "":

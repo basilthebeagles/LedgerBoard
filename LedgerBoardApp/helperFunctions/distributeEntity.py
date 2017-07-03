@@ -38,6 +38,10 @@ def distributeEntity(dataArray, type, originHost):
     feedbackDictionary = {}
 
     for node in nodes:
+
+        if node.timeOfBlackList != 0:
+            continue
+
         url = str(node.host) + urlAddition
         try:
             r = requests.post(url, data=payload, timeout=1)

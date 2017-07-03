@@ -44,6 +44,11 @@ class Node(models.Model):
     #defaultStatus = models.BinaryField()
     secondsSinceLastInteraction = models.IntegerField()
 
+    timeOfBlackList = models.IntegerField(null=True, blank=True)
+ #changeThisToSomethingBetter
+
+
+
 
 
 class Data(models.Model):

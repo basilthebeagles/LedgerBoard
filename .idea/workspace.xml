@@ -2,13 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d39cb6a0-1509-4f9b-be03-3c68754db85c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getHeight.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/LedgerBoardApp/StartUp.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/LedgerBoardApp/management/commands/checkNodesActivity.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/management/commands/CheckNodesActivity.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoard/urls.py" afterPath="$PROJECT_DIR$/LedgerBoard/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/__init__.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/apps.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/apps.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/distributeEntity.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/distributeEntity.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getNodes.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getNodes.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPosts.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPosts.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/nodeHelperFunctions.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/nodeHelperFunctions.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/models.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/views.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/views.py" />
     </list>
@@ -20,7 +24,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/LedgerBoard$blockHelperFunctions.coverage" NAME="blockHelperFunctions Coverage Results" MODIFIED="1499026029891" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/LedgerBoardApp/helperFunctions" />
+    <SUITE FILE_PATH="coverage/LedgerBoard$blockHelperFunctions.coverage" NAME="blockHelperFunctions Coverage Results" MODIFIED="1499111105494" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/LedgerBoardApp/helperFunctions" />
     <SUITE FILE_PATH="coverage/LedgerBoard$webSockTest.coverage" NAME="webSockTest Coverage Results" MODIFIED="1496258118910" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LedgerBoard$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1496613599609" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LedgerBoard$pythonscript.coverage" NAME="pythonscript Coverage Results" MODIFIED="1496418124569" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -31,33 +35,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-              <folding>
-                <element signature="e#58#94#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LedgerBoardApp/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="670">
-              <caret line="48" column="10" lean-forward="false" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="getHeight.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getHeight.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="26" lean-forward="false" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+            <state relative-caret-position="640">
+              <caret line="46" column="22" lean-forward="false" selection-start-line="46" selection-start-column="22" selection-end-line="46" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -66,34 +48,32 @@
       <file leaf-file-name="distributeEntity.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/distributeEntity.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="35" column="27" lean-forward="false" selection-start-line="35" selection-start-column="27" selection-end-line="35" selection-end-column="27" />
-              <folding>
-                <element signature="e#1#16#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="565">
+              <caret line="42" column="20" lean-forward="false" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="getBlocks.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="29" column="30" lean-forward="false" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="blockHelperFunctions.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="blockHelperFunctions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="947">
-              <caret line="273" column="10" lean-forward="false" selection-start-line="273" selection-start-column="10" selection-end-line="273" selection-end-column="10" />
+            <state relative-caret-position="1929">
+              <caret line="358" column="13" lean-forward="false" selection-start-line="358" selection-start-column="13" selection-end-line="358" selection-end-column="13" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CheckNodesActivity.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/management/commands/CheckNodesActivity.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="525">
+              <caret line="35" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#65#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -102,11 +82,9 @@
       <file leaf-file-name="mine.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="550">
-              <caret line="37" column="0" lean-forward="true" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#65#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="435">
+              <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -114,20 +92,42 @@
       <file leaf-file-name="postHelperFunctions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/postHelperFunctions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="870">
-              <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+            <state relative-caret-position="724">
+              <caret line="78" column="43" lean-forward="true" selection-start-line="78" selection-start-column="17" selection-end-line="78" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StartUp.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/StartUp.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" column="30" lean-forward="false" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
               <folding>
-                <element signature="e#0#14#0" expanded="true" />
+                <element signature="e#0#28#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="nodeHelperFunctions.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/nodeHelperFunctions.py">
+      <file leaf-file-name="apps.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/apps.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state relative-caret-position="120">
+              <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#33#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -158,7 +158,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/LedgerBoardApp/apps.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/management/commands/newBlock.py" />
         <option value="$PROJECT_DIR$/LedgerBoard/routing.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/receiveNewPost.py" />
@@ -166,7 +165,6 @@
         <option value="$PROJECT_DIR$/LedgerBoard/settings.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/nodeHelperFunctions.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/management/commands/checkNodesHealth.py" />
-        <option value="$PROJECT_DIR$/LedgerBoardApp/management/commands/checkNodesActivity.py" />
         <option value="$PROJECT_DIR$/testDataMaker.py" />
         <option value="$PROJECT_DIR$/bcryptTEst.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/blockHelperFunctions.py" />
@@ -176,18 +174,23 @@
         <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/postHelperFunctions.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPostsBetweenTimestamps.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlockByIndex.py" />
-        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPosts.py" />
-        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/nodeHelperFunctions.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/management/commands/NewBlock.py" />
-        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py" />
-        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/distributeEntity.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py" />
-        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getNodes.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getHeight.py" />
         <option value="$PROJECT_DIR$/LedgerBoard/urls.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/views.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPosts.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/models.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/management/commands/checkNodesActivity.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getNodes.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/distributeEntity.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/nodeHelperFunctions.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/management/commands/StartUp.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/__init__.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/StartUp.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/apps.py" />
       </list>
     </option>
   </component>
@@ -218,7 +221,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -255,70 +257,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="LedgerBoardApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="management" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LedgerBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LedgerBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LedgerBoardApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="management" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="commands" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LedgerBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LedgerBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LedgerBoardApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="helperFunctions" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LedgerBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LedgerBoard" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="LedgerBoard" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -330,6 +275,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/LedgerBoardApp" />
       <recent name="$PROJECT_DIR$/LedgerBoardApp/helperFunctions" />
     </key>
   </component>
@@ -660,25 +606,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/management/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/site-packages/django/core/management/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3585">
-          <caret line="251" column="8" lean-forward="false" selection-start-line="251" selection-start-column="8" selection-end-line="251" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoard/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -720,7 +652,7 @@
         <state relative-caret-position="75">
           <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
-            <element signature="e#58#94#0" expanded="true" />
+            <element signature="e#58#94#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -831,13 +763,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoard/wsgi.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -856,13 +781,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/apps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="26" lean-forward="false" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoard/pip-selfcheck.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -871,13 +789,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoardApp/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/tests.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -898,17 +809,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/management/commands/checkNodesActivity.py">
+    <entry file="file://$PROJECT_DIR$/LedgerBoard/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="21" column="28" lean-forward="false" selection-start-line="21" selection-start-column="28" selection-end-line="21" selection-end-column="28" />
+        <state relative-caret-position="465">
+          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bcryptTEst.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/management/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3403">
+          <caret line="250" column="0" lean-forward="true" selection-start-line="250" selection-start-column="0" selection-end-line="250" selection-end-column="0" />
+          <folding>
+            <element signature="e#58#94#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPosts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+        <state relative-caret-position="105">
+          <caret line="7" column="57" lean-forward="false" selection-start-line="7" selection-start-column="57" selection-end-line="7" selection-end-column="57" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
@@ -917,34 +860,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getNodes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="32" lean-forward="false" selection-start-line="18" selection-start-column="32" selection-end-line="18" selection-end-column="32" />
+        <state relative-caret-position="420">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoard/urls.py">
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/nodeHelperFunctions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="370">
+          <caret line="31" column="20" lean-forward="false" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bcryptTEst.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/management/__init__.py">
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="45" lean-forward="false" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getHeight.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="26" lean-forward="false" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
           <folding />
         </state>
       </provider>
@@ -957,86 +912,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/postHelperFunctions.py">
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="870">
-          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/nodeHelperFunctions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        <state relative-caret-position="435">
+          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py">
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/management/commands/CheckNodesActivity.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="37" column="0" lean-forward="true" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+        <state relative-caret-position="525">
+          <caret line="35" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
           <folding>
             <element signature="e#0#65#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/views.py">
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/postHelperFunctions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="87" column="0" lean-forward="true" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-          <folding>
-            <element signature="e#58#94#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="670">
-          <caret line="48" column="10" lean-forward="false" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="10" />
+        <state relative-caret-position="724">
+          <caret line="78" column="43" lean-forward="true" selection-start-line="78" selection-start-column="17" selection-end-line="78" selection-end-column="43" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getHeight.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="26" lean-forward="false" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="30" lean-forward="false" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/distributeEntity.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="35" column="27" lean-forward="false" selection-start-line="35" selection-start-column="27" selection-end-line="35" selection-end-column="27" />
-          <folding>
-            <element signature="e#1#16#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="565">
+          <caret line="42" column="20" lean-forward="false" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="947">
-          <caret line="273" column="10" lean-forward="false" selection-start-line="273" selection-start-column="10" selection-end-line="273" selection-end-column="10" />
+        <state relative-caret-position="1929">
+          <caret line="358" column="13" lean-forward="false" selection-start-line="358" selection-start-column="13" selection-end-line="358" selection-end-column="13" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="640">
+          <caret line="46" column="22" lean-forward="false" selection-start-line="46" selection-start-column="22" selection-end-line="46" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/StartUp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="30" lean-forward="false" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/apps.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
           </folding>
         </state>
       </provider>

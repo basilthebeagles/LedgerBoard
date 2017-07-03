@@ -5,6 +5,9 @@ import time
 
 from LedgerBoardApp.models import Node
 
+#call this something else
+
+
 
 
 
@@ -21,6 +24,14 @@ class Command(BaseCommand):
 
         inactiveNodes.all().delete()
 
+        blackListNodes = Node.objects.filter(timeOfBlackList__gt= 0)
+
+
+
+        for node in blackListNodes:
+            if node.timeOfBlackList > currentTime + 259200:
+                node.timeOfBlackList = 0
+                node.save()
 
 
 
