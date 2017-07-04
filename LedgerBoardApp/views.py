@@ -18,8 +18,10 @@ from LedgerBoardApp.helperFunctions.getHeight import getHeight
 
 
 
-from LedgerBoardApp.helperFunctions.nodeHelperFunctions import newNode
-from LedgerBoardApp.helperFunctions.postHelperFunctions import newPost
+from LedgerBoardApp.helperFunctions.nodeHelperFunctions import NewNode
+from LedgerBoardApp.helperFunctions.postHelperFunctions import NewPost
+
+from LedgerBoardApp.StartUp import startUp
 
 
 @csrf_exempt
@@ -50,9 +52,9 @@ def newPost(request):
         response.content = "Missing content."
         return response
 
-    feedback = newPost(publicKey, timeStamp, content, signature, False)
+    feedback = NewPost(publicKey, timeStamp, content, signature, False)
 
-    if feedback[0] != "":
+    if feedback != "":
         response.status_code = 406
         response.content = feedback
         return response
@@ -65,6 +67,7 @@ def newPost(request):
     distributeEntity(postDataArray, "post", request.get_host())
 
     return response
+@csrf_exempt
 
 def newBlock(request):
     response = HttpResponse()
@@ -74,7 +77,7 @@ def newBlock(request):
         blockIndex = int(rawPostData.__getitem__('index'))
         timeStamp = int(rawPostData.__getitem__('ts'))
         previousBlockHash = rawPostData.__getitem__('prevBlockHash')
-        target = int(rawPostData.__getitem__('target'))
+        target = rawPostData.__getitem__('target')
         nonce = int(rawPostData.__getitem__('nonce'))
 
 
@@ -84,7 +87,7 @@ def newBlock(request):
         response.content = "Missing content."
         return response
 
-    feedback = blockHandler(blockIndex, timeStamp, previousBlockHash, target, nonce, True, False)
+    feedback = blockHandler(blockIndex, timeStamp, previousBlockHash, target, nonce, True, False, False, [0, 0])
 
     if feedback != "":
         response.status_code = 406
@@ -99,6 +102,7 @@ def newBlock(request):
     distributeEntity(blockDataArray, "block", request.get_host())
 
     return response
+@csrf_exempt
 
 def handShake(request):
 
@@ -138,7 +142,7 @@ def handShake(request):
         response.content = "Clock is out of sync."
         return response
 
-    feedback = newNode(host, version)
+    feedback = NewNode(host, version)
     if feedback != "":
         response.status_code = 406
         response.content = feedback
@@ -147,6 +151,7 @@ def handShake(request):
     response.status_code = 200
     response.content = "Connection created."
     return response
+@csrf_exempt
 
 def getBlocks(request):
     response = HttpResponse()
@@ -174,6 +179,7 @@ def getBlocks(request):
 
 
 
+@csrf_exempt
 
 def getPosts(request):
     response = HttpResponse()
@@ -198,6 +204,7 @@ def getPosts(request):
         response.content = feedback[0]
         response.status_code = 404
         return response
+@csrf_exempt
 
 def getNodes(request):
     response = HttpResponse()
@@ -223,6 +230,7 @@ def getNodes(request):
         response.status_code = 404
         return response
 
+@csrf_exempt
 
 def getHeight(request):
     response = HttpResponse()
@@ -248,3 +256,13 @@ def getHeight(request):
         response.status_code = 404
         return response
 
+@csrf_exempt
+def startUp(request):
+    response = HttpResponse()
+    rawPostData = request.POST
+
+    startUp()
+
+
+
+    return response

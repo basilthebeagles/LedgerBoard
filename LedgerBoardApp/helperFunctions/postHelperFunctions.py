@@ -9,6 +9,10 @@ from LedgerBoardApp.models import Post
 
 def verifySig(signature, publicKey, postHash):
 
+    print(signature)
+    print(publicKey)
+    print(postHash)
+
 
 
 
@@ -23,7 +27,7 @@ def verifySig(signature, publicKey, postHash):
         return False
 
 
-def newPost(publicKey, timeStamp, content, signature, IBD):
+def NewPost(publicKey, timeStamp, content, signature, IBD):
 
 
     if IBD != True:
@@ -49,6 +53,7 @@ def newPost(publicKey, timeStamp, content, signature, IBD):
 
 def verifyPost(publicKey, timeStamp, content, signature):
 
+    print(publicKey.__len__())
 
     if publicKey.__len__() != 128:
         return ("Public key must be 128 characters long.", "")

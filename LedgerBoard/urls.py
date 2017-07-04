@@ -22,12 +22,13 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'newPost/', views.newPost),
-    url(r'newBlock/', views.newBlock()),
+    url(r'newBlock/', views.newBlock),
 
     url(r'handShake/', views.handShake),
-    url(r'getBlocks/', views.getBlocks()),
-    url(r'getPosts/', views.getPosts()),
-    url(r'getNodes/', views.getNodes()),
-    url(r'getHeight/', views.getHeight()),
+    url(r'getBlocks/', views.getBlocks),
+    url(r'getPosts/', views.getPosts),
+    url(r'getNodes/', views.getNodes),
+    url(r'getHeight/', views.getHeight),
+    url(r'startUp/', views.startUp),
 
 ]

@@ -4,7 +4,7 @@ import requests
 
 
 
-def newNode(host, version):
+def NewNode(host, version):
     feedback = ""
 
     if Node.objects.filter(host = host).exists():

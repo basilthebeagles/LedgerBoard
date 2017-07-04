@@ -12,7 +12,7 @@ class Block(models.Model):
     blockHash = models.CharField(max_length=64)
     nonce = models.IntegerField(null = True)
 
-    target = models.IntegerField()
+    target = models.CharField(max_length=64)
 
 
 
@@ -20,7 +20,7 @@ class Block(models.Model):
 
 class Post(models.Model):
 
-    publicKeyOfSender = models.CharField(max_length=64)
+    publicKeyOfSender = models.CharField(max_length=128)
 
     signature = models.CharField(max_length=128 )
 

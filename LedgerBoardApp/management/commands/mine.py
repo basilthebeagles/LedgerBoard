@@ -19,10 +19,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         while True: #we'll make this better
-            target = blockHelperFunctions.getTargetForBlock()
 
 
-            latestBlock = Block.objects.latest('timeStamp')   #fix this up see if u can get the latest attribute
+            latestBlock = Block.objects.latest('index')   #fix this up see if u can get the latest attribute
 
             protoIndex = latestBlock.index + 1
 
@@ -33,17 +32,24 @@ class Command(BaseCommand):
 
 
 
+            nonceRange = [1, 16]
             while True:
+
                 currentTime = int(time.time())
 
 
 
-                feedback = blockHelperFunctions.blockHandler(protoIndex, currentTime, protoPreviousBlockHash, protoTarget, 16, True, True) #get final nonce from here
+
+                feedback = blockHelperFunctions.blockHandler(protoIndex, currentTime, protoPreviousBlockHash, protoTarget, 16, True, True, False, nonceRange)
 
                 if feedback == "":
-                                break
+                    print('mined!')
+                    break
 
-                newBlock = Block.objects.get(index=protoIndex)
-                newBlockDataArray = [newBlock.index, newBlock.timeStamp, newBlock.previousBlockHash, newBlock.target, newBlock.nonce]
+                nonceRange[0] = nonceRange[1] + 1
+                nonceRange[1] = int(round(nonceRange[1] * 1.5))
 
-                distributeEntity(newBlockDataArray, 'block', 'self')
+            newBlock = Block.objects.get(index=protoIndex)
+            newBlockDataArray = [newBlock.index, newBlock.timeStamp, newBlock.previousBlockHash, newBlock.target, newBlock.nonce]
+
+            distributeEntity.distributeEntity(newBlockDataArray, 'block', 'self')

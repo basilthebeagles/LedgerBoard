@@ -35,7 +35,7 @@ import random
 
 
 
-def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blockNonce, newBlockStatus, miningStatus, orphanBlockFix):
+def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blockNonce, newBlockStatus, miningStatus, orphanBlockFix, nonceRange):
 
 
     currentTime = int(time.time())
@@ -61,33 +61,29 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
         #replace this with time since good block
 
+        print("previousBlockHash:   " + previousBlock.blockHash)
+        print("so called prev hash:   " + previousBlockHash)
+
+
+
         badBlockHandler(False)
 
 
 
 
         return "Block does not fit on chain."
-
+    
 
 
     if previousBlock.index >= blockIndex and (orphanBlockFix != True ):
 
         return "Block is old."
-
+    
     if blockTarget != getTargetForBlock(blockIndex):
         return "Wrong target."
 
-    '''earliestPost = sortedPostTupleArray[0]
-    latestPost = sortedPostTupleArray[-1]
 
-    if earliestPost[1] < previousBlock.timeStamp:
 
-        return "Includes previous posts."
-
-    if latestPost[1] >= timeStamp:
-
-        return "Includes later posts."
-    '''
     unblockedPosts = Post.objects.filter(blockIndex=None, timeStamp__lt=(blockTimeStamp))
     unblockedPosts.order_by('timeStamp')
 
@@ -138,26 +134,28 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
     blockTotalContents = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockTarget)+ str(appendedPostHashesArray)
     blockPreHash = hashlib.sha256(blockTotalContents.encode('utf-8')).hexdigest()
     if miningStatus:
-        nonce = 16
-        while nonce != 0:
-            blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt= bytes(nonce), rounds= 100, desired_key_bytes= 512).hex()
+        nonce = nonceRange[1]
+        while nonce >= nonceRange[0]:
+            blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt= bytes(nonce), rounds= 100, desired_key_bytes= 32).hex()
             if metTarget(blockHash, blockTarget) and newBlockStatus:
-
+                print('mined')
                 blockNonce = nonce
                 break
-            elif metTarget(blockHash, blockTarget):
-                return str(blockNonce)
+            print('/n' + blockHash)
+            #elif metTarget(blockHash, blockTarget):
+            #    return str(blockNonce)
+            print('could not mine')
 
             nonce -= 1
 
 
-        if nonce == 0:
+        if nonce == (nonceRange[0] -1):
             return "Could not mine."
 
 
 
     else:
-        blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt= bytes(blockNonce), rounds= 100, desired_key_bytes= 512).hex()
+        blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt= bytes(blockNonce), rounds= 100, desired_key_bytes= 32).hex()
 
 
     if newBlockStatus and metTarget(blockHash, blockTarget):
@@ -170,16 +168,21 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
         newBlock.save()
 
         badBlockHandler(True)
-        #set unchainable thing to zero
 
         return ""
     else:
+        badBlockHandler(False)
+
         return "Did not meet target."
 
 def metTarget(blockHash, blockTarget):
-    if int(blockHash, 16) < blockTarget:
+    print(str(int(blockTarget, 16)))
+    print(str(int(blockHash, 16)))
 
 
+    if int(blockHash, 16) <= int(blockTarget, 16):
+
+        print('target met')
 
         return True
     else:
@@ -188,11 +191,15 @@ def metTarget(blockHash, blockTarget):
 
 
 def getTargetForBlock(index):
+
+    if index < 2016:
+        return "0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+
     indexRangeB = index - 1
     indexRangeA = index - 2016
 
 
-    blocksToCheck = Block.objects.filter(timeStamp__lte = (indexRangeB), timeStamp__gte = (indexRangeA)).order_by('index')
+    blocksToCheck = Block.objects.filter(index__lte = (indexRangeB), index__gte = (indexRangeA)).order_by('index')
 
     earliestBlock = blocksToCheck.earliest('index')
     latestBlock = blocksToCheck.latest('index')
@@ -207,16 +214,27 @@ def getTargetForBlock(index):
 
     target = 1
 
-
+    intRepLatestBlockTarget = int(latestBlock.target, 16)
 
     if blocksToTargetChange != 2016:
-        target = int(latestBlock.target)
+        target = intRepLatestBlockTarget
     else:
 
         timeBetweenAandB = latestBlock.timeStamp - earliestBlock.timeStamp
+        print("time between a and b:  " + str(timeBetweenAandB))
+        target = (timeBetweenAandB/1209600) * intRepLatestBlockTarget
 
-        target = (1209600/timeBetweenAandB) * latestBlock.target
-    return target
+        print(target)
+        while (target / intRepLatestBlockTarget) > 4:
+            target = target / 1.5
+
+        target = int(round(target))
+
+
+
+
+
+    return hex(target)
 
 
 
@@ -233,7 +251,7 @@ def badChainFixer(firstBadBlockTimeObject):
 
     # StartBadChainProcedures
 
-    currentIndex = getHeight()
+    currentIndex = getHeight.getHeight()
 
     postsOfLatestBlock = Post.objects.filter(blockIndex=int(currentIndex))
 
@@ -252,6 +270,9 @@ def badChainFixer(firstBadBlockTimeObject):
     feedback = nodeHelperFunctions.getHighestNode(latestBlock.index)
 
     if feedback != '':
+        rebuildStatus.datumContent = "False"
+
+        rebuildStatus.save()
         return 'error'
 
     #sorted_nodeData = sorted(nodeData.items(), key=operator.itemgetter(0), reverse=True)
@@ -279,6 +300,10 @@ def badChainFixer(firstBadBlockTimeObject):
 
         blockArray = ast.literal_eval(str(r.content))
     except:
+
+        rebuildStatus.datumContent = "False"
+
+        rebuildStatus.save()
         print('error')
         return 'errror'
 
@@ -290,6 +315,9 @@ def badChainFixer(firstBadBlockTimeObject):
         if orphanBlockFix:
 
             if block[0] != latestBlock.index:
+                rebuildStatus.datumContent = "False"
+
+                rebuildStatus.save()
                 return 'error'
 
         url = "http://" + highestNode['Host'] + "getPosts/"
@@ -305,6 +333,9 @@ def badChainFixer(firstBadBlockTimeObject):
             postArray = ast.literal_eval(str(r.content))
 
             if postArray.__len__() > 1023:
+                rebuildStatus.datumContent = "False"
+
+                rebuildStatus.save()
                 return 'error'
 
             if orphanBlockFix:
@@ -322,11 +353,14 @@ def badChainFixer(firstBadBlockTimeObject):
 
                 postFeedback = postHelperFunctions.newPost(post[0], post[1], post[2], post[3], True)
 
-                if postFeedback[0] != "" or "Exact post already exists.":
+                if postFeedback[0] != ("" or "Exact post already exists."):
                     node = Node.objects.get(host=highestNode['Host'])
 
                     node.timeOfBlackList = time.time()
                     node.save()
+                    rebuildStatus.datumContent = "False"
+
+                    rebuildStatus.save()
                     return 'error'
 
 
@@ -336,6 +370,9 @@ def badChainFixer(firstBadBlockTimeObject):
 
 
             if blockFeedback[0] != '':
+                rebuildStatus.datumContent = "False"
+
+                rebuildStatus.save()
                 return 'error'
 
 
@@ -344,6 +381,9 @@ def badChainFixer(firstBadBlockTimeObject):
                 orphanBlockFix = False
 
         except:
+            rebuildStatus.datumContent = "False"
+
+            rebuildStatus.save()
             print('error')
             return 'error'
 
