@@ -2,7 +2,7 @@ from LedgerBoardApp.models import Node
 import random
 import requests
 
-def getNodes():
+def GetNodes():
 
     nodeArray = []
     try:

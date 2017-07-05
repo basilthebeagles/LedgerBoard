@@ -11,10 +11,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 from LedgerBoardApp.helperFunctions.blockHelperFunctions import blockHandler
 from LedgerBoardApp.helperFunctions.distributeEntity import distributeEntity
-from LedgerBoardApp.helperFunctions.getBlocks import getBlocks
-from LedgerBoardApp.helperFunctions.getPosts import getPosts
-from LedgerBoardApp.helperFunctions.getNodes import getNodes
-from LedgerBoardApp.helperFunctions.getHeight import getHeight
+from LedgerBoardApp.helperFunctions.getBlocks import GetBlocks
+from LedgerBoardApp.helperFunctions.getPosts import GetPosts
+from LedgerBoardApp.helperFunctions.getNodes import GetNodes
+from LedgerBoardApp.helperFunctions.getHeight import GetHeight
 
 
 
@@ -167,7 +167,7 @@ def getBlocks(request):
         response.content = "Missing data."
         return response
 
-    feedback = getPosts(attribute, attributeParameters)
+    feedback = GetBlocks(attribute, attributeParameters)
     if feedback[0] == "":
         response.content = str(feedback[1])
         response.status_code = 200
@@ -188,14 +188,14 @@ def getPosts(request):
 
     try:
         attribute = rawPostData.__getitem__('attribute')
-        attributeParameter = rawPostData.__getitem__('attributeData')
+        attributeParameters = rawPostData.__getitem__('attributeParameters')
 
     except:
         response.status_code = 406
         response.content = "Missing data."
         return response
 
-    feedback = getPosts(attribute, attributeParameter)
+    feedback = GetPosts(attribute, attributeParameters)
     if feedback[0] == "":
         response.content = str(feedback[1])
         response.status_code = 200
@@ -220,7 +220,7 @@ def getNodes(request):
         response.content = "Missing data."
     '''
 
-    feedback = getNodes()#attribute, attributeParameter)
+    feedback = GetNodes()#attribute, attributeParameter)
     if feedback[0] == "":
         response.content = str(feedback[1])
         response.status_code = 200
@@ -246,7 +246,7 @@ def getHeight(request):
         response.content = "Missing data."
     '''
 
-    feedback = getHeight()
+    feedback = GetHeight()
     if feedback[0] == "":
         response.content = str(feedback[1])
         response.status_code = 200

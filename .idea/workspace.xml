@@ -3,18 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="d39cb6a0-1509-4f9b-be03-3c68754db85c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoard/urls.py" afterPath="$PROJECT_DIR$/LedgerBoard/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/__init__.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/apps.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/apps.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoard/settings.py" afterPath="$PROJECT_DIR$/LedgerBoard/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/distributeEntity.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/distributeEntity.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/nodeHelperFunctions.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/nodeHelperFunctions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/postHelperFunctions.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/postHelperFunctions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/models.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getHeight.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getHeight.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getNodes.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getNodes.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPosts.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPosts.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/views.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testDataMaker.py" afterPath="$PROJECT_DIR$/testDataMaker.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -35,33 +30,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="distributeEntity.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/distributeEntity.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="40" column="0" lean-forward="true" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-              <folding>
-                <element signature="e#1#16#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="nodeHelperFunctions.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/nodeHelperFunctions.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="6" column="5" lean-forward="false" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LedgerBoardApp/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="705">
-              <caret line="47" column="31" lean-forward="true" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
+            <state relative-caret-position="354">
+              <caret line="247" column="0" lean-forward="true" selection-start-line="247" selection-start-column="0" selection-end-line="247" selection-end-column="0" />
               <folding>
                 <element signature="e#58#94#0" expanded="true" />
               </folding>
@@ -69,31 +42,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="getPosts.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPosts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="7" column="57" lean-forward="false" selection-start-line="7" selection-start-column="57" selection-end-line="7" selection-end-column="57" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="getNodes.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getNodes.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="getHeight.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getHeight.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+            <state relative-caret-position="255">
+              <caret line="20" column="93" lean-forward="false" selection-start-line="20" selection-start-column="93" selection-end-line="20" selection-end-column="93" />
               <folding />
             </state>
           </provider>
@@ -102,8 +65,8 @@
       <file leaf-file-name="blockHelperFunctions.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="705">
-              <caret line="47" column="4" lean-forward="false" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="4" />
+            <state relative-caret-position="3600">
+              <caret line="240" column="0" lean-forward="true" selection-start-line="240" selection-start-column="0" selection-end-line="240" selection-end-column="0" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -111,11 +74,41 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="postHelperFunctions.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/postHelperFunctions.py">
+      <file leaf-file-name="getNodes.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getNodes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="42" column="19" lean-forward="true" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="19" />
+            <state relative-caret-position="30">
+              <caret line="4" column="5" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="getHeight.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getHeight.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="5" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LedgerBoard/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="getBlocks.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="275">
+              <caret line="22" column="95" lean-forward="false" selection-start-line="22" selection-start-column="95" selection-end-line="22" selection-end-column="95" />
               <folding />
             </state>
           </provider>
@@ -134,8 +127,8 @@
       <file leaf-file-name="testDataMaker.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testDataMaker.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="13" />
+            <state relative-caret-position="375">
+              <caret line="25" column="142" lean-forward="false" selection-start-line="25" selection-start-column="14" selection-end-line="25" selection-end-column="142" />
               <folding>
                 <element signature="e#1#13#0" expanded="true" />
               </folding>
@@ -162,7 +155,6 @@
         <option value="$PROJECT_DIR$/LedgerBoard/routing.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/receiveNewPost.py" />
         <option value="$PROJECT_DIR$/webSocketTester.py" />
-        <option value="$PROJECT_DIR$/LedgerBoard/settings.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/nodeHelperFunctions.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/management/commands/checkNodesHealth.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/blockHelperFunctions.py" />
@@ -172,11 +164,7 @@
         <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPostsBetweenTimestamps.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlockByIndex.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/management/commands/NewBlock.py" />
-        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getHeight.py" />
-        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPosts.py" />
-        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/management/commands/checkNodesActivity.py" />
-        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getNodes.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/management/commands/StartUp.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/StartUp.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/__init__.py" />
@@ -189,7 +177,12 @@
         <option value="$PROJECT_DIR$/LedgerBoardApp/models.py" />
         <option value="$PROJECT_DIR$/testDataMaker.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/postHelperFunctions.py" />
+        <option value="$PROJECT_DIR$/LedgerBoard/settings.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getHeight.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getNodes.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/views.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPosts.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py" />
       </list>
     </option>
@@ -201,8 +194,8 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="19" />
-    <option name="y" value="24" />
+    <option name="x" value="54" />
+    <option name="y" value="23" />
     <option name="width" value="1626" />
     <option name="height" value="941" />
   </component>
@@ -221,6 +214,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -321,8 +316,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -349,7 +342,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.pythonscript">
+  <component name="RunManager" selected="Django server.LedgerBoard">
     <configuration default="false" name="blockHelperFunctions" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -631,21 +624,19 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="19" y="24" width="1626" height="941" extended-state="0" />
-    <editor active="true" />
+    <frame x="54" y="23" width="1626" height="941" extended-state="0" />
     <layout>
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17773677" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3738532" sideWeight="0.5301353" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3727064" sideWeight="0.4698647" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32993197" sideWeight="0.49761903" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3727064" sideWeight="0.4698647" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17773677" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32912844" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39969134" sideWeight="0.49748382" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -655,6 +646,7 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Concurrent Activities Diagram" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32912844" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -839,27 +831,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoard/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoard/wsgi.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -867,7 +842,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -883,7 +857,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
           <caret line="31" column="34" lean-forward="false" selection-start-line="31" selection-start-column="34" selection-end-line="31" selection-end-column="34" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -899,17 +872,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="387">
           <caret line="45" column="35" lean-forward="true" selection-start-line="45" selection-start-column="35" selection-end-line="45" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#65#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="34" column="47" lean-forward="false" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -917,7 +879,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="489">
           <caret line="51" column="26" lean-forward="false" selection-start-line="51" selection-start-column="26" selection-end-line="51" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -926,7 +887,7 @@
         <state relative-caret-position="255">
           <caret line="17" column="30" lean-forward="false" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
           <folding>
-            <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#0#28#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -935,7 +896,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
           <caret line="35" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -943,7 +903,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -959,47 +918,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPosts.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="7" column="57" lean-forward="false" selection-start-line="7" selection-start-column="57" selection-end-line="7" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getNodes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getHeight.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/distributeEntity.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="40" column="0" lean-forward="true" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+        <state relative-caret-position="585">
+          <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
           <folding>
-            <element signature="e#1#16#0" expanded="true" />
+            <element signature="e#1#16#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/nodeHelperFunctions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
+        <state relative-caret-position="60">
           <caret line="6" column="5" lean-forward="false" selection-start-line="6" selection-start-column="5" selection-end-line="6" selection-end-column="5" />
           <folding />
         </state>
@@ -1007,8 +941,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/postHelperFunctions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="42" column="19" lean-forward="true" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="19" />
+        <state relative-caret-position="540">
+          <caret line="42" column="19" lean-forward="false" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="19" />
           <folding />
         </state>
       </provider>
@@ -1021,30 +955,78 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/views.py">
+    <entry file="file://$PROJECT_DIR$/LedgerBoard/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="47" column="31" lean-forward="true" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
-          <folding>
-            <element signature="e#58#94#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="165">
+          <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/testDataMaker.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="13" />
+        <state relative-caret-position="375">
+          <caret line="25" column="142" lean-forward="false" selection-start-line="25" selection-start-column="14" selection-end-line="25" selection-end-column="142" />
           <folding>
             <element signature="e#1#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getPosts.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="20" column="93" lean-forward="false" selection-start-line="20" selection-start-column="93" selection-end-line="20" selection-end-column="93" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getHeight.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="5" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getBlocks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="22" column="95" lean-forward="false" selection-start-line="22" selection-start-column="95" selection-end-line="22" selection-end-column="95" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/getNodes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="4" column="5" lean-forward="false" selection-start-line="4" selection-start-column="5" selection-end-line="4" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="247" column="0" lean-forward="true" selection-start-line="247" selection-start-column="0" selection-end-line="247" selection-end-column="0" />
+          <folding>
+            <element signature="e#58#94#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="47" column="4" lean-forward="false" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="4" />
+        <state relative-caret-position="3600">
+          <caret line="240" column="0" lean-forward="true" selection-start-line="240" selection-start-column="0" selection-end-line="240" selection-end-column="0" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>

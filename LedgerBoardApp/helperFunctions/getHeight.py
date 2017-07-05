@@ -2,7 +2,7 @@
 from LedgerBoardApp.models import Block
 
 
-def getHeight():
+def GetHeight():
 
     previousBlock = Block.objects.latest('index')
 

@@ -1,7 +1,7 @@
 from LedgerBoardApp.models import Block
 import ast
 
-def getBlocks(attribute, attributeParameters):
+def GetBlocks(attribute, attributeParameters):
 
     parameters = ast.literal_eval(str(attributeParameters))
 
@@ -16,11 +16,11 @@ def getBlocks(attribute, attributeParameters):
     try:
 
         if attribute == 'index':
-            flaggedBlocks = Block.objects.filter(index__gt=(parameters[0]), index__lt=(parameters[1]) )
+            flaggedBlocks = Block.objects.filter(index__gte=(parameters[0]), index__lte=(parameters[1]) )
             flaggedBlocks.order_by('index')
 
         elif attribute == 'timeStamp':
-            flaggedBlocks = Block.objects.filter(timeStamp__gt=(parameters[0]), timeStamp__lt=(parameters[1]) )
+            flaggedBlocks = Block.objects.filter(timeStamp__gte=(parameters[0]), timeStamp__lte=(parameters[1]) )
             flaggedBlocks.order_by('timeStamp')
 
 
