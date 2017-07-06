@@ -59,7 +59,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
         'APP_DIRS': True,
-        'SECURE_SSL_REDIRECT' : True,
+
 
         'OPTIONS': {
             'context_processors': [

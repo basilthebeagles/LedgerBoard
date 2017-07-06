@@ -154,7 +154,6 @@ def handShake(request):
     response.content = "Connection created."
     return response
 @csrf_exempt
-
 def getBlocks(request):
     response = HttpResponse()
     rawPostData = request.POST
@@ -182,7 +181,6 @@ def getBlocks(request):
 
 
 @csrf_exempt
-
 def getPosts(request):
     response = HttpResponse()
     rawPostData = request.POST
@@ -207,7 +205,6 @@ def getPosts(request):
         response.status_code = 404
         return response
 @csrf_exempt
-
 def getNodes(request):
     response = HttpResponse()
     rawPostData = request.POST
@@ -233,7 +230,6 @@ def getNodes(request):
         return response
 
 @csrf_exempt
-
 def getHeight(request):
     response = HttpResponse()
     rawPostData = request.POST
@@ -268,8 +264,8 @@ def startUp(request):
 
 
     return response
-@csrf_exempt
 
+@csrf_exempt
 def addNewHosts(request):
     response = HttpResponse()
     rawPostData = request.POST
@@ -279,7 +275,7 @@ def addNewHosts(request):
 
     feedback = AddNewHosts(host, version)
 
-    if feedback == '':
+    if feedback != '':
         response.status_code = 406
         response.content = "bad data"
         return response
@@ -287,3 +283,5 @@ def addNewHosts(request):
         response.status_code = 200
         response.content = "success"
         return response
+
+
