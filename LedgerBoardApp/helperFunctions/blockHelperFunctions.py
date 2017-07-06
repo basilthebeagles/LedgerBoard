@@ -239,7 +239,7 @@ def getTargetForBlock(index):
 
 
 
-def badChainFixer(firstBadBlockTimeObject):
+def badChainFixer(firstBadBlockTimeObject, startUp):
     rebuildStatus = Data.objects.get(datumTitle="Rebuilding")
 
     if rebuildStatus.datumContent == "True":
@@ -252,6 +252,8 @@ def badChainFixer(firstBadBlockTimeObject):
     # StartBadChainProcedures
 
     currentIndex = getHeight.getHeight()
+    if startUp:
+        currentIndex += 1
 
     postsOfLatestBlock = Post.objects.filter(blockIndex=int(currentIndex))
 
@@ -267,7 +269,7 @@ def badChainFixer(firstBadBlockTimeObject):
 
     count = 0
 
-    feedback = nodeHelperFunctions.getHighestNode(latestBlock.index)
+    feedback = nodeHelperFunctions.getHighestNode(currentIndex)
 
     if feedback != '':
         rebuildStatus.datumContent = "False"
@@ -339,9 +341,9 @@ def badChainFixer(firstBadBlockTimeObject):
                 return 'error'
 
             if orphanBlockFix:
-                previousBlockTimeStamp =  Block.objects.get(index=(latestBlock.index -1)).timeStamp
+                previousBlockTimeStamp =  Block.objects.get(index=(currentIndex -1)).timeStamp
             else:
-                previousBlockTimeStamp =  Block.objects.get(index=(latestBlock.index)).timeStamp
+                previousBlockTimeStamp =  Block.objects.get(index=(currentIndex)).timeStamp
 
 
             postsInTimeStampRange = Post.objects.filter(timeStamp__gte=previousBlockTimeStamp, timeStamp__lt=block[1])
@@ -421,7 +423,7 @@ def badBlockHandler(chainableBlockOccured):
 
     if currentTime - timeToStartBadChainProcedures > 0:
 
-        badChainFixer(firstBadBlockTimeObject)
+        badChainFixer(firstBadBlockTimeObject, False)
 
 
     else:

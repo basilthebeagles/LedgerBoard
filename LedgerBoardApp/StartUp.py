@@ -3,6 +3,7 @@ import time
 
 from LedgerBoardApp.models import Node
 from LedgerBoardApp.helperFunctions import blockHelperFunctions
+from LedgerBoardApp.models import Data
 
 #call this something else
 
@@ -12,8 +13,9 @@ from LedgerBoardApp.helperFunctions import blockHelperFunctions
 def startUp():
 
     feedback = "-"
+    firstBadBlockTimeObject = Data.objects.get(datumTitle="Time of First Bad Block After Chainable Block")
 
     while feedback != "":
 
-        feedback = blockHelperFunctions.badChainFixer()
+        feedback = blockHelperFunctions.badChainFixer (firstBadBlockTimeObject, True)
 

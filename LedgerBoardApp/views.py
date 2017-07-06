@@ -15,6 +15,8 @@ from LedgerBoardApp.helperFunctions.getBlocks import GetBlocks
 from LedgerBoardApp.helperFunctions.getPosts import GetPosts
 from LedgerBoardApp.helperFunctions.getNodes import GetNodes
 from LedgerBoardApp.helperFunctions.getHeight import GetHeight
+from LedgerBoardApp.helperFunctions.addNewHosts import addNewHosts
+
 
 
 
@@ -266,3 +268,22 @@ def startUp(request):
 
 
     return response
+@csrf_exempt
+
+def addNewHosts(request):
+    response = HttpResponse()
+    rawPostData = request.POST
+
+    host = str(rawPostData.__getitem__('host'))
+    version = str(rawPostData.__getitem__('vers'))
+
+    feedback = addNewHosts(host, version)
+
+    if feedback == '':
+        response.status_code = 406
+        response.content = "bad data"
+        return response
+    else:
+        response.status_code = 200
+        response.content = "success"
+        return  response
