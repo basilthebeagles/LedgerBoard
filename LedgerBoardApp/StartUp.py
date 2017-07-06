@@ -10,7 +10,7 @@ from LedgerBoardApp.models import Data
 
 
 
-def startUp():
+def StartUp():
 
     feedback = "-"
     firstBadBlockTimeObject = Data.objects.get(datumTitle="Time of First Bad Block After Chainable Block")

@@ -30,6 +30,6 @@ urlpatterns = [
     url(r'getNodes/', views.getNodes),
     url(r'getHeight/', views.getHeight),
     url(r'startUp/', views.startUp),
-    url(r'addNewHost/', views.startUp),
+    url(r'addNewHost/', views.AddNewHosts()),
 
 ]

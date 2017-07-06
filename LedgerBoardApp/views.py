@@ -23,7 +23,7 @@ from LedgerBoardApp.helperFunctions.addNewHosts import AddNewHosts
 from LedgerBoardApp.helperFunctions.nodeHelperFunctions import NewNode
 from LedgerBoardApp.helperFunctions.postHelperFunctions import NewPost
 
-from LedgerBoardApp.StartUp import startUp
+from LedgerBoardApp.StartUp import StartUp
 
 
 @csrf_exempt
@@ -263,7 +263,7 @@ def startUp(request):
     response = HttpResponse()
     rawPostData = request.POST
 
-    startUp()
+    StartUp()
 
 
 
