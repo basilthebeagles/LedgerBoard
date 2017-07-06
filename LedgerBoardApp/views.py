@@ -15,7 +15,7 @@ from LedgerBoardApp.helperFunctions.getBlocks import GetBlocks
 from LedgerBoardApp.helperFunctions.getPosts import GetPosts
 from LedgerBoardApp.helperFunctions.getNodes import GetNodes
 from LedgerBoardApp.helperFunctions.getHeight import GetHeight
-from LedgerBoardApp.helperFunctions.addNewHosts import addNewHosts
+from LedgerBoardApp.helperFunctions.addNewHosts import AddNewHosts
 
 
 
@@ -277,7 +277,7 @@ def addNewHosts(request):
     host = str(rawPostData.__getitem__('host'))
     version = str(rawPostData.__getitem__('vers'))
 
-    feedback = addNewHosts(host, version)
+    feedback = AddNewHosts(host, version)
 
     if feedback == '':
         response.status_code = 406
@@ -286,4 +286,4 @@ def addNewHosts(request):
     else:
         response.status_code = 200
         response.content = "success"
-        return  response
+        return response

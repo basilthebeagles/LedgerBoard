@@ -4,7 +4,7 @@ import requests
 from LedgerBoardApp.models import Node
 from LedgerBoardApp.helperFunctions.nodeHelperFunctions import NewNode
 
-def addNewHosts(host, version):
+def AddNewHosts(host, version):
     currentTime = int(time.time())
 
     try:
