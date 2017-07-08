@@ -43,7 +43,6 @@ class Command(BaseCommand):
                 feedback = blockHelperFunctions.blockHandler(protoIndex, currentTime, protoPreviousBlockHash, protoTarget, 16, True, True, False, nonceRange)
 
                 if feedback == "":
-                    print('mined!')
                     break
 
                 nonceRange[0] = nonceRange[1] + 1

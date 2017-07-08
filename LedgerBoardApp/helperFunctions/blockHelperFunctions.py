@@ -138,13 +138,11 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
         while nonce >= nonceRange[0]:
             blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt= bytes(nonce), rounds= 100, desired_key_bytes= 32).hex()
             if metTarget(blockHash, blockTarget) and newBlockStatus:
-                print('mined')
+                print('mined: ' + str(blockHash))
                 blockNonce = nonce
                 break
-            print('/n' + blockHash)
             #elif metTarget(blockHash, blockTarget):
             #    return str(blockNonce)
-            print('could not mine')
 
             nonce -= 1
 
@@ -168,7 +166,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
         newBlock.save()
 
         badBlockHandler(True)
-
+        print("added new block: " + str(blockHash))
         return ""
     else:
         badBlockHandler(False)
