@@ -21,15 +21,17 @@ def AddNewHosts(host, version):
         print(payload)
         print('here')
         r = requests.post(url, data=payload, timeout=5)
-        if r.content == "Connection created.":
-
-            feedback = NewNode(host, version)
-            if feedback == "":
-                return ''
-            else:
-                return 'fail'
-        else:
-            return r.content
     except:
         return 'could not connect'
+
+    if r.content == bytes("Connection created."):
+        print('here1')
+        feedback = NewNode(host, version)
+        if feedback == "":
+            return ''
+        else:
+            return 'fail'
+    else:
+        return "response: " + str(r.content)
+
 
