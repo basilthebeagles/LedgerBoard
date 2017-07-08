@@ -23,7 +23,6 @@ def AddNewHosts(host, version):
         r = requests.post(url, data=payload, timeout=5)
     except:
         return 'could not connect'
-    print(r.content.encode('utf-8'))
 
     if str(r.text) == "Connection created.":
         print('here1')
