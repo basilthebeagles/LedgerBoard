@@ -24,7 +24,8 @@ def AddNewHosts(host, version):
     except:
         return 'could not connect'
     print(r.content.encode('utf-8'))
-    if r.content.encode('utf-8') == "Connection created.":
+
+    if str(r.text) == "Connection created.":
         print('here1')
         feedback = NewNode(host, version)
         if feedback == "":
