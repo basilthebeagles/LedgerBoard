@@ -23,8 +23,8 @@ def AddNewHosts(host, version):
         r = requests.post(url, data=payload, timeout=5)
     except:
         return 'could not connect'
-
-    if r.content == bytes("Connection created."):
+    print(r.content.encode('utf-8'))
+    if r.content.encode('utf-8') == "Connection created.":
         print('here1')
         feedback = NewNode(host, version)
         if feedback == "":
