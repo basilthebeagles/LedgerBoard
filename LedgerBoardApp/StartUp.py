@@ -15,7 +15,6 @@ def StartUp():
     feedback = "-"
     firstBadBlockTimeObject = Data.objects.get(datumTitle="Time of First Bad Block After Chainable Block")
 
-    while feedback != "":
 
-        feedback = blockHelperFunctions.badChainFixer (firstBadBlockTimeObject, True)
+
 

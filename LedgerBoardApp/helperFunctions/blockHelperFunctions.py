@@ -236,21 +236,20 @@ def getTargetForBlock(index):
 
 
 
-def badChainFixer(firstBadBlockTimeObject, startUp):
+def badChainFixer(firstBadBlockTimeObject):
     rebuildStatus = Data.objects.get(datumTitle="Rebuilding")
 
     if rebuildStatus.datumContent == "True":
 
-        return "error"
+        return "rebuildStatus is true"
     else:
         rebuildStatus.datumContent = "True"
         rebuildStatus.save()
 
     # StartBadChainProcedures
 
-    currentIndex = getHeight.getHeight()
-    if startUp:
-        currentIndex += 1
+    currentIndex = int(getHeight.GetHeight()[1])
+
 
     postsOfLatestBlock = Post.objects.filter(blockIndex=int(currentIndex))
 
@@ -272,7 +271,7 @@ def badChainFixer(firstBadBlockTimeObject, startUp):
         rebuildStatus.datumContent = "False"
 
         rebuildStatus.save()
-        return 'error'
+        return 'could not get highest node'
 
     #sorted_nodeData = sorted(nodeData.items(), key=operator.itemgetter(0), reverse=True)
 
@@ -303,13 +302,11 @@ def badChainFixer(firstBadBlockTimeObject, startUp):
         rebuildStatus.datumContent = "False"
 
         rebuildStatus.save()
-        print('error')
-        return 'errror'
+        return 'could not get blockArray from highest node'
 
     orphanBlockFix = True
 
     for block in blockArray:
-        latestBlock = Block.objects.latest('index')
 
         if orphanBlockFix:
 
@@ -317,7 +314,7 @@ def badChainFixer(firstBadBlockTimeObject, startUp):
                 rebuildStatus.datumContent = "False"
 
                 rebuildStatus.save()
-                return 'error'
+                return 'blockArray is not sorted'
 
         url = "http://" + highestNode['Host'] + "getPosts/"
 
@@ -327,7 +324,7 @@ def badChainFixer(firstBadBlockTimeObject, startUp):
 
         postArray = []
         try:
-            r = requests.get(url, timeout=0.1, payload=payload)
+            r = requests.get(url, timeout=1, payload=payload)
 
             postArray = ast.literal_eval(str(r.content))
 
@@ -335,7 +332,7 @@ def badChainFixer(firstBadBlockTimeObject, startUp):
                 rebuildStatus.datumContent = "False"
 
                 rebuildStatus.save()
-                return 'error'
+                return 'too many posts in block'
 
             if orphanBlockFix:
                 previousBlockTimeStamp =  Block.objects.get(index=(currentIndex -1)).timeStamp
@@ -360,7 +357,7 @@ def badChainFixer(firstBadBlockTimeObject, startUp):
                     rebuildStatus.datumContent = "False"
 
                     rebuildStatus.save()
-                    return 'error'
+                    return "Post error: " + postFeedback[0]
 
 
 
@@ -372,7 +369,7 @@ def badChainFixer(firstBadBlockTimeObject, startUp):
                 rebuildStatus.datumContent = "False"
 
                 rebuildStatus.save()
-                return 'error'
+                return "Block error: " + blockFeedback[0]
 
 
             if orphanBlockFix == True:
@@ -383,8 +380,7 @@ def badChainFixer(firstBadBlockTimeObject, startUp):
             rebuildStatus.datumContent = "False"
 
             rebuildStatus.save()
-            print('error')
-            return 'error'
+            return 'error with connection'
 
     latestBlock.delete()
 
@@ -395,7 +391,7 @@ def badChainFixer(firstBadBlockTimeObject, startUp):
     rebuildStatus.datumContent = "False"
 
     rebuildStatus.save()
-    return ''
+    return ""
 
 def badBlockHandler(chainableBlockOccured):
     firstbadBlockTime = 0

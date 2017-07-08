@@ -276,7 +276,7 @@ def startUp(request):
 
     StartUp()
 
-
+    response.content = "OK"
 
     return response
 
