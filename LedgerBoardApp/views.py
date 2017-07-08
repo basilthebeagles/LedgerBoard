@@ -117,11 +117,19 @@ def handShake(request):
     try:
         if rawPostData.__getitem__('programName') == 'LedgerBoard':
             try:
+                print('handshake fine1')
+
                 host = str(request.get_host())
+                print('handshake fine2')
+
                 version = str(rawPostData.__getitem__('vers'))
+                print('handshake fine3')
+
                 time = int(rawPostData.__getitem__('currentTime'))
+                print('handshake fine4')
+
                 currentTime = time.time()
-                print('handshake fine')
+                print('handshake fine1')
                 #defaultStatus = rawPostData.__getitem__('defaultStatus')
 
 
