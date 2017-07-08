@@ -18,7 +18,7 @@ def NewNode(host, version):
 
 def getHighestNode(currentIndex):
 
-    nodes = getNodes()
+    nodes = Node.objects.all()
 
 
 
@@ -42,6 +42,7 @@ def getHighestNode(currentIndex):
                 highestNode['Host'] = host
                 highestNode['Height'] = int(height)
         except:
+
             print('error')
 
         counter += 1
@@ -50,6 +51,7 @@ def getHighestNode(currentIndex):
 
     if highestNode['Height'] < currentIndex:
         return "No nodes with height above or equal to current index.", highestNode
-
+    if highestNode['Host'] == '':
+        return "Could not find nodes", highestNode
     return "", highestNode
 

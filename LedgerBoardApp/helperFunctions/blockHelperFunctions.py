@@ -250,6 +250,9 @@ def badChainFixer(firstBadBlockTimeObject):
 
     currentIndex = int(getHeight.GetHeight()[1])
 
+    if currentIndex == 0:
+        return "genisis block"
+
     postsOfLatestBlock = Post.objects.filter(blockIndex=int(currentIndex))
 
 
@@ -258,7 +261,6 @@ def badChainFixer(firstBadBlockTimeObject):
 
         post.save()
 
-
     latestBlock = Block.objects.get(index=currentIndex)
 
 
@@ -266,7 +268,7 @@ def badChainFixer(firstBadBlockTimeObject):
 
     feedback = nodeHelperFunctions.getHighestNode(currentIndex)
 
-    if feedback != '':
+    if feedback[0] != '':
         rebuildStatus.datumContent = "False"
 
         rebuildStatus.save()
@@ -292,10 +294,10 @@ def badChainFixer(firstBadBlockTimeObject):
 
     blockArray = []
     try:
-        r = requests.get(url, timeout=0.1, payload=payload)
+        r = requests.get(url, timeout=0.1, data=payload)
 
 
-        blockArray = ast.literal_eval(str(r.content))
+        blockArray = ast.literal_eval(str(r.text))
     except:
 
         rebuildStatus.datumContent = "False"
@@ -303,27 +305,27 @@ def badChainFixer(firstBadBlockTimeObject):
         rebuildStatus.save()
         return 'could not get blockArray from highest node'
 
-    orphanBlockFix = True
 
     for block in blockArray:
 
-        if orphanBlockFix:
+        currentIndex = int(getHeight.GetHeight()[1])
 
-            if block[0] != latestBlock.index:
-                rebuildStatus.datumContent = "False"
+        if block[0] != currentIndex:
+            rebuildStatus.datumContent = "False"
 
-                rebuildStatus.save()
-                return 'blockArray is not sorted'
+            rebuildStatus.save()
+            return 'blockArray is not sorted'
 
         url = "http://" + highestNode['Host'] + "getPosts/"
+        previousBlockTimeStamp = Block.objects.get(index=(currentIndex -1)).timeStamp
 
-        postTimeStampRange = [latestBlock.timeStamp, block[1]]
+        postTimeStampRange = [previousBlockTimeStamp, (block[1] -1)]
 
         payload = {'attribute': 'timeStamp', 'attributeParameters': str(postTimeStampRange)}
 
         postArray = []
         try:
-            r = requests.get(url, timeout=1, payload=payload)
+            r = requests.get(url, timeout=1, data=payload)
 
             postArray = ast.literal_eval(str(r.content))
 
@@ -333,10 +335,7 @@ def badChainFixer(firstBadBlockTimeObject):
                 rebuildStatus.save()
                 return 'too many posts in block'
 
-            if orphanBlockFix:
-                previousBlockTimeStamp =  Block.objects.get(index=(currentIndex -1)).timeStamp
-            else:
-                previousBlockTimeStamp =  Block.objects.get(index=(currentIndex)).timeStamp
+
 
 
             postsInTimeStampRange = Post.objects.filter(timeStamp__gte=previousBlockTimeStamp, timeStamp__lt=block[1])
@@ -360,7 +359,7 @@ def badChainFixer(firstBadBlockTimeObject):
 
 
 
-            blockFeedback = blockHandler(block[0], block[1], block[2], block[3], block[4], True, False , orphanBlockFix)
+            blockFeedback = blockHandler(block[0], block[1], block[2], block[3], block[4], True, False, True, [0,0])
 
 
 
@@ -371,9 +370,9 @@ def badChainFixer(firstBadBlockTimeObject):
                 return "Block error: " + blockFeedback[0]
 
 
-            if orphanBlockFix == True:
-                latestBlock.delete()
-                orphanBlockFix = False
+
+            latestBlock.delete()
+
 
         except:
             rebuildStatus.datumContent = "False"
