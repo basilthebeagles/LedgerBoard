@@ -174,8 +174,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
         return "Did not meet target."
 
 def metTarget(blockHash, blockTarget):
-    print(str(int(blockTarget, 16)))
-    print(str(int(blockHash, 16)))
+
 
 
     if int(blockHash, 16) <= int(blockTarget, 16):
