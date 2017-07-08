@@ -1,6 +1,7 @@
 # Create your views here.
 #need to handle orphans etc.
 
+import time
 
 
 from django.http import HttpResponse
@@ -112,6 +113,8 @@ def handShake(request):
     rawPostData = request.POST
     host = ""
     version = ""
+    currentTime = 0
+    givenTime = 0
    # defaultStatus = False
 
     try:
@@ -125,7 +128,7 @@ def handShake(request):
                 version = str(rawPostData.__getitem__('vers'))
                 print('handshake fine3')
 
-                time = int(rawPostData.__getitem__('currentTime'))
+                givenTime = int(rawPostData.__getitem__('currentTime'))
                 print('handshake fine4')
 
                 currentTime = time.time()
@@ -141,7 +144,7 @@ def handShake(request):
         else:
             response.status_code = 421
             response.content = "Wrong program"
-            return response
+            return responseç
 
 
 
@@ -151,7 +154,7 @@ def handShake(request):
         response.content = "Wrong program"
         return response
 
-    if abs(currentTime - time) > 5:
+    if abs(currentTime - givenTime) > 5:
         response.status_code = 403
         response.content = "Clock is out of sync."
         return response
