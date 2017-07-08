@@ -144,7 +144,7 @@ def handShake(request):
         else:
             response.status_code = 421
             response.content = "Wrong program"
-            return responseç
+            return response
 
 
 
