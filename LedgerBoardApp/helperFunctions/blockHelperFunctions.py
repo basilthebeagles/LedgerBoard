@@ -250,7 +250,6 @@ def badChainFixer(firstBadBlockTimeObject):
 
     currentIndex = int(getHeight.GetHeight()[1])
 
-
     postsOfLatestBlock = Post.objects.filter(blockIndex=int(currentIndex))
 
 
