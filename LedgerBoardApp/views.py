@@ -277,7 +277,7 @@ def addNewHosts(request):
 
     if feedback != '':
         response.status_code = 406
-        response.content = "bad data"
+        response.content = feedback
         return response
     else:
         response.status_code = 200

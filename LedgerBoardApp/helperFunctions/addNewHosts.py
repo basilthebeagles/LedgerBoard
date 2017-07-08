@@ -9,15 +9,17 @@ def AddNewHosts(host, version):
 
     try:
 
-        url = str(host) + "/handShake/"
+        url = "http://" + str(host) + "/handShake/"
+        print(url)
         payload = {
             'host': host,
             'vers': version,
             'currentTime': str(currentTime),
+            'programName': "LedgerBoard",
 
         }
-
-        r = requests.post(url, data=payload, timeout=1)
+        print('here')
+        r = requests.post(url, data=payload, timeout=5)
         if r.content == "Connection created.":
 
             feedback = NewNode(host, version)
@@ -26,7 +28,7 @@ def AddNewHosts(host, version):
             else:
                 return 'fail'
         else:
-            return 'fail'
+            return r.content
     except:
         return 'fail'
 
