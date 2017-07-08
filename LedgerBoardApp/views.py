@@ -121,6 +121,7 @@ def handShake(request):
                 version = str(rawPostData.__getitem__('vers'))
                 time = int(rawPostData.__getitem__('currentTime'))
                 currentTime = time.time()
+                print('handshake fine')
                 #defaultStatus = rawPostData.__getitem__('defaultStatus')
 
 
@@ -129,7 +130,10 @@ def handShake(request):
                 response.status_code = 406
                 response.content = "Missing content in handshake"
                 return response
-
+        else:
+            response.status_code = 421
+            response.content = "Wrong program"
+            return response
 
 
 
@@ -269,7 +273,6 @@ def startUp(request):
 def addNewHosts(request):
     response = HttpResponse()
     rawPostData = request.POST
-
     host = str(rawPostData.__getitem__('host'))
     version = str(rawPostData.__getitem__('vers'))
 
