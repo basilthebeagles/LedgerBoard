@@ -30,21 +30,22 @@ class Command(BaseCommand):
 
             protoTarget = blockHelperFunctions.getTargetForBlock(protoIndex)
 
-
+            print(protoTarget)
 
             nonceRange = [1, 16]
             while True:
 
                 currentTime = int(time.time())
 
-
+                
 
 
                 feedback = blockHelperFunctions.blockHandler(protoIndex, currentTime, protoPreviousBlockHash, protoTarget, 16, True, True, False, nonceRange)
 
                 if feedback == "":
+                    
                     break
-
+                print(feedback)
                 nonceRange[0] = nonceRange[1] + 1
                 nonceRange[1] = int(round(nonceRange[1] * 1.5))
 

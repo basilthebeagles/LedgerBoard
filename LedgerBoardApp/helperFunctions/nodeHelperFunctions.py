@@ -12,7 +12,7 @@ def NewNode(host, version):
 
         return feedback #basically say it exist already
 
-    node = Node(host = host, version=version, secondsSinceLastInteraction=0)
+    node = Node(host = host, version=version, secondsSinceLastInteraction=0, timeOfBlackList=0)
     node.save()
     return feedback
 
@@ -20,7 +20,7 @@ def getHighestNode(currentIndex):
 
     nodes = Node.objects.all()
 
-
+    print(nodes)
 
 
     counter = 0
@@ -28,22 +28,26 @@ def getHighestNode(currentIndex):
     highestNode = {"Host": '', 'Height': 0}
 
     for node in nodes:
-        if node.timeOfBlackList != 0:
+        if int(node.timeOfBlackList) != 0:
             continue
+        print('here')
+
         host = node.host
+        print(host)
 
-        url = "http://" + host + "getHeight/"
+        url = "http://" + host + "/getHeight/"
         try:
-            r = requests.get(url, timeout=0.1)
+            r = requests.get(url, timeout=1)
 
-            height = r.content
+            height = int(r.text)
+            print('height: ' + str(height))
 
-            if height > highestNode['Height']:
+            if height >= highestNode['Height']:
                 highestNode['Host'] = host
                 highestNode['Height'] = int(height)
         except:
 
-            print('error')
+            print('connection to node failed')
 
         counter += 1
 
@@ -53,5 +57,7 @@ def getHighestNode(currentIndex):
         return "No nodes with height above or equal to current index.", highestNode
     if highestNode['Host'] == '':
         return "Could not find nodes", highestNode
+    if int(highestNode['Height']) == currentIndex:
+        return "could not find node higher than current index", highestNode
     return "", highestNode
 

@@ -27,13 +27,33 @@ import ast
 
 
 import random
+from LedgerBoardApp.helperFunctions import nodeHelperFunctions
+from LedgerBoardApp.helperFunctions import addNewHosts
 
+from LedgerBoardApp.models import Node
 #call this something else
 
 
 
 
 def StartUp():
+
+
+
+    savedNodes = Node.objects.all()
+    for node in savedNodes:
+        url = "http://" + node.host + "/getBlocks/"
+        try:
+            r = requests.post(url=url, timeout=1)
+        except:
+            node.delete()
+
+    savedNodes.update()
+
+    if savedNodes.__len__() == 0:
+        feedback = addNewHosts.AddNewHosts("127.0.0.1:4847", 0.1)
+        return feedback
+
 
     feedback = "-"
     firstBadBlockTimeObject = Data.objects.get(datumTitle="Time of First Bad Block After Chainable Block")
@@ -48,8 +68,8 @@ def StartUp():
 
         if feedback[0] != '':
 
-            print( 'could not get highest node')
-            return
+
+            return feedback[0]
 
 
         # sorted_nodeData = sorted(nodeData.items(), key=operator.itemgetter(0), reverse=True)
@@ -70,12 +90,12 @@ def StartUp():
         blockArray = ast.literal_eval(str(r.text))
 
 
-        print('could not get blockArray from highest node')
-        return
+        #print('could not get blockArray from highest node')
+
 
         for block in blockArray:
 
-            url = "http://" + highestNode['Host'] + "getPosts/"
+            url = "http://" + highestNode['Host'] + "/getPosts/"
             previousBlockTimeStamp = Block.objects.get(index=0).timeStamp
 
             postTimeStampRange = [previousBlockTimeStamp, (block[1] - 1)]
@@ -83,14 +103,16 @@ def StartUp():
             payload = {'attribute': 'timeStamp', 'attributeParameters': str(postTimeStampRange)}
 
             postArray = []
-            r = requests.get(url, timeout=1, payload=payload)
-
-            postArray = ast.literal_eval(str(r.content))
+            try:
+                r = requests.post(url, timeout=1, data=payload)
+            except:
+                return "could not get posts"
+            postArray = ast.literal_eval(str(r.text))
 
             if postArray.__len__() > 1023:
 
-                print ('too many posts in block')
-                return
+
+                return  'too many posts in block'
 
             postsInTimeStampRange = Post.objects.filter(timeStamp__gte=previousBlockTimeStamp,
                                                             timeStamp__lt=block[1])
@@ -99,35 +121,41 @@ def StartUp():
                 post.delete()
 
             for post in postArray:
+                print(postArray)
+                print(post)
+                postFeedback = postHelperFunctions.NewPost(post[0], post[1], post[2], post[3], True)
 
-                postFeedback = postHelperFunctions.newPost(post[0], post[1], post[2], post[3], True)
-
-                if postFeedback[0] != ("" or "Exact post already exists."):
+                if postFeedback != ("" or "Exact post already exists."):
                     node = Node.objects.get(host=highestNode['Host'])
 
                     node.timeOfBlackList = time.time()
                     node.save()
 
-                    print( "Post error: " + postFeedback[0])
-                    return
+
+                    return "Post error: " + postFeedback
 
             blockFeedback = blockHelperFunctions.blockHandler(block[0], block[1], block[2], block[3], block[4], True, False, False,
                                              [0, 0])
 
-            if blockFeedback[0] != '':
-
-                print( "Block error: " + blockFeedback[0])
-                return
+            if blockFeedback != '':
 
 
+                return "Block error: " + blockFeedback
 
 
 
 
 
 
-    while feedback != "":
-
+    count = 0
+    feedback = '-'
+    while feedback != "" and count < 20:
+            print("in while loop")
             feedback = blockHelperFunctions.badChainFixer(firstBadBlockTimeObject)
             print(feedback)
+            count += 1
 
+    if count >= 18:
+        return feedback
+
+    return ""

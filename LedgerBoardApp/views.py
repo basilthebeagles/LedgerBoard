@@ -274,9 +274,11 @@ def startUp(request):
     response = HttpResponse()
     rawPostData = request.POST
 
-    StartUp()
-
-    response.content = "OK"
+    feedback = StartUp()
+    if feedback == "":
+        response.content = "success"
+    else:
+        response.content = feedback
 
     return response
 

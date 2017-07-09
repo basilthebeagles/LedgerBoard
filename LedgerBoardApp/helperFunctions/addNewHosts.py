@@ -13,7 +13,7 @@ def AddNewHosts(host, version):
         print(url)
         payload = {
 
-            'vers': version,
+            'vers': 0.1,
             'currentTime': str(currentTime),
             'programName': "LedgerBoard",
 
@@ -24,7 +24,7 @@ def AddNewHosts(host, version):
     except:
         return 'could not connect'
 
-    if str(r.text) == "Connection created.":
+    if str(r.text) == "Connection created." or "Host already exists.":
         print('here1')
         feedback = NewNode(host, version)
         if feedback == "":

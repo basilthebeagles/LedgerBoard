@@ -41,6 +41,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
     currentTime = int(time.time())
 
     if blockTimeStamp > currentTime:
+        print("newblock error: Block is from the future." )
         return "Block is from the future."
 
     if orphanBlockFix:
@@ -52,6 +53,8 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
     amalgationB = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockNonce)
 
     if amalgationA == amalgationB:
+        print("newblock error: Block already exists on chain." )
+
         return "Block already exists on chain."
     
 
@@ -68,7 +71,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
         badBlockHandler(False)
 
-
+        print("newblock error: Block does not fit on chain.")
 
 
         return "Block does not fit on chain."
@@ -76,10 +79,13 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
 
     if previousBlock.index >= blockIndex and (orphanBlockFix != True ):
+        print("newblock error: block is old")
 
         return "Block is old."
     
     if blockTarget != getTargetForBlock(blockIndex):
+        print("newblock error: wrong target")
+
         return "Wrong target."
 
 
@@ -163,6 +169,8 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
             post.delete()
         newBlock = Block(index=blockIndex, previousBlockHash=previousBlockHash, timeStamp=blockTimeStamp,
                          blockHash=blockHash, nonce=blockNonce, target=blockTarget)
+
+        print('block should be saved')
         newBlock.save()
 
         badBlockHandler(True)
@@ -170,6 +178,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
         return ""
     else:
         badBlockHandler(False)
+        print("newblock error: did not meet target")
 
         return "Did not meet target."
 
@@ -191,6 +200,7 @@ def getTargetForBlock(index):
 
     if index < 2016:
         return "0x446de077a113ac000000000000000000000000000000000000000000000000"
+               
 
     indexRangeB = index - 1
     indexRangeA = index - 2016
@@ -272,7 +282,7 @@ def badChainFixer(firstBadBlockTimeObject):
         rebuildStatus.datumContent = "False"
 
         rebuildStatus.save()
-        return 'could not get highest node'
+        return feedback[0]
 
     #sorted_nodeData = sorted(nodeData.items(), key=operator.itemgetter(0), reverse=True)
 
@@ -285,7 +295,7 @@ def badChainFixer(firstBadBlockTimeObject):
 
 
 
-    url = "http://" + highestNode['Host'] + "getBlocks/"
+    url = "http://" + highestNode['Host'] + "/getBlocks/"
 
 
 
@@ -294,7 +304,7 @@ def badChainFixer(firstBadBlockTimeObject):
 
     blockArray = []
     try:
-        r = requests.get(url, timeout=0.1, data=payload)
+        r = requests.post(url, timeout=0.1, data=payload)
 
 
         blockArray = ast.literal_eval(str(r.text))
@@ -316,7 +326,7 @@ def badChainFixer(firstBadBlockTimeObject):
             rebuildStatus.save()
             return 'blockArray is not sorted'
 
-        url = "http://" + highestNode['Host'] + "getPosts/"
+        url = "http://" + highestNode['Host'] + "/getPosts/"
         previousBlockTimeStamp = Block.objects.get(index=(currentIndex -1)).timeStamp
 
         postTimeStampRange = [previousBlockTimeStamp, (block[1] -1)]
@@ -325,9 +335,9 @@ def badChainFixer(firstBadBlockTimeObject):
 
         postArray = []
         try:
-            r = requests.get(url, timeout=1, data=payload)
+            r = requests.post(url, timeout=1, data=payload)
 
-            postArray = ast.literal_eval(str(r.content))
+            postArray = ast.literal_eval(str(r.text))
 
             if postArray.__len__() > 1023:
                 rebuildStatus.datumContent = "False"
@@ -347,7 +357,7 @@ def badChainFixer(firstBadBlockTimeObject):
 
                 postFeedback = postHelperFunctions.newPost(post[0], post[1], post[2], post[3], True)
 
-                if postFeedback[0] != ("" or "Exact post already exists."):
+                if postFeedback != ("" or "Exact post already exists."):
                     node = Node.objects.get(host=highestNode['Host'])
 
                     node.timeOfBlackList = time.time()
@@ -355,7 +365,7 @@ def badChainFixer(firstBadBlockTimeObject):
                     rebuildStatus.datumContent = "False"
 
                     rebuildStatus.save()
-                    return "Post error: " + postFeedback[0]
+                    return "Post error: " + postFeedback
 
 
 
@@ -363,11 +373,11 @@ def badChainFixer(firstBadBlockTimeObject):
 
 
 
-            if blockFeedback[0] != '':
+            if blockFeedback != '':
                 rebuildStatus.datumContent = "False"
 
                 rebuildStatus.save()
-                return "Block error: " + blockFeedback[0]
+                return "Block error: " + blockFeedback
 
 
 

@@ -9,7 +9,15 @@ def GetNodes():
 
         nodes = Node.objects.all()
 
+
+
         for node in nodes:
+
+            if node.secondsSinceLastInteraction > 5400:
+                node.delete()
+            elif node.timeOfBlackList != 0:
+                continue
+
             nodeDataArray = []
             nodeDataArray.append(node.host)
             nodeDataArray.append(node.version)

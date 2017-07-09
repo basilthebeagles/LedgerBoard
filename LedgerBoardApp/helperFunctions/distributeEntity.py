@@ -48,6 +48,8 @@ def distributeEntity(dataArray, type, originHost):
         try:
             r = requests.post(url, data=payload, timeout=1)
             feedbackDictionary[str(node.host)] = r.content
+            node.secondsSinceLastInteraction = 0
+
         except:
             feedbackDictionary[str(node.host)] = "Node took too long."
 
