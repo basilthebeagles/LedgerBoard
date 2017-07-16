@@ -49,27 +49,33 @@ def StartUp(selfHost):
             node.delete()
 
     savedNodes.update()
-
+    print('now1')
     if savedNodes.__len__() == 0:
         feedback = addNewHosts.AddNewHosts("127.0.0.1:4847", 0.1, selfHost)
-        return feedback
+        print("USING DEFAULT NODE")
+        if feedback != "we are already on other hosts list. But we have now added that host." or feedback != "":
+            return feedback
 
+    print('now2')
 
     feedback = "-"
     firstBadBlockTimeObject = Data.objects.get(datumTitle="Time of First Bad Block After Chainable Block")
 
     if int(getHeight.GetHeight()[1]) == 0:
+        print('at 0 index')
+
         currentTime = int(time.time())
         postsToDelete = Post.objects.filter(timeStamp__lte=currentTime)
         for post in postsToDelete:
             post.delete()
-
+        print('now3')
         feedback = nodeHelperFunctions.getHighestNode(0)
 
         if feedback[0] != '':
 
 
             return feedback[0]
+        print('now4')
 
 
         # sorted_nodeData = sorted(nodeData.items(), key=operator.itemgetter(0), reverse=True)
@@ -89,6 +95,7 @@ def StartUp(selfHost):
 
         blockArray = ast.literal_eval(str(r.text))
 
+        print('now5')
 
         #print('could not get blockArray from highest node')
 

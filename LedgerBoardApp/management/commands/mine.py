@@ -52,4 +52,4 @@ class Command(BaseCommand):
             newBlock = Block.objects.get(index=protoIndex)
             newBlockDataArray = [newBlock.index, newBlock.timeStamp, newBlock.previousBlockHash, newBlock.target, newBlock.nonce]
 
-            distributeEntity.distributeEntity(newBlockDataArray, 'block', 'self')
+            distributeEntity.distributeEntity(newBlockDataArray, 'block')

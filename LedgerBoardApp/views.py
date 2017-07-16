@@ -21,6 +21,7 @@ from LedgerBoardApp.helperFunctions.addNewHosts import AddNewHosts
 
 
 
+
 from LedgerBoardApp.helperFunctions.nodeHelperFunctions import NewNode
 from LedgerBoardApp.helperFunctions.postHelperFunctions import NewPost
 
@@ -163,7 +164,6 @@ def handShake(request):
         response.status_code = 406
         response.content = feedback
         return response
-
     response.status_code = 200
     response.content = "Connection created."
     return response

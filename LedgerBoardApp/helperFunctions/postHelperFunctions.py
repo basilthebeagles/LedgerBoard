@@ -27,10 +27,10 @@ def verifySig(signature, publicKey, postHash):
         return False
 
 
-def NewPost(publicKey, timeStamp, content, signature, IBD):
+def NewPost(publicKey, timeStamp, content, signature, notNewToNetwork):
 
 
-    if IBD != True:
+    if notNewToNetwork != True: #
         if abs(timeStamp - time.time()) > 30:
 
             return "Post is too old."

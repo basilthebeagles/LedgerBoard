@@ -1,6 +1,7 @@
 from django.db import models
 import time
 import requests
+import ast
 from LedgerBoardApp.models import Node
 from LedgerBoardApp.helperFunctions.nodeHelperFunctions import NewNode
 
@@ -35,12 +36,41 @@ def AddNewHosts(host, version, selfHost):
         print('here1')
         feedback = NewNode(host, version)
         if feedback == "":
+            GetNewHosts(host)
             return ''
         elif feedback == "" and str(r.text) == "Host already exists.":
+            GetNewHosts(host)
+
             return "we are already on other hosts list. But we have now added that host."
+
         else:
             return "Other host has added us to their list but for us: "  + feedback
     else:
         return "response: " + str(r.content)
 
 
+def GetNewHosts(host):
+
+    try:
+        url = "http://" + str(host) + "/getNodes/"
+        print(url)
+
+        print('here')
+
+        try:
+            r = requests.post(url, timeout=5)
+        except requests.exceptions.Timeout:
+            return "could not connect"
+        nodeArray = ast.literal_eval(str(str(r.text)))
+
+        for node in nodeArray:
+
+            feedback = AddNewHosts(node[0])
+            print(feedback)
+
+
+
+    except:
+        print('error')
+
+    return
