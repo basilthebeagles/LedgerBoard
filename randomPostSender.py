@@ -5,6 +5,7 @@ import hashlib
 import binascii
 import binascii
 from random import randint
+import requests
 
 import bcrypt
 
@@ -29,31 +30,78 @@ publicKey =  "9f44b86ad077235836ad5290cd9060f460818891341e9d3e1be97566e9e308f5f2
 
 privateKeyArray = ["726e05ccf0fbbcde14674d64c749d04ca8e8ca68e91692468beedd466bb80a3f",
                    "15d0dbf0ade8450b6d4b4e6820e66cfacd7eca446856dfc067c06bbdbbdbdb99",
-                   "0d87e8dde27ae87831c94a1dfdd6b65981beda87ef5db93f31e91ef8a18bd91a",
-                   "37c50d62bd37da5a739880001e0d64e4a4fbb6b9a5e3c24f85bd961f5cb7f6a8",
-                   "58e293e450085d0b0c12facace2015b59418ccb0cf761eb762993f30749db0e4",
+
                    "726e05ccf0fbbcde14674d64c749d04ca8e8ca68e91692468beedd466bb80a3f"]
 
 publicKeyArray = ["9f44b86ad077235836ad5290cd9060f460818891341e9d3e1be97566e9e308f5f272af356544b9096d73e99b04f82da275b2c21562419f7732858311dddb3b18",
                   "f2d6daeaeeaeb800ba6aa1b31f254c3cfbe315361c3bcbf24473e17a5939e4784a22245df2e41f5b8ebfad5f9c130a9093b57a26f82bf7546084c13957d51b78",
-                  "a63dea0b64e597015f4bc9a30e8e0979b5a453618be0cfcc3e8b0bb6d9415c04705e745fc1b301df7f85ec8703af87a0b250da8afafdbc1273e05bc1db9deabd",
-                  "e6486d0214719c4761972a912880afa162e5d045137069772f9995bbb9248b22badc35e87f5248f6c96140f25693c1e1abc558b88241235c315df5dd6633a90a",
-                  "33d690c61929179f01f17ef0c1359f199e88dbb0964280324fb1b9d1a5ec9eeed12ad21161dbb12e11fe3dede4bfe0b7e9a9e8dd6d81f92ffeb2460712a564fc",
+
+
                   "9f44b86ad077235836ad5290cd9060f460818891341e9d3e1be97566e9e308f5f272af356544b9096d73e99b04f82da275b2c21562419f7732858311dddb3b18"
 
 
 
 ]
 
-contentArray = [ "網站有中、英文版本，也有繁、簡體版，可通過每頁左上角的連結隨"  ,"@#%&^@#)RASODGJOASJ~!~!$+_~!$*","قعحبيبكزززززللث ٧٧٧٦٢صثمططططللللل فففب فقهههفاباا", "Testing new post message this is going to be over 140 chr;asdgulasidglasdiug;asdigua;sdiug;asidgu;asidgu;asidug;asidug;asdiug;sadiug;siudg;saidug;asudig;sadiug;saidgu;saudg;sdug;asdigu;asidgu;saidgu;sadigu;isadgu", "normal message", ""]
+contentArray = [ "網站有中、英文版本，也有繁、簡體版，可通過每頁左上角的連結隨"  ,"@#%&^@#)RASODGJOASJ~!~!$+_~!$*","قعحبيبكزززززللث ٧٧٧٦٢صثمططططللللل فففب فقهههفاباا", "Testing new post message this is going to be over 140 chr;asdgulasidglasdiug;asdigua;sdiug;asidgu;asidgu;asidug;asidug;asdiug;sadiug;siudg;saidug;asudig;sadiug;saidgu;saudg;sdug;asdigu;asidgu;saidgu;sadigu;isadgu", "normal message", "", "new post", "asdf"]
 
+nodeArray = ["35.176.70.137:4848", "35.176.187.89:4848"]
 
 while True:
-    rand = randint(1, 6)
-    timeStamp = int(time.time())
+    time.sleep(1)
+    rand = randint(0, 2)
+    conRand = randint(0, 7)
+
+    tS = int(time.time())
     pubk = publicKeyArray[rand]
+    #print(pubk)
+    privk = privateKeyArray[rand]
+    #print(privk)
+    con = contentArray[rand]
+    #print(con)
+
+    tPC = pubk + str(tS) + con
+
+    pH = hashlib.sha256(tPC.encode('utf-8')).hexdigest()
+    sk = ecdsa.SigningKey.from_string(bytes.fromhex(privateKey), curve=ecdsa.SECP256k1)
+    sig = sk.sign(bytes.fromhex(pH)).hex()
+
+    payload = {
+
+        'pubk': pubk,
+        'ts': tS,
+        'content': con,
+        'sig': sig,
+
+    }
 
 
+#vk = ecdsa.VerifyingKey.from_string(bytes.fromhex(pubk), curve=ecdsa.SECP256k1)
+
+
+#print(vk.verify(bytes.fromhex(sig), bytes.fromhex(pH)) )# if postHash is a hex string then use bytes.fromhex
+
+
+    try:
+        url = "http://" + "35.176.187.89:4848" + '/newPost/'
+        r = requests.post(url, data=payload, timeout=1)
+        print(r.text)
+
+    except:
+        print('fail')
+
+'''
+for node in nodeArray:
+    try:
+        url = "http://" + node + '/newPost/'
+        r = requests.post(url, data=payload, timeout=10)
+        print(r.text)
+
+    except:
+        print('fail')
+'''
+
+'''
 content = "testing"
 #fix not working wont verify on back end
 timeStamp = int(time.time()) + 30
@@ -89,3 +137,4 @@ vk = ecdsa.VerifyingKey.from_string(bytes.fromhex(publicKey), curve=ecdsa.SECP25
 print(vk.verify(bytes.fromhex(signature), bytes.fromhex(postHash)) )# if postHash is a hex string then use bytes.fromhex
 
 
+'''
