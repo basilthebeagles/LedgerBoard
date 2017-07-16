@@ -16,13 +16,14 @@ def AddNewHosts(host, version, selfHost):
             'vers': 0.1,
             'currentTime': str(currentTime),
             'programName': "LedgerBoard",
+            'host': selfHost
 
         }
         print(payload)
         print('here')
-        headers = {'HTTP_HOST' : selfHost}
+
         try:
-            r = requests.post(url, data=payload, timeout=5, headers=headers)
+            r = requests.post(url, data=payload, timeout=5)
         except requests.exceptions.Timeout:
             return "could not connect"
     except:
