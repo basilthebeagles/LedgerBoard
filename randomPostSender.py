@@ -72,12 +72,14 @@ while True:
     else:
         tS = int(time.time())
 
+    sk1 = ecdsa.SigningKey.generate(curve=ecdsa.SECP256k1)
+
+    vk1 = sk1.get_verifying_key()
+
 
     if rand2 > 15:
 
-        sk1 = ecdsa.SigningKey.generate(curve=ecdsa.SECP256k1)
 
-        vk1 = sk1.get_verifying_key()
 
         pubk = vk1.to_string().hex()
         privk = sk1.to_string().hex()
