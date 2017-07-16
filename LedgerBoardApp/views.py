@@ -121,9 +121,8 @@ def handShake(request):
         if rawPostData.__getitem__('programName') == 'LedgerBoard':
             try:
                 print('handshake fine1')
-
                 host = str(request.get_host())
-                print('handshake fine2')
+                print("host is: " + host)
 
                 version = str(rawPostData.__getitem__('vers'))
                 print('handshake fine3')

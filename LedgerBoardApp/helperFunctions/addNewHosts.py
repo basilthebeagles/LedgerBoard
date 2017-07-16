@@ -20,17 +20,24 @@ def AddNewHosts(host, version):
         }
         print(payload)
         print('here')
-        r = requests.post(url, data=payload, timeout=5)
+        try:
+            r = requests.post(url, data=payload, timeout=5)
+        except requests.exceptions.Timeout:
+            return "could not connect"
     except:
         return 'could not connect'
+
+
 
     if str(r.text) == "Connection created." or "Host already exists.":
         print('here1')
         feedback = NewNode(host, version)
         if feedback == "":
             return ''
+        elif feedback == "" and str(r.text) == "Host already exists.":
+            return "we are already on other hosts list. But we have now added that host."
         else:
-            return 'fail'
+            return "Other host has added us to their list but for us: "  + feedback
     else:
         return "response: " + str(r.content)
 
