@@ -5,7 +5,7 @@ from LedgerBoardApp.models import Node
 
 
 
-def distributeEntity(dataArray, type, originHost):
+def distributeEntity(dataArray, type):
 
     urlAddition = ""
     payload = {}
@@ -32,10 +32,10 @@ def distributeEntity(dataArray, type, originHost):
 
         }
 
-    if originHost != 'self':
+    '''if originHost != 'self':
         nodes = Node.objects.exclude(host=originHost)
-    else:
-        nodes = Node.objects.all()
+    else:'''
+    nodes = Node.objects.all()
 
     feedbackDictionary = {}
 

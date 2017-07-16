@@ -67,7 +67,7 @@ def newPost(request):
     response.content = "Success."
 
     postDataArray = [publicKey, timeStamp, content, signature]
-    distributeEntity(postDataArray, "post", request.get_host())
+    distributeEntity(postDataArray, "post")
 
     return response
 @csrf_exempt
@@ -102,7 +102,7 @@ def newBlock(request):
 
     blockDataArray = [blockIndex, timeStamp, previousBlockHash, target, nonce]
 
-    distributeEntity(blockDataArray, "block", request.get_host())
+    distributeEntity(blockDataArray, "block")
 
     return response
 @csrf_exempt
