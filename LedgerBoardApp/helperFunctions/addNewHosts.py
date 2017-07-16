@@ -4,7 +4,7 @@ import requests
 from LedgerBoardApp.models import Node
 from LedgerBoardApp.helperFunctions.nodeHelperFunctions import NewNode
 
-def AddNewHosts(host, version):
+def AddNewHosts(host, version, selfHost):
     currentTime = int(time.time())
 
     try:
@@ -20,8 +20,9 @@ def AddNewHosts(host, version):
         }
         print(payload)
         print('here')
+        headers = {'HTTP_HOST' : selfHost}
         try:
-            r = requests.post(url, data=payload, timeout=5)
+            r = requests.post(url, data=payload, timeout=5, headers=headers)
         except requests.exceptions.Timeout:
             return "could not connect"
     except:

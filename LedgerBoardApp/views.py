@@ -121,7 +121,7 @@ def handShake(request):
         if rawPostData.__getitem__('programName') == 'LedgerBoard':
             try:
                 print('handshake fine1')
-                host = str(request.META['REMOTE_HOST'])
+                host = str(request.META['HTTP_HOST'])
                 print("host is: " + host)
 
                 version = str(rawPostData.__getitem__('vers'))
@@ -273,7 +273,7 @@ def startUp(request):
     response = HttpResponse()
     rawPostData = request.POST
 
-    feedback = StartUp()
+    feedback = StartUp(str(request.get_host()))
     if feedback == "":
         response.content = "success"
     else:
@@ -288,7 +288,7 @@ def addNewHosts(request):
     host = str(rawPostData.__getitem__('host'))
     version = str(rawPostData.__getitem__('vers'))
 
-    feedback = AddNewHosts(host, version)
+    feedback = AddNewHosts(host, version, str(request.get_host()))
 
     if feedback != '':
         response.status_code = 406

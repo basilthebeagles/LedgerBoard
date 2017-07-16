@@ -36,7 +36,7 @@ from LedgerBoardApp.models import Node
 
 
 
-def StartUp():
+def StartUp(selfHost):
 
 
 
@@ -51,7 +51,7 @@ def StartUp():
     savedNodes.update()
 
     if savedNodes.__len__() == 0:
-        feedback = addNewHosts.AddNewHosts("127.0.0.1:4847", 0.1)
+        feedback = addNewHosts.AddNewHosts("127.0.0.1:4847", 0.1, selfHost)
         return feedback
 
 
