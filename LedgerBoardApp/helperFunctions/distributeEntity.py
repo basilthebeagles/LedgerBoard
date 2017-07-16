@@ -39,9 +39,13 @@ def distributeEntity(dataArray, type):
 
     feedbackDictionary = {}
 
+    if nodes.__len__() == 0:
+        print('no nodes')
+
     for node in nodes:
 
         if node.timeOfBlackList != 0:
+            print('blacklisted')
             continue
 
         url = str(node.host) + urlAddition
@@ -51,6 +55,7 @@ def distributeEntity(dataArray, type):
             node.secondsSinceLastInteraction = 0
 
         except:
+            print("took too long or bad connection")
             feedbackDictionary[str(node.host)] = "Node took too long."
 
 
