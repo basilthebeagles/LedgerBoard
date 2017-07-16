@@ -50,6 +50,7 @@ def distributeEntity(dataArray, type):
 
         url = str(node.host) + urlAddition
         try:
+            print(url)
             r = requests.post(url, data=payload, timeout=1)
             feedbackDictionary[str(node.host)] = r.content
             node.secondsSinceLastInteraction = 0
