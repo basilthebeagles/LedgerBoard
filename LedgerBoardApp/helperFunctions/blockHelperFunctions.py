@@ -424,7 +424,7 @@ def badBlockHandler(chainableBlockOccured):
 
     if currentTime - timeToStartBadChainProcedures > 0:
 
-        badChainFixer(firstBadBlockTimeObject, False)
+        badChainFixer(firstBadBlockTimeObject)
 
 
     else:
