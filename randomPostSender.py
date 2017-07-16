@@ -100,7 +100,7 @@ while True:
 
     pH = hashlib.sha256(tPC.encode('utf-8')).hexdigest()
 
-    if rand2 > 1:
+    if rand2 > 14:
         sig = sk1.sign(bytes.fromhex(pH)).hex()
     else:
         sk2 = ecdsa.SigningKey.from_string(bytes.fromhex(privk), curve=ecdsa.SECP256k1)
