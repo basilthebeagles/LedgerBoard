@@ -73,7 +73,7 @@ while True:
         tS = int(time.time())
 
 
-    if rand2 > 1:
+    if rand2 > 15:
 
         sk1 = ecdsa.SigningKey.generate(curve=ecdsa.SECP256k1)
 
