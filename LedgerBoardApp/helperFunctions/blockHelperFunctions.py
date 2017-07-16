@@ -142,6 +142,10 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
     if miningStatus:
         nonce = nonceRange[1]
         while nonce >= nonceRange[0]:
+            checkBlock = Block.objects.latest('index')
+            if checkBlock.index == blockIndex:
+                return "new valid block recieved whilst mining"
+
             blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt= bytes(nonce), rounds= 100, desired_key_bytes= 32).hex()
             if metTarget(blockHash, blockTarget) and newBlockStatus:
                 print('mined: ' + str(blockHash))

@@ -18,6 +18,7 @@ class Command(BaseCommand):
         print('')
 
     def handle(self, *args, **options):
+        feedback = ""
         while True: #we'll make this better
 
 
@@ -42,12 +43,15 @@ class Command(BaseCommand):
 
                 feedback = blockHelperFunctions.blockHandler(protoIndex, currentTime, protoPreviousBlockHash, protoTarget, 16, True, True, False, nonceRange)
 
-                if feedback == "":
+                if feedback == "" or feedback == "new valid block recieved whilst mining":
                     
                     break
                 print(feedback)
                 nonceRange[0] = nonceRange[1] + 1
                 nonceRange[1] = int(round(nonceRange[1] * 1.5))
+
+            if feedback == "new valid block recieved whilst mining":
+                continue
 
             newBlock = Block.objects.get(index=protoIndex)
             newBlockDataArray = [newBlock.index, newBlock.timeStamp, newBlock.previousBlockHash, newBlock.target, newBlock.nonce]

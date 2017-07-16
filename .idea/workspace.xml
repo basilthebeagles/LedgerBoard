@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d39cb6a0-1509-4f9b-be03-3c68754db85c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/randomPostSender.py" afterPath="$PROJECT_DIR$/randomPostSender.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py" afterPath="$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -66,7 +67,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="distributeEntity.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="distributeEntity.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/distributeEntity.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="235">
@@ -98,11 +99,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mine.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="mine.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="637">
-              <caret line="54" column="56" lean-forward="true" selection-start-line="54" selection-start-column="56" selection-end-line="54" selection-end-column="56" />
+            <state relative-caret-position="450">
+              <caret line="38" column="14" lean-forward="false" selection-start-line="38" selection-start-column="14" selection-end-line="38" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -111,8 +112,8 @@
       <file leaf-file-name="blockHelperFunctions.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="448">
-              <caret line="426" column="46" lean-forward="false" selection-start-line="426" selection-start-column="46" selection-end-line="426" selection-end-column="46" />
+            <state relative-caret-position="294">
+              <caret line="146" column="62" lean-forward="false" selection-start-line="146" selection-start-column="24" selection-end-line="146" selection-end-column="62" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -179,13 +180,13 @@
         <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/nodeHelperFunctions.py" />
         <option value="$PROJECT_DIR$/testDataMaker.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/distributeEntity.py" />
-        <option value="$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/postHelperFunctions.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/views.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/StartUp.py" />
         <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/addNewHosts.py" />
-        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py" />
         <option value="$PROJECT_DIR$/randomPostSender.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py" />
+        <option value="$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py" />
       </list>
     </option>
   </component>
@@ -977,16 +978,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="448">
-          <caret line="426" column="46" lean-forward="false" selection-start-line="426" selection-start-column="46" selection-end-line="426" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/randomPostSender.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="307">
@@ -1023,14 +1014,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="637">
-          <caret line="54" column="56" lean-forward="true" selection-start-line="54" selection-start-column="56" selection-end-line="54" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/distributeEntity.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="235">
@@ -1038,6 +1021,24 @@
           <folding>
             <element signature="e#1#16#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/helperFunctions/blockHelperFunctions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="146" column="62" lean-forward="false" selection-start-line="146" selection-start-column="24" selection-end-line="146" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LedgerBoardApp/management/commands/mine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="38" column="14" lean-forward="false" selection-start-line="38" selection-start-column="14" selection-end-line="38" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
