@@ -29,42 +29,82 @@ publicKey =  "9f44b86ad077235836ad5290cd9060f460818891341e9d3e1be97566e9e308f5f2
 
 
 privateKeyArray = ["726e05ccf0fbbcde14674d64c749d04ca8e8ca68e91692468beedd466bb80a3f",
-                   "15d0dbf0ade8450b6d4b4e6820e66cfacd7eca446856dfc067c06bbdbbdbdb99",
+                   "980a014556d6ef8a6252c4c6e5891b945ff86854b4bc1f2a47c8819dfc773abb",
+                   "08e6ed80453f766c461f7d6691c6c0f966540b66cf2cfcb72319c8df1bce16c3",
+                   "29643afa0d025469697b9fe00710300e11ffe36c124269e40a6e77028e41d881",
+                   "4a287aa88884542949066f601a713ded8bad60333f59c8fdf5544435ad2e10c5",
+                   "fddc4ac88af6553f30aefb4950a68c0caf981442dc17540f4292e8eb7f969124",
+                   "b405ce3c6981a74a54c9b2719f7bf065df141d913971dc541833b3904b54a5d3",
 
-                   "726e05ccf0fbbcde14674d64c749d04ca8e8ca68e91692468beedd466bb80a3f"]
+                   ]
 
 publicKeyArray = ["9f44b86ad077235836ad5290cd9060f460818891341e9d3e1be97566e9e308f5f272af356544b9096d73e99b04f82da275b2c21562419f7732858311dddb3b18",
-                  "f2d6daeaeeaeb800ba6aa1b31f254c3cfbe315361c3bcbf24473e17a5939e4784a22245df2e41f5b8ebfad5f9c130a9093b57a26f82bf7546084c13957d51b78",
-
-
-                  "9f44b86ad077235836ad5290cd9060f460818891341e9d3e1be97566e9e308f5f272af356544b9096d73e99b04f82da275b2c21562419f7732858311dddb3b18"
-
-
+                  "e6004e0f80a75668b72a79caa0e9c26c3351c8c4b1a2567aa68361f5472a73e110c131823bc99a5b73ea08f37b098444564dc17db6465a818cbf382850150bd2",
+                  "3a59fe0349f4d79226ff43918546b67d0b678fbdf781265915e763f07782d5fec4d5772d9cf1e83656712b3ee0dc917713bb74ddcf720bd7273b325d5056c16c",
+                  "6eed53ef565343cbb776b767dde9840d3be2414ea9d3382198a15e8f7c3dc498e5ab92e62662b77ce58d82963dc29aba9882c69e6bef3893c64dbef26a3586e8",
+                  "692c009b7282bf8519fd3095b0770410466a39b019aaeb1c04869e05510b55f91e1b98dc8c444c0cc6c90f391bc37a456b5763cec88b90d342da85e6ac6cf6f6",
+                  "ed31db48679d58d37ddeaebce251b9c810f223fa5674d9f18411c17e4af418d0c0317a57184c3d1b2f6216cf3be5cbcdffa73f49bca9ee1a01c7e78e79ed1092",
+                  "efd652d517ef68d4fb62b17401d5768852a5c6d21f95f10c2e31e2e49da363e1b11db89a1e5c951cbf771f1a4138196e58ca11495ea847b2bb846f58f0547fff",
 
 ]
 
 contentArray = [ "網站有中、英文版本，也有繁、簡體版，可通過每頁左上角的連結隨"  ,"@#%&^@#)RASODGJOASJ~!~!$+_~!$*","قعحبيبكزززززللث ٧٧٧٦٢صثمططططللللل فففب فقهههفاباا", "Testing new post message this is going to be over 140 chr;asdgulasidglasdiug;asdigua;sdiug;asidgu;asidgu;asidug;asidug;asdiug;sadiug;siudg;saidug;asudig;sadiug;saidgu;saudg;sdug;asdigu;asidgu;saidgu;sadigu;isadgu", "normal message", "", "new post", "asdf"]
 
-nodeArray = ["35.176.70.137:4848", "35.176.187.89:4848"]
+nodeArray = ["35.177.5.100:4848", "35.177.254.12:4848"]
+
+
+
+
+
+
 
 while True:
     time.sleep(1)
-    rand = randint(0, 2)
+    rand = randint(0, 6)
+    rand2 = randint(0,20)
+    rand3 = randint(0,40)
     conRand = randint(0, 7)
+    if rand3 == 1:
 
-    tS = int(time.time())
-    pubk = publicKeyArray[rand]
-    #print(pubk)
-    privk = privateKeyArray[rand]
-    #print(privk)
+        tS = int(time.time()) + 300
+    elif rand3 == 2:
+        tS = int(time.time()) - 300
+    else:
+        tS = int(time.time())
+
+
+    if rand2 > 1:
+
+        sk1 = ecdsa.SigningKey.generate(curve=ecdsa.SECP256k1)
+
+        vk1 = sk1.get_verifying_key()
+
+        pubk = vk1.to_string().hex()
+        privk = sk1.to_string().hex()
+
+
+
+
+
+
+    else:
+
+        pubk = publicKeyArray[rand]
+        #print(pubk)
+        privk = privateKeyArray[rand]
+        #print(privk)
     con = contentArray[rand]
     #print(con)
 
     tPC = pubk + str(tS) + con
 
     pH = hashlib.sha256(tPC.encode('utf-8')).hexdigest()
-    sk = ecdsa.SigningKey.from_string(bytes.fromhex(privateKey), curve=ecdsa.SECP256k1)
-    sig = sk.sign(bytes.fromhex(pH)).hex()
+
+    if rand2 > 1:
+        sig = sk1.sign(bytes.fromhex(pH)).hex()
+    else:
+        sk2 = ecdsa.SigningKey.from_string(bytes.fromhex(privk), curve=ecdsa.SECP256k1)
+        sig = sk2.sign(bytes.fromhex(pH)).hex()
 
     payload = {
 
@@ -82,24 +122,17 @@ while True:
 #print(vk.verify(bytes.fromhex(sig), bytes.fromhex(pH)) )# if postHash is a hex string then use bytes.fromhex
 
 
-    try:
-        url = "http://" + "35.176.187.89:4848" + '/newPost/'
-        r = requests.post(url, data=payload, timeout=1)
-        print(r.text)
+    
 
-    except:
-        print('fail')
+    for node in nodeArray:
+        try:
+            url = "http://" + node + '/newPost/'
+            r = requests.post(url, data=payload, timeout=3)
+            print(r.text)
 
-'''
-for node in nodeArray:
-    try:
-        url = "http://" + node + '/newPost/'
-        r = requests.post(url, data=payload, timeout=10)
-        print(r.text)
+        except:
+            print('fail')
 
-    except:
-        print('fail')
-'''
 
 '''
 content = "testing"
@@ -135,6 +168,15 @@ vk = ecdsa.VerifyingKey.from_string(bytes.fromhex(publicKey), curve=ecdsa.SECP25
 
 
 print(vk.verify(bytes.fromhex(signature), bytes.fromhex(postHash)) )# if postHash is a hex string then use bytes.fromhex
+
+
+sk = ecdsa.SigningKey.generate(curve=ecdsa.SECP256k1)
+
+vk = sk.get_verifying_key()
+
+print(vk.to_string().hex())
+print('a')
+print(sk.to_string().hex())
 
 
 '''
