@@ -19,8 +19,14 @@ def GetPosts(attribute, attributeParameters):
 
         elif attribute == 'timeStamp':
             flaggedPosts = Post.objects.filter(timeStamp__gte=(parameters[0]), timeStamp__lte=(parameters[1]))
+        elif attribute == 'timeStampForBlockUse':
+            flaggedPosts = Post.objects.filter(timeStamp__gte=(parameters[0]), timeStamp__lt=(parameters[1]))
+        elif attribute == "blockIndex":
+            flaggedPosts = Post.objects.filter(blockIndex__gte=parameters[0], blockIndex__lte=parameters[1])
         else:
             return ("invalid attribute", [])
+
+        flaggedPosts.order_by('timeStamp')
 
         for post in flaggedPosts:
             postDataArray = []

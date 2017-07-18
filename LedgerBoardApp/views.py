@@ -84,6 +84,8 @@ def newBlock(request):
         target = rawPostData.__getitem__('target')
         nonce = int(rawPostData.__getitem__('nonce'))
 
+        postArray = str(rawPostData.__getitem__('postArray'))
+
 
 
     except:
@@ -91,7 +93,7 @@ def newBlock(request):
         response.content = "Missing content."
         return response
 
-    feedback = blockHandler(blockIndex, timeStamp, previousBlockHash, target, nonce, True, False, False, [0, 0])
+    feedback = blockHandler(blockIndex, timeStamp, previousBlockHash, target, nonce, postArray, True, False, False, [0, 0])
 
     if feedback != "":
         response.status_code = 406
@@ -101,7 +103,7 @@ def newBlock(request):
     response.status_code = 201
     response.content = "Success."
 
-    blockDataArray = [blockIndex, timeStamp, previousBlockHash, target, nonce]
+    blockDataArray = [blockIndex, timeStamp, previousBlockHash, target, nonce, str(postArray)]
 
     distributeEntity(blockDataArray, "block")
 

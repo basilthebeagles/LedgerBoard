@@ -1,5 +1,6 @@
 from LedgerBoardApp.models import Block
 import ast
+from LedgerBoardApp.helperFunctions import getPosts
 
 def GetBlocks(attribute, attributeParameters):
 
@@ -25,7 +26,6 @@ def GetBlocks(attribute, attributeParameters):
 
 
 
-
         for block in flaggedBlocks:
             blockDataArray = []
 
@@ -36,6 +36,12 @@ def GetBlocks(attribute, attributeParameters):
             blockDataArray.append(block.nonce)
 
             blockArray.append(blockDataArray)
+
+
+            postArray = getPosts.GetPosts('blockIndex', [block.index, block.index])
+
+            blockArray.append(postArray)
+
 
         return ("", blockArray)
 

@@ -7,6 +7,8 @@ from LedgerBoardApp.models import Post
 from LedgerBoardApp.models import Block
 from LedgerBoardApp.helperFunctions import blockHelperFunctions
 from LedgerBoardApp.helperFunctions import distributeEntity
+from LedgerBoardApp.helperFunctions import getPosts
+
 
 
 
@@ -38,22 +40,22 @@ class Command(BaseCommand):
 
                 currentTime = int(time.time())
 
-                
+                posts = getPosts.GetPosts('timeStampForBlockUse', [latestBlock.timeStamp, currentTime])
 
 
-                feedback = blockHelperFunctions.blockHandler(protoIndex, currentTime, protoPreviousBlockHash, protoTarget, 16, True, True, False, nonceRange)
+                feedback = blockHelperFunctions.blockHandler(protoIndex, currentTime, protoPreviousBlockHash, protoTarget, 16, posts, True, True, False, nonceRange)
 
                 if feedback == "" or feedback == "new valid block recieved whilst mining":
                     
                     break
                 print(feedback)
                 nonceRange[0] = nonceRange[1] + 1
-                nonceRange[1] = int(round(nonceRange[1] * 1.5))
+                nonceRange[1] = nonceRange[1] + 17  #int(round(nonceRange[1] * 1.5))
 
             if feedback == "new valid block recieved whilst mining":
                 continue
 
             newBlock = Block.objects.get(index=protoIndex)
-            newBlockDataArray = [newBlock.index, newBlock.timeStamp, newBlock.previousBlockHash, newBlock.target, newBlock.nonce]
+            newBlockDataArray = [newBlock.index, newBlock.timeStamp, newBlock.previousBlockHash, newBlock.target, newBlock.nonce, str(posts)]
 
             distributeEntity.distributeEntity(newBlockDataArray, 'block')

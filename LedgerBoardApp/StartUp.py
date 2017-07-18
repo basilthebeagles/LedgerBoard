@@ -68,87 +68,57 @@ def StartUp(selfHost):
         postsToDelete = Post.objects.filter(timeStamp__lte=currentTime)
         for post in postsToDelete:
             post.delete()
-        print('now3')
         feedback = nodeHelperFunctions.getHighestNode(0)
 
         if feedback[0] != '':
 
-
             return feedback[0]
-        print('now4')
-
 
         # sorted_nodeData = sorted(nodeData.items(), key=operator.itemgetter(0), reverse=True)
 
         highestNode = feedback[1]
-        print(highestNode['Host'])
 
-        blockIndexRange = [1, 1]
+        blockIndexRange = [0, highestNode['Height']]
 
         url = "http://" + highestNode['Host'] + "/getBlocks/"
 
         payload = {'attribute': 'index', 'attributeParameters': str(blockIndexRange)}
 
         blockArray = []
+        try:
+            r = requests.post(url, timeout=0.1, data=payload)
 
-        r = requests.post(url=url, timeout=1, data=payload)
-
-        blockArray = ast.literal_eval(str(r.text))
-
-        print('now5')
-
-        #print('could not get blockArray from highest node')
+            blockArray = ast.literal_eval(str(r.text))
+        except:
 
 
+            return 'could not get blockArray from highest node'
+
+        count = 0
         for block in blockArray:
 
-            url = "http://" + highestNode['Host'] + "/getPosts/"
-            previousBlockTimeStamp = Block.objects.get(index=0).timeStamp
+            if (count % 2 != 0):
+                count += 1
+                continue
 
-            postTimeStampRange = [previousBlockTimeStamp, (block[1] - 1)]
+            currentIndex = int(getHeight.GetHeight()[1])
 
-            payload = {'attribute': 'timeStamp', 'attributeParameters': str(postTimeStampRange)}
-
-            postArray = []
-            try:
-                r = requests.post(url, timeout=1, data=payload)
-            except:
-                return "could not get posts"
-            postArray = ast.literal_eval(str(r.text))
-
-            if postArray.__len__() > 1023:
+            if block[0] != currentIndex:
 
 
-                return  'too many posts in block'
+                nodeHelperFunctions.blackList(highestNode['Host'])
+                return 'blockArray is not sorted'
 
-            postsInTimeStampRange = Post.objects.filter(timeStamp__gte=previousBlockTimeStamp,
-                                                            timeStamp__lt=block[1])
+            blockFeedback = blockHelperFunctions.blockHandler(block[0], block[1], block[2], block[3], block[4], blockArray[count + 1], True,
+                                         False, True, [0, 0])
 
-            for post in postsInTimeStampRange:
-                post.delete()
+            if blockFeedback != "":
+                nodeHelperFunctions.blackList(highestNode['Host'])
 
-            for post in postArray:
-                print(postArray)
-                print(post)
-                postFeedback = postHelperFunctions.NewPost(post[0], post[1], post[2], post[3], True)
+                return "invalid blocks given"
 
-                if postFeedback != ("" or "Exact post already exists."):
-                    node = Node.objects.get(host=highestNode['Host'])
-
-                    node.timeOfBlackList = time.time()
-                    node.save()
-
-
-                    return "Post error: " + postFeedback
-
-            blockFeedback = blockHelperFunctions.blockHandler(block[0], block[1], block[2], block[3], block[4], True, False, False,
-                                             [0, 0])
-
-            if blockFeedback != '':
-
-
-                return "Block error: " + blockFeedback
-
+            count = count + 1
+        return "successful start up"
 
 
 

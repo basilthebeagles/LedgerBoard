@@ -35,28 +35,38 @@ import random
 
 
 
-def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blockNonce, newBlockStatus, miningStatus, orphanBlockFix, nonceRange):
+def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blockNonce, intendedPostsForBlockStr, newBlockStatus, miningStatus, orphanBlockStatus, nonceRange):
 
 
     currentTime = int(time.time())
 
-    if blockTimeStamp > currentTime:
+    intendedPostsForBlock = ast.literal_eval(str(intendedPostsForBlockStr))
+
+
+    if blockTimeStamp > currentTime and newBlockStatus == True:
         print("newblock error: Block is from the future." )
         return "Block is from the future."
 
-    if orphanBlockFix:
-        previousBlock = Block.objects.get(index=(blockIndex -1))
+
+    if len(intendedPostsForBlock) > 1023:
+        return "Too many posts given."
+
+
+    if newBlockStatus != True:
+        previousBlock = Block.objects.filter(index=blockIndex)
     else:
         previousBlock = Block.objects.latest('index')
+
+
 
     amalgationA = str(previousBlock.index) + str(previousBlock.timeStamp) + str(previousBlock.timeStamp) + str(previousBlock.nonce)
     amalgationB = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockNonce)
 
-    if amalgationA == amalgationB:
+    if newBlockStatus == True and amalgationA == amalgationB:
         print("newblock error: Block already exists on chain." )
 
         return "Block already exists on chain."
-    
+
 
 
     if previousBlock.blockHash != previousBlockHash:
@@ -68,8 +78,9 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
         print("so called prev hash:   " + previousBlockHash)
 
 
+        if newBlockStatus:
 
-        badBlockHandler(False)
+            badBlockHandler(False)
 
         print("newblock error: Block does not fit on chain.")
 
@@ -78,7 +89,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
     
 
 
-    if previousBlock.index >= blockIndex and (orphanBlockFix != True ):
+    if previousBlock.index >= blockIndex and newBlockStatus != True:
         print("newblock error: block is old")
 
         return "Block is old."
@@ -90,45 +101,61 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
 
 
-    unblockedPosts = Post.objects.filter(blockIndex=None, timeStamp__lt=(blockTimeStamp))
-    unblockedPosts.order_by('timeStamp')
 
 
 
 
-
-
-
-
-
-    postObjectArrayToBeSaved = []
-    postObjectArrayToBeDeleted = []
 
     appendedPostHashesArray = []
 
-    postNum = 0
-
-    for post in unblockedPosts:
 
 
-        if postNum > 1023:
-            postObjectArrayToBeDeleted.append(post)
-
-        elif post.timeStamp < Block.objects.latest('timeStamp').timeStamp:
-            if newBlockStatus:
-                postObjectArrayToBeDeleted.append(post)
+    amountOfPostsThatAlreadyExist = 0
+    previousPostTimeStamp = 0
 
 
+    for post in intendedPostsForBlock:
+
+        if post[1] < previousPostTimeStamp:
+            return "Posts given are not in order."
         else:
-            post.blockIndex = blockIndex
-            appendedPostHashesArray.append(post.postHash)
-            if newBlockStatus:
-                postObjectArrayToBeSaved.append(post)
-
-        postNum += 1
+            previousPostTimeStamp = post[1]
 
 
 
+        if (post[1] >= blockTimeStamp):
+            return "Posts given contain posts that are out of their blocks domain."
+
+
+        if post[1] < previousBlock.timeStamp:
+            return "Posts given contain posts that are too old."
+
+
+
+
+
+        feedback = postHelperFunctions.verifyPost(publicKey=post[0], timeStamp=post[1], content=post[2], signature=post[3])
+
+        if feedback[0] == "Exact post already exists.":
+
+            amountOfPostsThatAlreadyExist += 1
+
+            appendedPostHashesArray.append(feedback[1])
+
+        elif feedback[0] != "":
+            return "Posts given contain invalid posts"
+        else:
+
+            if newBlockStatus != True:
+                return "Posts given contain posts that are not part of block."
+
+            appendedPostHashesArray.append(feedback[1])
+
+
+    if orphanBlockStatus != True:
+
+        if newBlockStatus and amountOfPostsThatAlreadyExist < 512:
+            return "Posts given do not match up enough with node's posts."
 
 
 
@@ -140,8 +167,8 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
     blockTotalContents = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockTarget)+ str(appendedPostHashesArray)
     blockPreHash = hashlib.sha256(blockTotalContents.encode('utf-8')).hexdigest()
     if miningStatus:
-        nonce = nonceRange[1]
-        while nonce >= nonceRange[0]:
+        nonce = nonceRange[0]
+        while nonce <= nonceRange[1]:
             checkBlock = Block.objects.latest('index')
             if checkBlock.index == blockIndex:
                 return "new valid block recieved whilst mining"
@@ -154,10 +181,10 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
             #elif metTarget(blockHash, blockTarget):
             #    return str(blockNonce)
 
-            nonce -= 1
+            nonce += 1
 
 
-        if nonce == (nonceRange[0] -1):
+        if nonce == (nonceRange[1] +1):
             return "Could not mine."
 
 
@@ -166,11 +193,41 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
         blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt= bytes(blockNonce), rounds= 100, desired_key_bytes= 32).hex()
 
 
-    if newBlockStatus and metTarget(blockHash, blockTarget):
-        for post in postObjectArrayToBeSaved:
-            post.save()
-        for post in postObjectArrayToBeDeleted:
+
+    if newBlockStatus != True:
+        return "Block is valid."
+
+    if metTarget(blockHash, blockTarget):
+
+        if newBlockStatus != True and blockHash == Block.objects.get(blockIndex = blockIndex).blockHash:
+            return "Block verified."
+
+        else:
+            return "Hashs do not match up."
+
+
+
+        count = 0
+        for post in intendedPostsForBlock:
+
+            if postsForBlock.get(postHash=appendedPostHashesArray[count] ).exists():
+                tempPost = Post.objects.get(postHash=appendedPostHashesArray[count])
+                tempPost.blockIndex = blockIndex
+                tempPost.save()
+
+                continue
+            else:
+                newPost = Post(publicKeyOfSender=post[0], timeStamp=post[1], content=post[2], signature=post[3], postHash=appendedPostHashesArray[count], blockIndex=blockIndex)
+                newPost.save()
+            count += 1
+
+        postsToDelete = Post.objects.filter(blockIndex=None, timeStamp__lt=(blockTimeStamp))
+
+        for post in postsToDelete:
             post.delete()
+
+
+
         newBlock = Block(index=blockIndex, previousBlockHash=previousBlockHash, timeStamp=blockTimeStamp,
                          blockHash=blockHash, nonce=blockNonce, target=blockTarget)
 
@@ -271,12 +328,12 @@ def badChainFixer(firstBadBlockTimeObject):
 
 
     for post in postsOfLatestBlock:
-        post.blockIndex = None
 
-        post.save()
+        post.delete()
 
     latestBlock = Block.objects.get(index=currentIndex)
 
+    latestBlock.delete()
 
     count = 0
 
@@ -319,8 +376,12 @@ def badChainFixer(firstBadBlockTimeObject):
         rebuildStatus.save()
         return 'could not get blockArray from highest node'
 
-
+    count = 0
     for block in blockArray:
+
+        if (count % 2 != 0):
+            count += 1
+            continue
 
         currentIndex = int(getHeight.GetHeight()[1])
 
@@ -328,73 +389,27 @@ def badChainFixer(firstBadBlockTimeObject):
             rebuildStatus.datumContent = "False"
 
             rebuildStatus.save()
+
+            nodeHelperFunctions.blackList(highestNode['Host'])
             return 'blockArray is not sorted'
 
-        url = "http://" + highestNode['Host'] + "/getPosts/"
-        previousBlockTimeStamp = Block.objects.get(index=(currentIndex -1)).timeStamp
 
-        postTimeStampRange = [previousBlockTimeStamp, (block[1] -1)]
 
-        payload = {'attribute': 'timeStamp', 'attributeParameters': str(postTimeStampRange)}
 
-        postArray = []
-        try:
-            r = requests.post(url, timeout=1, data=payload)
+        blockFeedback = blockHandler(block[0], block[1], block[2], block[3], block[4], blockArray[count + 1], True, False, True, [0,0])
 
-            postArray = ast.literal_eval(str(r.text))
+        if blockFeedback != "":
 
-            if postArray.__len__() > 1023:
-                rebuildStatus.datumContent = "False"
+            nodeHelperFunctions.blackList(highestNode['Host'])
 
-                rebuildStatus.save()
-                return 'too many posts in block'
+
+            return "invalid blocks given"
 
 
 
 
-            postsInTimeStampRange = Post.objects.filter(timeStamp__gte=previousBlockTimeStamp, timeStamp__lt=block[1])
+        count = count + 1
 
-            for post in postsInTimeStampRange:
-                post.delete()
-
-            for post in postArray:
-
-                postFeedback = postHelperFunctions.newPost(post[0], post[1], post[2], post[3], True)
-
-                if postFeedback != ("" or "Exact post already exists."):
-                    node = Node.objects.get(host=highestNode['Host'])
-
-                    node.timeOfBlackList = time.time()
-                    node.save()
-                    rebuildStatus.datumContent = "False"
-
-                    rebuildStatus.save()
-                    return "Post error: " + postFeedback
-
-
-
-            blockFeedback = blockHandler(block[0], block[1], block[2], block[3], block[4], True, False, True, [0,0])
-
-
-
-            if blockFeedback != '':
-                rebuildStatus.datumContent = "False"
-
-                rebuildStatus.save()
-                return "Block error: " + blockFeedback
-
-
-
-            latestBlock.delete()
-
-
-        except:
-            rebuildStatus.datumContent = "False"
-
-            rebuildStatus.save()
-            return 'error with connection'
-
-    latestBlock.delete()
 
 
     firstBadBlockTimeObject.datumContent = 0
@@ -428,8 +443,8 @@ def badBlockHandler(chainableBlockOccured):
 
     if currentTime - timeToStartBadChainProcedures > 0:
 
-        badChainFixer(firstBadBlockTimeObject)
-
+        feedback = badChainFixer(firstBadBlockTimeObject)
+        print(feedback)
 
     else:
 

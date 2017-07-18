@@ -1,6 +1,7 @@
 
 import requests
 from LedgerBoardApp.models import Node
+from LedgerBoardApp.helperFunctions import getPosts
 
 
 
@@ -11,6 +12,7 @@ def distributeEntity(dataArray, type):
     payload = {}
     if type == "block":
 
+
         urlAddition = "/newBlock/"
         payload = {
             'index':str(dataArray[0]),
@@ -18,6 +20,7 @@ def distributeEntity(dataArray, type):
             'prevBlockHash': str(dataArray[2]),
             'target':str(dataArray[3]),
             'nonce':str(dataArray[4]),
+            'postArray': str(dataArray[5])
         }
     elif type == "post":
         urlAddition = "/newPost/"

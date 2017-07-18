@@ -51,26 +51,26 @@ def AddNewHosts(host, version, selfHost):
 
 def GetNewHosts(host):
 
+    url = "http://" + str(host) + "/getNodes/"
+    print(url)
+
+    print('here')
+
     try:
-        url = "http://" + str(host) + "/getNodes/"
-        print(url)
-
-        print('here')
-
-        try:
-            r = requests.post(url, timeout=5)
-        except requests.exceptions.Timeout:
-            return "could not connect"
-        nodeArray = ast.literal_eval(str(str(r.text)))
+        r = requests.post(url, timeout=5)
+        print(r.text)
+        nodeArray = ast.literal_eval(str(r.text))
 
         for node in nodeArray:
-
             feedback = AddNewHosts(node[0])
             print(feedback)
 
 
-
     except:
-        print('error')
+        print("error")
+
+
+
+
 
     return

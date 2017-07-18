@@ -1,6 +1,7 @@
 from LedgerBoardApp.models import Node
 from LedgerBoardApp.helperFunctions import getNodes
 import requests
+import time
 
 
 
@@ -61,3 +62,11 @@ def getHighestNode(currentIndex):
         return "could not find node higher than current index", highestNode
     return "", highestNode
 
+def blackList(host):
+
+    currentTime = int(time.time())
+
+    node = Node.objects.get(host=host)
+
+    node.timeOfBlackList = currentTime
+    node.save()
