@@ -46,7 +46,7 @@ class Command(BaseCommand):
 
         selfHost = ""
 
-        for host in options['poll_id']:
+        for host in options['selfHost']:
 
                 selfHost = host
 
@@ -63,7 +63,7 @@ class Command(BaseCommand):
         savedNodes.update()
         print('now1')
         if savedNodes.__len__() == 0:
-            feedback = addNewHosts.AddNewHosts("127.0.0.1:4847", 0.1, selfHost)
+            feedback = addNewHosts.AddNewHosts("35.176.211.151:4848", 0.1, selfHost)
             print("USING DEFAULT NODE")
             if feedback != "we are already on other hosts list. But we have now added that host." or feedback != "":
                 return (feedback)
