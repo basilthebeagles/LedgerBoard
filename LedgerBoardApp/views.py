@@ -50,6 +50,8 @@ def newPost(request):
 
 
         signature =  str(rawPostData.__getitem__('sig'))
+        selfHost = str(request.get_host())
+        originHost = str(rawPostData.__getitem__('originHost'))
 
     except:
         response.status_code = 406
@@ -68,7 +70,7 @@ def newPost(request):
     response.content = "Success."
 
     postDataArray = [publicKey, timeStamp, content, signature]
-    distributeEntity(postDataArray, "post")
+    distributeEntity(postDataArray, "post", originHost, selfHost)
 
     return response
 @csrf_exempt
@@ -85,6 +87,9 @@ def newBlock(request):
         nonce = int(rawPostData.__getitem__('nonce'))
 
         postArray = str(rawPostData.__getitem__('postArray'))
+
+        selfHost = str(request.get_host())
+        originHost = str(rawPostData.__getitem__('originHost'))
 
 
 
@@ -105,7 +110,7 @@ def newBlock(request):
 
     blockDataArray = [blockIndex, timeStamp, previousBlockHash, target, nonce, str(postArray)]
 
-    distributeEntity(blockDataArray, "block")
+    distributeEntity(blockDataArray, "block", originHost, selfHost)
 
     return response
 @csrf_exempt

@@ -6,7 +6,7 @@ from LedgerBoardApp.helperFunctions import getPosts
 
 
 
-def distributeEntity(dataArray, type):
+def distributeEntity(dataArray, type, originHost, selfHost):
 
     urlAddition = ""
     payload = {}
@@ -20,7 +20,8 @@ def distributeEntity(dataArray, type):
             'prevBlockHash': str(dataArray[2]),
             'target':str(dataArray[3]),
             'nonce':str(dataArray[4]),
-            'postArray': str(dataArray[5])
+            'postArray': str(dataArray[5]),
+            'originHost': str(selfHost)
         }
     elif type == "post":
         urlAddition = "/newPost/"
@@ -31,7 +32,7 @@ def distributeEntity(dataArray, type):
             'ts':str(dataArray[1]),
             'content':str(dataArray[2]),
             'sig':str(dataArray[3]),
-
+            'originHost': str(selfHost)
 
         }
 
@@ -49,6 +50,9 @@ def distributeEntity(dataArray, type):
 
         if node.timeOfBlackList != 0:
             print('blacklisted')
+            continue
+
+        if node.host == originHost:
             continue
 
         url = "http://" + str(node.host) + urlAddition

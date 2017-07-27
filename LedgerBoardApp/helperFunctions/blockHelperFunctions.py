@@ -35,16 +35,13 @@ import random
 
 
 
-def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blockNonce, intendedPostsForBlockUnknownFormat, newBlockStatus, miningStatus, orphanBlockStatus, nonceRange):
+def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blockNonce, intendedPostsForBlockStr, newBlockStatus, miningStatus, orphanBlockStatus, nonceRange):
 
 
     currentTime = int(time.time())
-    intendedPostsForBlock = []
-    if miningStatus != True:
 
-        intendedPostsForBlock = ast.literal_eval(str(intendedPostsForBlockUnknownFormat))
-    else:
-        intendedPostsForBlock = intendedPostsForBlockUnknownFormat
+    intendedPostsForBlock = ast.literal_eval(str(intendedPostsForBlockStr))
+
 
     if blockTimeStamp > currentTime and newBlockStatus == True:
         print("newblock error: Block is from the future." )
@@ -116,9 +113,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
     amountOfPostsThatAlreadyExist = 0
     previousPostTimeStamp = 0
 
-
     for post in intendedPostsForBlock:
-
         if post[1] < previousPostTimeStamp:
             return "Posts given are not in order."
         else:
@@ -157,7 +152,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
     if orphanBlockStatus != True:
 
-        if newBlockStatus and amountOfPostsThatAlreadyExist < 512:
+        if newBlockStatus and ((amountOfPostsThatAlreadyExist / len(intendedPostsForBlock)) < 0.51):
             return "Posts given do not match up enough with node's posts."
 
 

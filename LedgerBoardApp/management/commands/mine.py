@@ -18,8 +18,17 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         print('')
+        parser.add_argument('selfHost', nargs='+', type=str)
+
 
     def handle(self, *args, **options):
+
+        selfHost = ""
+
+        for host in options['selfHost']:
+            selfHost = host
+
+
         feedback = ""
         while True: #we'll make this better
 
@@ -33,14 +42,14 @@ class Command(BaseCommand):
 
             protoTarget = blockHelperFunctions.getTargetForBlock(protoIndex)
 
-            print(protoTarget)
+            print("protoTarget: " + protoTarget)
 
             nonceRange = [1, 16]
             while True:
 
                 currentTime = int(time.time())
 
-                posts = getPosts.GetPosts('timeStampForBlockUse', [latestBlock.timeStamp, currentTime])
+                posts = getPosts.GetPosts('timeStampForBlockUse', [latestBlock.timeStamp, currentTime])[1]
 
 
                 feedback = blockHelperFunctions.blockHandler(protoIndex, currentTime, protoPreviousBlockHash, protoTarget, 16, posts, True, True, False, nonceRange)
@@ -58,4 +67,4 @@ class Command(BaseCommand):
             newBlock = Block.objects.get(index=protoIndex)
             newBlockDataArray = [newBlock.index, newBlock.timeStamp, newBlock.previousBlockHash, newBlock.target, newBlock.nonce, str(posts)]
 
-            distributeEntity.distributeEntity(newBlockDataArray, 'block')
+            distributeEntity.distributeEntity(newBlockDataArray, 'block', selfHost, selfHost)

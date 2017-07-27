@@ -53,7 +53,6 @@ def NewPost(publicKey, timeStamp, content, signature, notNewToNetwork):
 
 def verifyPost(publicKey, timeStamp, content, signature):
 
-    print(publicKey.__len__())
 
     if publicKey.__len__() != 128:
         return ("Public key must be 128 characters long.", "")
