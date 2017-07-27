@@ -211,7 +211,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
         count = 0
         for post in intendedPostsForBlock:
 
-            if Post.objects.get(postHash=appendedPostHashesArray[count] ).exists():
+            if Post.objects.filter(postHash=appendedPostHashesArray[count] ).exists():
                 tempPost = Post.objects.get(postHash=appendedPostHashesArray[count])
                 tempPost.blockIndex = blockIndex
                 tempPost.save()
