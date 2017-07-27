@@ -199,11 +199,12 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
     if metTarget(blockHash, blockTarget):
 
-        if newBlockStatus != True and blockHash == Block.objects.get(blockIndex = blockIndex).blockHash:
-            return "Block verified."
+        if newBlockStatus != True:
+            if blockHash == Block.objects.get(blockIndex = blockIndex).blockHash:
+                return "Block verified."
 
-        else:
-            return "Hashs do not match up."
+            else:
+                return "Hashs do not match up."
 
 
 
