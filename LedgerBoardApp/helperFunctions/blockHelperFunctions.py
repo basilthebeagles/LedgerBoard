@@ -151,9 +151,11 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
 
     if orphanBlockStatus != True:
+        intendedPostsForBlockLength = len(intendedPostsForBlock)
+        if intendedPostsForBlockLength != 0:
+            if newBlockStatus and ((amountOfPostsThatAlreadyExist / intendedPostsForBlockLength) < 0.51):
+                return "Posts given do not match up enough with node's posts."
 
-        if newBlockStatus and ((amountOfPostsThatAlreadyExist / len(intendedPostsForBlock)) < 0.51):
-            return "Posts given do not match up enough with node's posts."
 
 
 
