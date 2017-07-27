@@ -66,7 +66,7 @@ class Command(BaseCommand):
             feedback = addNewHosts.AddNewHosts("127.0.0.1:4847", 0.1, selfHost)
             print("USING DEFAULT NODE")
             if feedback != "we are already on other hosts list. But we have now added that host." or feedback != "":
-                print(feedback)
+                return (feedback)
 
         print('now2')
 
