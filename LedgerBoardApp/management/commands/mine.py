@@ -59,7 +59,7 @@ class Command(BaseCommand):
                     break
                 print(feedback)
                 nonceRange[0] = nonceRange[1] + 1
-                nonceRange[1] = nonceRange[1] + 17  #int(round(nonceRange[1] * 1.5))
+                nonceRange[1] = nonceRange[1] + 68 #int(round(nonceRange[1] * 1.5))
 
             if feedback == "new valid block recieved whilst mining":
                 continue

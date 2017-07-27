@@ -25,7 +25,6 @@ from LedgerBoardApp.helperFunctions.addNewHosts import AddNewHosts
 from LedgerBoardApp.helperFunctions.nodeHelperFunctions import NewNode
 from LedgerBoardApp.helperFunctions.postHelperFunctions import NewPost
 
-from LedgerBoardApp.StartUp import StartUp
 
 
 @csrf_exempt
@@ -275,18 +274,7 @@ def getHeight(request):
         response.status_code = 404
         return response
 
-@csrf_exempt
-def startUp(request):
-    response = HttpResponse()
-    rawPostData = request.POST
 
-    feedback = StartUp(str(request.get_host()))
-    if feedback == "":
-        response.content = "success"
-    else:
-        response.content = feedback
-
-    return response
 
 @csrf_exempt
 def addNewHosts(request):
