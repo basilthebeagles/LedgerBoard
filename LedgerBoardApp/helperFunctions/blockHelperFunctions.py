@@ -260,7 +260,7 @@ def metTarget(blockHash, blockTarget):
 def getTargetForBlock(index):
 
     if index < 2016:
-        return "0x446de077a113ac000000000000000000000000000000000000000000000000"
+        return "0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
                
 
     indexRangeB = index - 1
