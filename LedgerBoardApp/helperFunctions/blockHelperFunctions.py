@@ -35,13 +35,16 @@ import random
 
 
 
-def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blockNonce, intendedPostsForBlockStr, newBlockStatus, miningStatus, orphanBlockStatus, nonceRange):
+def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blockNonce, intendedPostsForBlockUnknownFormat, newBlockStatus, miningStatus, orphanBlockStatus, nonceRange):
 
 
     currentTime = int(time.time())
+    intendedPostsForBlock = []
+    if miningStatus != True:
 
-    intendedPostsForBlock = ast.literal_eval(str(intendedPostsForBlockStr))
-
+        intendedPostsForBlock = ast.literal_eval(str(intendedPostsForBlockUnknownFormat))
+    else:
+        intendedPostsForBlock = intendedPostsForBlockUnknownFormat
 
     if blockTimeStamp > currentTime and newBlockStatus == True:
         print("newblock error: Block is from the future." )

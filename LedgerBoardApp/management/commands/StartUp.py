@@ -140,4 +140,4 @@ class Command(BaseCommand):
         if count >= 18:
             return feedback
 
-        return ""
+        return "success"

@@ -36,10 +36,10 @@ def AddNewHosts(host, version, selfHost):
         print('here1')
         feedback = NewNode(host, version)
         if feedback == "":
-            GetNewHosts(host)
+            GetNewHosts(host, selfHost)
             return ''
         elif feedback == "" and str(r.text) == "Host already exists.":
-            GetNewHosts(host)
+            GetNewHosts(host, selfHost)
 
             return "we are already on other hosts list. But we have now added that host."
 
@@ -49,7 +49,7 @@ def AddNewHosts(host, version, selfHost):
         return "response: " + str(r.content)
 
 
-def GetNewHosts(host):
+def GetNewHosts(host, selfHost):
 
     url = "http://" + str(host) + "/getNodes/"
     print(url)
@@ -62,12 +62,12 @@ def GetNewHosts(host):
         nodeArray = ast.literal_eval(str(r.text))
 
         for node in nodeArray:
-            feedback = AddNewHosts(node[0])
+            feedback = AddNewHosts(node[0], node[1], selfHost )
             print(feedback)
 
 
     except:
-        print("error")
+        print("get new hosts failed.")
 
 
 
