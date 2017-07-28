@@ -112,8 +112,8 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
     amountOfPostsThatAlreadyExist = 0
     previousPostTimeStamp = 0
-
     for post in intendedPostsForBlock:
+        print(post)
         if post[1] < previousPostTimeStamp:
             return "Posts given are not in order."
         else:
@@ -163,7 +163,6 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
 
     blockHash = ''
-
     blockTotalContents = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockTarget)+ str(appendedPostHashesArray)
     blockPreHash = hashlib.sha256(blockTotalContents.encode('utf-8')).hexdigest()
     if miningStatus:
@@ -196,7 +195,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
     if newBlockStatus != True:
         return "Block is valid."
-
+    print("block hash: " + blockHash)
     if metTarget(blockHash, blockTarget):
 
         if newBlockStatus != True:
@@ -216,7 +215,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
                 tempPost.blockIndex = blockIndex
                 tempPost.save()
 
-                continue
+
             else:
                 newPost = Post(publicKeyOfSender=post[0], timeStamp=post[1], content=post[2], signature=post[3], postHash=appendedPostHashesArray[count], blockIndex=blockIndex)
                 newPost.save()
@@ -234,8 +233,8 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
         print('block should be saved')
         newBlock.save()
-
-        badBlockHandler(True)
+        if miningStatus != True:
+            badBlockHandler(True)
         print("added new block: " + str(blockHash))
         return ""
     else:
@@ -309,14 +308,7 @@ def getTargetForBlock(index):
 
 
 def badChainFixer(firstBadBlockTimeObject):
-    rebuildStatus = Data.objects.get(datumTitle="Rebuilding")
 
-    if rebuildStatus.datumContent == "True":
-
-        return "rebuildStatus is true"
-    else:
-        rebuildStatus.datumContent = "True"
-        rebuildStatus.save()
 
     # StartBadChainProcedures
 
@@ -325,25 +317,46 @@ def badChainFixer(firstBadBlockTimeObject):
     if currentIndex == 0:
         return "genisis block"
 
-    postsOfLatestBlock = Post.objects.filter(blockIndex=int(currentIndex))
 
 
-    for post in postsOfLatestBlock:
 
-        post.delete()
-
-    latestBlock = Block.objects.get(index=currentIndex)
-
-    latestBlock.delete()
 
     count = 0
-
     feedback = nodeHelperFunctions.getHighestNode(currentIndex)
 
-    if feedback[0] != '':
-        rebuildStatus.datumContent = "False"
+    if feedback[0] == "could not find node higher than current index":
+        currentTime = int(time.time())
+        highestNode = feedback[1]
 
-        rebuildStatus.save()
+        url = "http://" + highestNode['Host'] + "/getPosts/"
+
+        currentIndex = int(getHeight.GetHeight()[1])
+
+        latestBlock = Block.objects.get(index=currentIndex)
+
+        payload = {'attribute': 'timeStamp', 'attributeParameters': str([latestBlock.timeStamp, currentTime])}
+
+        postArray = []
+
+        try:
+            r = requests.post(url, timeout=0.5, data=payload)
+
+            postArray = ast.literal_eval(str(r.text))
+        except:
+
+
+            return 'could not get postArray from highest node'
+
+        firstBadBlockTimeObject.datumContent = 0
+        firstBadBlockTimeObject.save()
+
+
+
+
+
+        return "updated posts."
+    elif feedback[0] != '':
+
         return feedback[0]
 
     #sorted_nodeData = sorted(nodeData.items(), key=operator.itemgetter(0), reverse=True)
@@ -351,10 +364,9 @@ def badChainFixer(firstBadBlockTimeObject):
     highestNode = feedback[1]
 
 
+    #loop through our blokc until we find one in node. Then delete all of our one to that block and rebuild
 
-
-    blockIndexRange = [currentIndex, highestNode['Height']]
-
+    blockIndexRange = [1, highestNode['Height']] #remember the technical current index is this minus one since its been deleted
 
 
     url = "http://" + highestNode['Host'] + "/getBlocks/"
@@ -366,42 +378,86 @@ def badChainFixer(firstBadBlockTimeObject):
 
     blockArray = []
     try:
-        r = requests.post(url, timeout=0.1, data=payload)
+        r = requests.post(url, timeout=0.5, data=payload)
 
 
         blockArray = ast.literal_eval(str(r.text))
     except:
 
-        rebuildStatus.datumContent = "False"
 
-        rebuildStatus.save()
         return 'could not get blockArray from highest node'
 
     count = 0
+
+    allLocalBlocks = Block.objects.all().order_by('-index')
+
+    breakOutOfSecondLoop = False
+
+    indexToStartFrom = 0
+
+    for localBlock in allLocalBlocks:
+        count = 0
+        for block in blockArray:
+            if (count % 2 != 0):
+                count += 1
+                print("continuing")
+                continue
+            #print("block: " + str(block))
+
+            if block[2] == localBlock.blockHash:
+                indexToStartFrom = int(block[0])
+                breakOutOfSecondLoop = True
+                break
+            count += 1
+        if breakOutOfSecondLoop:
+            break
+
+
+
+    for localBlock in allLocalBlocks:
+
+        localBlockIndex = localBlock.index
+
+        if localBlockIndex >= indexToStartFrom:
+            postsOfLatestBlock = Post.objects.filter(blockIndex=int(localBlockIndex))
+
+
+            for post in postsOfLatestBlock:
+                post.delete()
+
+            localBlock.delete()
+
+
+
+    count = 0
     for block in blockArray:
+
+
 
         if (count % 2 != 0):
             count += 1
             continue
 
+        if int(block[0]) < indexToStartFrom:
+            count += 1
+            continue
         currentIndex = int(getHeight.GetHeight()[1])
+        print("so called currentIndex:" + str(currentIndex))
+        if block[0] != (currentIndex + 1):
 
-        if block[0] != currentIndex:
-            rebuildStatus.datumContent = "False"
-
-            rebuildStatus.save()
-
+            print("BLACKLISTINGING AS blockArray is not sorted")
             nodeHelperFunctions.blackList(highestNode['Host'])
             return 'blockArray is not sorted'
 
 
 
 
-        blockFeedback = blockHandler(block[0], block[1], block[2], block[3], block[4], blockArray[count + 1], True, False, True, [0,0])
+        blockFeedback = blockHandler(block[0], block[1], block[2], block[3], block[4], str(blockArray[count + 1]), True, False, True, [0,0])
 
         if blockFeedback != "":
 
             nodeHelperFunctions.blackList(highestNode['Host'])
+            print("BLACKLISTINGING AS invalid blocks given")
 
 
             return "invalid blocks given"
@@ -412,13 +468,43 @@ def badChainFixer(firstBadBlockTimeObject):
         count = count + 1
 
 
+    currentTime = int(time.time())
+
+
+
+    url = "http://" + highestNode['Host'] + "/getPosts/"
+
+    currentIndex = int(getHeight.GetHeight()[1])
+
+    latestBlock = Block.objects.get(index=currentIndex)
+
+
+    payload = {'attribute': 'timeStamp', 'attributeParameters': str([latestBlock.timeStamp, currentTime])}
+
+    postArray = []
+
+
+    try:
+        r = requests.post(url, timeout=0.5, data=payload)
+
+
+        postArray = ast.literal_eval(str(r.text))
+    except:
+
+
+        return 'could not get blockArray from highest node'
+
+
+    for post in postArray:
+
+        feedback = postHelperFunctions.NewPost(publicKey=post[0], timeStamp=post[1], content=post[2], signature=post[3], notNewToNetwork=True)
+
+
 
     firstBadBlockTimeObject.datumContent = 0
     firstBadBlockTimeObject.save()
 
-    rebuildStatus.datumContent = "False"
 
-    rebuildStatus.save()
     return ""
 
 def badBlockHandler(chainableBlockOccured):
@@ -436,21 +522,25 @@ def badBlockHandler(chainableBlockOccured):
 
     currentTime = time.time()
 
-    if firstBadBlockTimeObject.datumContent == 0:
+    if firstBadBlockTime == 0:
         firstBadBlockTimeObject.datumContent = int(time.time())
+
+        firstBadBlockTimeObject.save()
+        print(firstBadBlockTimeObject.datumContent)
+        print("here^")
         return
 
-    timeToStartBadChainProcedures = firstBadBlockTime + 2400 + random.randint(0, 2400)
-
+    timeToStartBadChainProcedures = firstBadBlockTime + 100 + random.randint(1, 50) #change this back to (100, 2400) and 2400
+    print("timeToStartBadChainProcedures: " + str(timeToStartBadChainProcedures))
     if currentTime - timeToStartBadChainProcedures > 0:
+        feedback = "x"
 
         feedback = badChainFixer(firstBadBlockTimeObject)
         print(feedback)
 
-    else:
 
-        firstBadBlockTimeObject.datumContent = timeToStartBadChainProcedures
-        firstBadBlockTimeObject.save()
+
+
 
     return
 

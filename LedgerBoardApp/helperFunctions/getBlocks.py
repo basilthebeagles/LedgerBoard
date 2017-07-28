@@ -38,7 +38,7 @@ def GetBlocks(attribute, attributeParameters):
             blockArray.append(blockDataArray)
 
 
-            postArray = getPosts.GetPosts('blockIndex', [block.index, block.index])
+            postArray = getPosts.GetPosts('blockIndex', [block.index, block.index])[1]
 
             blockArray.append(postArray)
 

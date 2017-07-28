@@ -44,6 +44,7 @@ class Command(BaseCommand):
 
 
 
+
         selfHost = ""
 
         for host in options['selfHost']:
@@ -63,7 +64,7 @@ class Command(BaseCommand):
         savedNodes.update()
         print('now1')
         if savedNodes.__len__() == 0:
-            feedback = addNewHosts.AddNewHosts("35.176.211.151:4848", 0.1, selfHost)
+            feedback = addNewHosts.AddNewHosts("127.0.0.1:4847", 0.1, selfHost)
             print("USING DEFAULT NODE")
             if feedback != "we are already on other hosts list. But we have now added that host." or feedback != "":
                 return (feedback)
@@ -89,7 +90,7 @@ class Command(BaseCommand):
 
             highestNode = feedback[1]
 
-            blockIndexRange = [0, highestNode['Height']]
+            blockIndexRange = [1, highestNode['Height']]
 
             url = "http://" + highestNode['Host'] + "/getBlocks/"
 
@@ -97,7 +98,7 @@ class Command(BaseCommand):
 
             blockArray = []
             try:
-                r = requests.post(url, timeout=0.1, data=payload)
+                r = requests.post(url, timeout=0.5, data=payload)
 
                 blockArray = ast.literal_eval(str(r.text))
             except:
@@ -113,12 +114,12 @@ class Command(BaseCommand):
 
                 currentIndex = int(getHeight.GetHeight()[1])
 
-                if block[0] != currentIndex:
+                if block[0] != currentIndex + 1:
                     nodeHelperFunctions.blackList(highestNode['Host'])
                     return 'blockArray is not sorted'
-
+                print(block)
                 blockFeedback = blockHelperFunctions.blockHandler(block[0], block[1], block[2], block[3], block[4],
-                                                                  blockArray[count + 1], True,
+                                                                  str(blockArray[count + 1]), True,
                                                                   False, True, [0, 0])
 
                 if blockFeedback != "":
@@ -127,17 +128,45 @@ class Command(BaseCommand):
                     return "invalid blocks given"
 
                 count = count + 1
+
+            currentTime = int(time.time())
+
+            url = "http://" + highestNode['Host'] + "/getPosts/"
+
+            currentIndex = int(getHeight.GetHeight()[1])
+
+            latestBlock = Block.objects.get(index=currentIndex)
+
+            payload = {'attribute': 'timeStamp', 'attributeParameters': str([latestBlock.timeStamp, currentTime])}
+
+            postArray = []
+
+            try:
+                r = requests.post(url, timeout=0.5, data=payload)
+
+                postArray = ast.literal_eval(str(r.text))
+            except:
+
+
+                return 'could not get postArray from highest node'
+
+            for post in postArray:
+                feedback = postHelperFunctions.NewPost(publicKey=post[0], timeStamp=post[1], content=post[2],
+                                                       signature=post[3], notNewToNetwork=True)
+
+
             return "successful start up"
 
         count = 0
-        feedback = '-'
-        while feedback != "" and count < 20:
-            print("in while loop")
-            feedback = blockHelperFunctions.badChainFixer(firstBadBlockTimeObject)
-            print(feedback)
-            count += 1
 
-        if count >= 18:
-            return feedback
+
+
+
+        feedback = blockHelperFunctions.badChainFixer(firstBadBlockTimeObject)
+        print("feedback: " + feedback)
+
+
+
+
 
         return "success"

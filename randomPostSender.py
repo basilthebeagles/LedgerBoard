@@ -48,19 +48,19 @@ publicKeyArray = ["9f44b86ad077235836ad5290cd9060f460818891341e9d3e1be97566e9e30
 
 ]
 
-contentArray = [ "網站有中、英文版本，也有繁、簡體版，可通過每頁左上角的連結隨"  ,"@#%&^@#)RASODGJOASJ~!~!$+_~!$*","قعحبيبكزززززللث ٧٧٧٦٢صثمططططللللل فففب فقهههفاباا", "Testing new post message this is going to be over 140 chr;asdgulasidglasdiug;asdigua;sdiug;asidgu;asidgu;asidug;asidug;asdiug;sadiug;siudg;saidug;asudig;sadiug;saidgu;saudg;sdug;asdigu;asidgu;saidgu;sadigu;isadgu", "normal message", "", "new post", "asdf"]
+#contentArray = ["網站有中、英文版本，也有繁、簡體版，可通過每頁左上角的連結隨"  ,"@#%&^@#)RASODGJOASJ~!~!$+_~!$*","قعحبيبكزززززللث ٧٧٧٦٢صثمططططللللل فففب فقهههفاباا", "Testing new post message this is going to be over 140 chr;asdgulasidglasdiug;asdigua;sdiug;asidgu;asidgu;asidug;asidug;asdiug;sadiug;siudg;saidug;asudig;sadiug;saidgu;saudg;sdug;asdigu;asidgu;saidgu;sadigu;isadgu", "normal message", "", "new post", "asdf"]
 
-nodeArray = ["35.176.211.151:4848"]#, "35.176.80.247:4848"]
+nodeArray = ["127.0.0.1:4847"]
 
-
-
-
+contentArray = ["test1", "test2", "test3"]
 
 
 
-for i in range(10): #while True:
-    time.sleep(1)
-    rand = randint(0, 6)
+
+
+
+for i in range(10000): #while True:
+    rand = randint(0, 2)
     rand2 = randint(0,20)
     rand3 = randint(0,40)
     conRand = randint(0, 7)

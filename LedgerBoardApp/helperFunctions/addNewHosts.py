@@ -8,6 +8,9 @@ from LedgerBoardApp.helperFunctions.nodeHelperFunctions import NewNode
 def AddNewHosts(host, version, selfHost):
     currentTime = int(time.time())
 
+    if host == selfHost:
+        return "CAnnot add self."
+
     try:
 
         url = "http://" + str(host) + "/handShake/"

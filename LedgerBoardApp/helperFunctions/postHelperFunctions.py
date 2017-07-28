@@ -9,9 +9,7 @@ from LedgerBoardApp.models import Post
 
 def verifySig(signature, publicKey, postHash):
 
-    print(signature)
-    print(publicKey)
-    print(postHash)
+
 
 
 
@@ -20,7 +18,6 @@ def verifySig(signature, publicKey, postHash):
 
     try:
         if vk.verify(bytes.fromhex(signature), bytes.fromhex(postHash)):#if postHash is a hex string then use bytes.fromhex
-            print("verified")
             return True
 
     except:
@@ -72,7 +69,6 @@ def verifyPost(publicKey, timeStamp, content, signature):
 
     postHash = hashlib.sha256(totalPostContent.encode('utf-8')).hexdigest()
 
-    print(str(postHash))
 
     if verifySig(signature, publicKey, postHash) == False:
 

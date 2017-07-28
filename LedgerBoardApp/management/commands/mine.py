@@ -68,3 +68,4 @@ class Command(BaseCommand):
             newBlockDataArray = [newBlock.index, newBlock.timeStamp, newBlock.previousBlockHash, newBlock.target, newBlock.nonce, str(posts)]
 
             distributeEntity.distributeEntity(newBlockDataArray, 'block', selfHost, selfHost)
+            time.sleep(10)
