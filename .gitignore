@@ -3,3 +3,5 @@
 randomPostSender.py
 
 testDataMaker.py
+
+__pycache__/*
