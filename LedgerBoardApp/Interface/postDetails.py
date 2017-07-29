@@ -37,7 +37,7 @@ def PostDetails(postHash):
 
         print("returning2")
 
-        return "Post Hash: " + post.postHash + "<br/>Broadcaster: " + post.publicKeyOfSender + "<br/>Posted at: " + str(ts) + " (UTC)"+ "<br/>Included in block: " + text + "<br/>Confirmations: " + str(confirmations) + "<br/>Content: " + post.content   + "<br/>Signature: " + post.signature + "<br/><br/><br/>"
+        return "Post Hash: " + post.postHash + "<br/>Broadcaster: " + post.publicKeyOfSender + "<br/>Posted at: " + str(ts) + " (UTC)" + "<br/>Content: " + post.content   + "<br/>Included in block: " + text + "<br/>Confirmations: " + str(confirmations)+"<br/>Signature: " + post.signature + "<br/><br/><br/>"
 
 
 
