@@ -55,7 +55,7 @@ class Command(BaseCommand):
             try:
                 ip = socket.gethostbyname("ledgerboard.f-stack.com")
                 host = str(ip) + ":4848"
-                feedback = addNewHosts.AddNewHosts(host, 0.1, selfHost)
+                feedback = addNewHosts.AddNewHosts(host, 10, selfHost)
             except:
                 return "connecting to default node failed."
             print("USING DEFAULT NODE")
@@ -90,7 +90,7 @@ class Command(BaseCommand):
 
             blockArray = []
             try:
-                r = requests.post(url, timeout=2, data=payload)
+                r = requests.post(url, timeout=10, data=payload)
 
                 blockArray = ast.literal_eval(str(r.text))
             except:
@@ -134,7 +134,7 @@ class Command(BaseCommand):
             postArray = []
 
             try:
-                r = requests.post(url, timeout=0.5, data=payload)
+                r = requests.post(url, timeout=10, data=payload)
 
                 postArray = ast.literal_eval(str(r.text))
             except:

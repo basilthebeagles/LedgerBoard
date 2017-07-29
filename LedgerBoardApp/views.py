@@ -294,11 +294,11 @@ def interfaceBroadcasterDetails(request):
     response = HttpResponse()
     rawGetData = request.GET
 
-    broadcasterKey = rawGetData.get('broadcasterKey')
+    broadcasterPublicKey = rawGetData.get('broadcasterPublicKey')
 
     try:
 
-        response.content = BroadcasterDetails(broadcasterKey)
+        response.content = BroadcasterDetails(broadcasterPublicKey)
         return response
 
     except:
