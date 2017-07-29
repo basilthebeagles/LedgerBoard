@@ -22,10 +22,10 @@ def BlockDetails(blockIndex):
 
         numberOfPosts = len(postsOfBlock)
 
-        response = "Block hash: " + block.blockHash + "<br/><br/>Previous block hash: " + block.previousBlockHash + "<br/><br/>Index(height): " + str(blockIndex) +  "<br/><br/>Created at: " + ts + " (UTC)" + "<br/><br/>Number of posts: " + str(numberOfPosts) + "<br/><br/>Target(difficulty): " + str(block.target) + "<br/><br/>Nonce: " + str(block.nonce)
+        response = "Block hash: " + block.blockHash + "<br/>Previous block hash: " + block.previousBlockHash + "<br/>Index(height): " + str(blockIndex) +  "<br/>Created at: " + ts + " (UTC)" + "<br/>Number of posts: " + str(numberOfPosts) + "<br/>Target(difficulty): " + str(block.target) + "<br/>Nonce: " + str(block.nonce)
 
 
-        response += "<br/></br><br/>Posts of block: "
+        response += "<br/></br>Posts of block: "
 
         for post in postsOfBlock:
 
