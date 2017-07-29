@@ -64,7 +64,7 @@ while True:
             host = input("\nEnter the host (ip + port eg 127.0.0.1:4848) of the node you would like to initially broadcast to; enter default to use a default one: ")
 
             if host == "default":
-                host = "127.0.0.1:4847"
+                host = "ledgerboard.f-stack.com:4848"
 
 
             url = "\nhttp://" + str(host) + "/newPost/"

@@ -46,8 +46,8 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
 
 
-    amalgationA = str(previousBlock.index) + str(previousBlock.timeStamp) + str(previousBlock.timeStamp) + str(previousBlock.nonce) + intendedPostsForBlockStr
-    amalgationB = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockNonce) + intendedPostsForBlockStr
+    amalgationA = str(previousBlock.index) + str(previousBlock.timeStamp) + str(previousBlock.timeStamp) + str(previousBlock.nonce) + str(intendedPostsForBlock)
+    amalgationB = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockNonce) + str(intendedPostsForBlock)
 
     if newBlockStatus == True and amalgationA == amalgationB:
         print("newblock error: Block already exists on chain." )
