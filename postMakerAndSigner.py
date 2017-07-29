@@ -73,7 +73,7 @@ while True:
             url = "\nhttp://" + str(host) + "/newPost/"
             try:
                 print("Broadcasting to: " + str(url))
-                r = requests.post(url, data=payload, timeout=2)
+                r = requests.post(url, data=payload, timeout=10)
 
                 if r.text == "Success.":
                     print("\nPost has been successfully broadcasted to node")

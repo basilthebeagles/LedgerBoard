@@ -1,3 +1,17 @@
+## Explanation
+TBC
+
+## View the blockchain
+
+
+
+
+
+
+
+
+
+
 ## Installation
 
 1. Install Python 3.
@@ -14,10 +28,10 @@
 
 
 9. Change your directory to this repository.
-10. Run: `sudo gunicorn -b "0.0.0.0:4848" LedgerBoard.wsgi`
+10. If Linux/Mac: Run: `sudo gunicorn -b "0.0.0.0:4848" LedgerBoard.wsgi` otherwise run `python3 manage.py runserver 0.0.0.0:4848`
 11. Open another terminal window and change your directory to this repository.
 12. Find the IP of whatever machine you are on.
-13. Run: `sudo python3 manage.py startup your.ip:4848`
+13. Run: `sudo python3 manage.py StartUp your.ip:4848`
 
 Now you can leave your node to run in peace. It will update itself to the current chain and will then function normally.
 
