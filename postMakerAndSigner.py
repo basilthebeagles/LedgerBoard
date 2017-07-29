@@ -5,6 +5,7 @@ import hashlib
 import requests
 import sys
 import socket
+from datetime import datetime, timezone
 
 
 
@@ -19,6 +20,7 @@ while True:
         print("Your private key is: " + sk.to_string().hex())
         print("\nYour public key is: " + vk.to_string().hex())
         print("\nKeep your private key safe.")
+
     elif choice == '2':
 
 
@@ -35,32 +37,13 @@ while True:
 
         content = input("\nEnter the content of your post: ")
 
-        timeStamp = int(time.time())
 
 
-
-        totalPostContent = publicKey + str(timeStamp) + content
-        postHash = hashlib.sha256(totalPostContent.encode('utf-8')).hexdigest()
-        signature = sk.sign(bytes.fromhex(postHash)).hex()
-
-
-
-
-
-
-        payload = {
-
-            'pubk':str(publicKey),
-            'ts':str(timeStamp),
-            'content':str(content),
-            'sig':str(signature),
-            'originHost': str("127.0.0.1:9999")
-
-        }
-
-
+        reSign = False
 
         while True:
+
+
 
             host = input("\nEnter the host (ip + port eg 127.0.0.1:4848) of the node you would like to initially broadcast to; enter default to use a default one: ")
 
@@ -71,14 +54,51 @@ while True:
 
 
             url = "\nhttp://" + str(host) + "/newPost/"
+
+
+            timeStamp = int(time.time())
+
+            totalPostContent = publicKey + str(timeStamp) + content
+            postHash = hashlib.sha256(totalPostContent.encode('utf-8')).hexdigest()
+            signature = sk.sign(bytes.fromhex(postHash)).hex()
+
+            timeAndDate = datetime.fromtimestamp(timeStamp, timezone.utc)
+
+            ts = timeAndDate.strftime('%H:%M:%S %d/%m/%Y')
+
+            print("\nPost hash: " + str(postHash))
+
+            print("\nUse the above to identify your post if you search for it.")
+
+            print("\nSignature: " + str(signature))
+
+            payload = {
+
+                'pubk': str(publicKey),
+                'ts': str(timeStamp),
+                'content': str(content),
+                'sig': str(signature),
+                'originHost': str("127.0.0.1:9999")
+
+            }
+
+
+
+
+
             try:
-                print("Broadcasting to: " + str(url))
+                print("\nBroadcasting to : " + str(url))
                 r = requests.post(url, data=payload, timeout=10)
 
                 if r.text == "Success.":
                     print("\nPost has been successfully broadcasted to node")
+                    print("\nPosted at: " + str(ts))
+
                     break
+
                 print("\nError: " + r.text)
+
+
 
             except:
                 print("\nCould not connect")
