@@ -57,13 +57,12 @@ def distributeEntity(dataArray, type, originHost, selfHost):
 
         url = "http://" + str(node.host) + urlAddition
         try:
-            print(url)
+            print("distributing to:" + str(url))
             r = requests.post(url, data=payload, timeout=1)
             feedbackDictionary[str(node.host)] = r.content
             node.secondsSinceLastInteraction = 0
 
         except:
-            print("took too long or bad connection")
             feedbackDictionary[str(node.host)] = "Node took too long."
 
 

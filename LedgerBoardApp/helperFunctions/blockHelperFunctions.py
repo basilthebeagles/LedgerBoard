@@ -113,7 +113,6 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
     amountOfPostsThatAlreadyExist = 0
     previousPostTimeStamp = 0
     for post in intendedPostsForBlock:
-        print(post)
         if post[1] < previousPostTimeStamp:
             return "Posts given are not in order."
         else:
@@ -154,9 +153,8 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
         intendedPostsForBlockLength = len(intendedPostsForBlock)
         if intendedPostsForBlockLength != 0:
             if newBlockStatus and ((amountOfPostsThatAlreadyExist / intendedPostsForBlockLength) < 0.51):
+                print("Posts given do not match up enough with node's posts.")
                 return "Posts given do not match up enough with node's posts."
-
-
 
 
 
@@ -184,7 +182,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
 
         if nonce == (nonceRange[1] +1):
-            return "Could not mine."
+            return "x"
 
 
 
@@ -231,7 +229,6 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
         newBlock = Block(index=blockIndex, previousBlockHash=previousBlockHash, timeStamp=blockTimeStamp,
                          blockHash=blockHash, nonce=blockNonce, target=blockTarget)
 
-        print('block should be saved')
         newBlock.save()
         if miningStatus != True:
             badBlockHandler(True)
@@ -249,7 +246,6 @@ def metTarget(blockHash, blockTarget):
 
     if int(blockHash, 16) <= int(blockTarget, 16):
 
-        print('target met')
 
         return True
     else:
@@ -260,7 +256,12 @@ def metTarget(blockHash, blockTarget):
 def getTargetForBlock(index):
 
     if index < 2016:
-        return "0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+
+        genesisBlock = Block.objects.get(index=0)
+
+
+
+        return genesisBlock.target
                
 
     indexRangeB = index - 1
@@ -378,7 +379,7 @@ def badChainFixer(firstBadBlockTimeObject):
 
     blockArray = []
     try:
-        r = requests.post(url, timeout=0.5, data=payload)
+        r = requests.post(url, timeout=1, data=payload)
 
 
         blockArray = ast.literal_eval(str(r.text))
@@ -400,7 +401,6 @@ def badChainFixer(firstBadBlockTimeObject):
         for block in blockArray:
             if (count % 2 != 0):
                 count += 1
-                print("continuing")
                 continue
             #print("block: " + str(block))
 
@@ -445,8 +445,8 @@ def badChainFixer(firstBadBlockTimeObject):
         print("so called currentIndex:" + str(currentIndex))
         if block[0] != (currentIndex + 1):
 
-            print("BLACKLISTINGING AS blockArray is not sorted")
-            nodeHelperFunctions.blackList(highestNode['Host'])
+            #print("BLACKLISTINGING AS blockArray is not sorted")
+            #nodeHelperFunctions.blackList(highestNode['Host'])
             return 'blockArray is not sorted'
 
 
@@ -511,7 +511,6 @@ def badBlockHandler(chainableBlockOccured):
     firstbadBlockTime = 0
 
 
-
     firstBadBlockTimeObject = Data.objects.get(datumTitle="Time of First Bad Block After Chainable Block")
     if chainableBlockOccured:
         firstBadBlockTimeObject.datumContent = 0
@@ -530,7 +529,7 @@ def badBlockHandler(chainableBlockOccured):
         print("here^")
         return
 
-    timeToStartBadChainProcedures = firstBadBlockTime + 100 + random.randint(1, 50) #change this back to (100, 2400) and 2400
+    timeToStartBadChainProcedures = firstBadBlockTime + 2400 + random.randint(100, 2400) #change this back to (100, 2400) and 2400
     print("timeToStartBadChainProcedures: " + str(timeToStartBadChainProcedures))
     if currentTime - timeToStartBadChainProcedures > 0:
         feedback = "x"

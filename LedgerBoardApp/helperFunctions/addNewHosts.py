@@ -14,7 +14,7 @@ def AddNewHosts(host, version, selfHost):
     try:
 
         url = "http://" + str(host) + "/handShake/"
-        print(url)
+        print("connecting to " + str(url))
         payload = {
 
             'vers': 0.1,
@@ -23,8 +23,7 @@ def AddNewHosts(host, version, selfHost):
             'host': selfHost
 
         }
-        print(payload)
-        print('here')
+
 
         try:
             r = requests.post(url, data=payload, timeout=5)
@@ -36,7 +35,6 @@ def AddNewHosts(host, version, selfHost):
 
 
     if str(r.text) == "Connection created." or "Host already exists.":
-        print('here1')
         feedback = NewNode(host, version)
         if feedback == "":
             GetNewHosts(host, selfHost)

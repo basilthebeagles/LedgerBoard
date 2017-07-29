@@ -21,6 +21,12 @@ from LedgerBoardApp.helperFunctions.addNewHosts import AddNewHosts
 
 
 
+from LedgerBoardApp.Interface.postDetails import PostDetails
+from LedgerBoardApp.Interface.blockDetails import BlockDetails
+from LedgerBoardApp.Interface.broadcasterDetails import BroadcasterDetails
+
+
+
 
 from LedgerBoardApp.helperFunctions.nodeHelperFunctions import NewNode
 from LedgerBoardApp.helperFunctions.postHelperFunctions import NewPost
@@ -64,7 +70,6 @@ def newPost(request):
         response.content = feedback
         return response
 
-    print('bjj')
     response.status_code = 201
     response.content = "Success."
 
@@ -275,23 +280,52 @@ def getHeight(request):
         return response
 
 
+@csrf_exempt
+def interfaceBlockDetails(request):
+    response = HttpResponse()
+    rawGetData = request.GET
+    print(rawGetData)
+    index = rawGetData.get('blockIndex')
+    print(index)
+    try:
+
+
+        response.content = BlockDetails(index)
+        return response
+
+    except:
+        response.content = "no data given."
+        return response
+
 
 @csrf_exempt
-def addNewHosts(request):
+def interfacePostDetails(request):
     response = HttpResponse()
-    rawPostData = request.POST
-    host = str(rawPostData.__getitem__('host'))
-    version = str(rawPostData.__getitem__('vers'))
+    rawGetData = request.GET
 
-    feedback = AddNewHosts(host, version, str(request.get_host()))
+    postHash = rawGetData.get('postHash')
 
-    if feedback != '':
-        response.status_code = 406
-        response.content = feedback
-        return response
-    else:
-        response.status_code = 200
-        response.content = "success"
+    try:
+
+        response.content = PostDetails(postHash)
         return response
 
+    except:
+        response.content = "no data given."
+        return response
 
+@csrf_exempt
+def interfaceBroadcasterDetails(request):
+    response = HttpResponse()
+    rawGetData = request.GET
+
+    broadcasterKey = rawGetData.get('broadcasterKey')
+
+    try:
+
+        response.content = BroadcasterDetails(broadcasterKey)
+        return response
+
+    except:
+        response.content = "no data given."
+        return response

@@ -28,10 +28,16 @@ class Command(BaseCommand):
         for host in options['selfHost']:
             selfHost = host
 
+        timeOfLastValidBlock = int(time.time())
 
         feedback = ""
         while True: #we'll make this better
 
+
+            timeForValidBlockInMin = (time.time() - timeOfLastValidBlock) / 60
+
+            print("Valid block took "  + str(timeForValidBlockInMin) + " minutes. ")
+            timeOfLastValidBlock = int(time.time())
 
             latestBlock = Block.objects.latest('index')   #fix this up see if u can get the latest attribute
 
@@ -44,7 +50,12 @@ class Command(BaseCommand):
 
             print("protoTarget: " + protoTarget)
 
-            nonceRange = [1, 16]
+            nonceRange = [1, 68]
+
+            count = 0
+
+            currentTimeForMeasurement = int(time.time())
+
             while True:
 
                 currentTime = int(time.time())
@@ -58,9 +69,28 @@ class Command(BaseCommand):
                     
                     break
                 print(feedback)
-                nonceRange[0] = nonceRange[1] + 1
-                nonceRange[1] = nonceRange[1] + 68 #int(round(nonceRange[1] * 1.5))
 
+                if (count % 3 != 0) and count != 0:
+                    timeForBlockHashing = int(time.time()) - currentTimeForMeasurement
+
+                    timePerBlock = timeForBlockHashing / 204
+                    print(str(timePerBlock) + " hashes a second")
+
+
+
+                    currentTimeForMeasurement = int(time.time())
+                    count += 1
+
+
+
+
+
+
+
+
+                nonceRange[0] = nonceRange[1] + 1
+                nonceRange[1] = nonceRange[1] + 69 #int(round(nonceRange[1] * 1.5))
+                count += 1
             if feedback == "new valid block recieved whilst mining":
                 continue
 
@@ -68,4 +98,4 @@ class Command(BaseCommand):
             newBlockDataArray = [newBlock.index, newBlock.timeStamp, newBlock.previousBlockHash, newBlock.target, newBlock.nonce, str(posts)]
 
             distributeEntity.distributeEntity(newBlockDataArray, 'block', selfHost, selfHost)
-            time.sleep(10)
+            #take me out

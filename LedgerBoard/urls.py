@@ -29,6 +29,10 @@ urlpatterns = [
     url(r'getPosts/', views.getPosts),
     url(r'getNodes/', views.getNodes),
     url(r'getHeight/', views.getHeight),
-    url(r'addNewHost/', views.addNewHosts),
+    url(r'interfaceBlockDetails/', views.interfaceBlockDetails),
+    url(r'interfacePostDetails/', views.interfacePostDetails),
+    url(r'interfaceBroadcasterDetails/', views.interfaceBroadcasterDetails),
+
+
 
 ]

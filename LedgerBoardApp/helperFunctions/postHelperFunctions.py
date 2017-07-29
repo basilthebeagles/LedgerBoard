@@ -45,6 +45,11 @@ def NewPost(publicKey, timeStamp, content, signature, notNewToNetwork):
 
     postRecord.save()
 
+    print("Added post.")
+    print("Public key of sender: " + str(postRecord.publicKeyOfSender))
+    print("Content: " + str(postRecord.content))
+
+
     return ""
 #pass on post to other nodes!!!!!!!!!!!!
 

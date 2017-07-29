@@ -9,17 +9,17 @@ import bcrypt
 
 
 #blockTotalContents = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockTarget) + str(appendedPostHashesArray)
-'''
-blockTotalContents = str(0) + str(1499204714) + str("411b5590ae9bc2b58edb8ffc8605bff8d6d0ff0e69e245963a04b06e59b0e053") + str("0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF") + str("[]")
+
+blockTotalContents = str(0) + str(1499204714) + str("411b5590ae9bc2b58edb8ffc8605bff8d6d0ff0e69e245963a04b06e59b0e053") + str("006FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF") + str("[]")
 blockPreHash = hashlib.sha256(blockTotalContents.encode('utf-8')).hexdigest()
 #print(hashlib.sha256("New World".encode('utf-8')).hexdigest())
 blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt=bytes(1), rounds=100,
                        desired_key_bytes=32).hex()
 print(blockHash)
 
-'''
 
-blockTotalContents = str(1) + str(1501252359) + str('dafc999b0028b1a470ac7e137111c457e7a4eeb747c92ceb9d66bc8344b4af20') + str('0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF') + str(['2f22d7ad43f2cdb4352edbd18c6c01ec7dc27b0a10864e38f9746745d42a8138'])
+
+blockTotalContents = str(1) + str(1501252359) + str('dafc999b0028b1a470ac7e137111c457e7a4eeb747c92ceb9d66bc8344b4af20') + str('000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF') + str(['2f22d7ad43f2cdb4352edbd18c6c01ec7dc27b0a10864e38f9746745d42a8138'])
 blockPreHash = hashlib.sha256(blockTotalContents.encode('utf-8')).hexdigest()
 blockHash = bcrypt.kdf(password=bytes.fromhex(blockPreHash), salt=bytes(4), rounds=100,
                        desired_key_bytes=32).hex()

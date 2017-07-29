@@ -31,10 +31,8 @@ def getHighestNode(currentIndex):
     for node in nodes:
         if int(node.timeOfBlackList) != 0:
             continue
-        print('here')
 
         host = node.host
-        print(host)
 
         url = "http://" + host + "/getHeight/"
         try:
