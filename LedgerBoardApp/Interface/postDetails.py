@@ -17,7 +17,7 @@ def PostDetails(postHash):
 
         timeAndDate.dst()
 
-        ts = timeAndDate.strftime('%H:%M:%S %d/%m/%Y')
+        ts = timeAndDate.strftime('%d/%m/%Y %H:%M:%S')
 
 
         height = int(GetHeight()[1])
@@ -37,7 +37,7 @@ def PostDetails(postHash):
 
         print("returning2")
 
-        return "Post Hash: " + post.postHash + "<br/>Broadcaster: " + post.publicKeyOfSender + "<br/>Posted at: " + str(ts) + " (UTC)" + "<br/></br>Content: " + post.content   + "</br><br/>Included in block: " + text + "<br/>Confirmations: " + str(confirmations) + "<br/>Signature: " + post.signature + "<br/><br/><br/>"
+        return "Post Hash: " + post.postHash + "<br/>Broadcaster: " + post.publicKeyOfSender + "<br/>Posted at: " + str(ts) + " (UTC)"+ "<br/>Confirmations: " + str(confirmations) + "<br/>Included in block: " + text +  "<br/>Content: " + post.content   + "<br/>Signature: " + post.signature + "<br/><br/><br/>"
 
 
 
