@@ -5,3 +5,10 @@ randomPostSender.py
 testDataMaker.py
 
 __pycache__/*
+
+LedgerBoardApp/helperFunctions/__pycache__/*
+LedgerBoardApp/Interface/__pycache__/*
+LedgerBoardApp/management/commands/__pycache__/*
+LedgerBoardApp/__pycache__/*
+
+

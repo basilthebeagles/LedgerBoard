@@ -280,7 +280,7 @@ def interfacePostDetails(request):
 
     postHash = rawGetData.get('postHash')
 
-    try:
+    try:h
 
         response.content = PostDetails(postHash)
         return response
