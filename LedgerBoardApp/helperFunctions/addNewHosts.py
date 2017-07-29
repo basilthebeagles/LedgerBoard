@@ -34,9 +34,10 @@ def AddNewHosts(host, version, selfHost):
 
     if str(r.text) == "Connection created." or "Host already exists.":
         feedback = NewNode(host, version)
+        print("new node feedback: " + feedback)
         if feedback == "":
             GetNewHosts(host, selfHost)#get new nodes from the node we have just added
-            return ''
+            return ""
         elif feedback == "" and str(r.text) == "Host already exists.":
             GetNewHosts(host, selfHost)
 
@@ -61,6 +62,10 @@ def GetNewHosts(host, selfHost):
         nodeArray = ast.literal_eval(str(r.text))
 
         for node in nodeArray: #handshake with list of nodes recieved
+
+            if node[0] == selfHost:
+                continue
+
             feedback = AddNewHosts(node[0], node[1], selfHost )
             print(feedback)
 

@@ -4,6 +4,7 @@ import hashlib
 
 import requests
 import sys
+import socket
 
 
 
@@ -64,13 +65,15 @@ while True:
             host = input("\nEnter the host (ip + port eg 127.0.0.1:4848) of the node you would like to initially broadcast to; enter default to use a default one: ")
 
             if host == "default":
-                host = "ledgerboard.f-stack.com:4848"
+                ip = socket.gethostbyname("ledgerboard.f-stack.com")
+                host = str(ip) + ":4848"
+
 
 
             url = "\nhttp://" + str(host) + "/newPost/"
             try:
                 print("Broadcasting to: " + str(url))
-                r = requests.post(url, data=payload, timeout=1)
+                r = requests.post(url, data=payload, timeout=2)
 
                 if r.text == "Success.":
                     print("\nPost has been successfully broadcasted to node")
@@ -90,3 +93,4 @@ while True:
                 sys.exit()
     else:
         sys.exit()
+

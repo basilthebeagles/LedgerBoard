@@ -4,7 +4,7 @@ from LedgerBoardApp.models import Data
 from LedgerBoardApp.helperFunctions import getHeight
 import time
 import requests
-
+import socket
 
 from LedgerBoardApp.models import Block
 from LedgerBoardApp.models import Post
@@ -51,14 +51,17 @@ class Command(BaseCommand):
                 node.delete()
 
         savedNodes.update()
-        print('now1')
         if savedNodes.__len__() == 0:
-            feedback = addNewHosts.AddNewHosts("ledgerboard.f-stack.com:4848", 0.1, selfHost)
+            try:
+                ip = socket.gethostbyname("ledgerboard.f-stack.com")
+                host = str(ip) + ":4848"
+                feedback = addNewHosts.AddNewHosts(host, 0.1, selfHost)
+            except:
+                return "connecting to default node failed."
             print("USING DEFAULT NODE")
-            if feedback != "we are already on other hosts list. But we have now added that host." or feedback != "":
+            if feedback != "we are already on other hosts list. But we have now added that host." and feedback != "":
                 return (feedback)
 
-        print('now2')
 
         feedback = "-"
         firstBadBlockTimeObject = Data.objects.get(datumTitle="Time of First Bad Block After Chainable Block")
