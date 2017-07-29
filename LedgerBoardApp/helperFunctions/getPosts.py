@@ -1,6 +1,5 @@
 from LedgerBoardApp.models import Post
 
-from LedgerBoardApp.models import Block
 import ast
 
 

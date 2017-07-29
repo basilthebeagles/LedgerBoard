@@ -3,12 +3,10 @@ import time
 import requests
 
 import bcrypt
-import operator
 
 from LedgerBoardApp.models import Block
 from LedgerBoardApp.models import Post
 from LedgerBoardApp.models import Data
-from LedgerBoardApp.models import Node
 
 from LedgerBoardApp.helperFunctions import getHeight
 from LedgerBoardApp.helperFunctions import postHelperFunctions
@@ -20,17 +18,6 @@ import ast
 
 
 import random
-
-#need OrphanBlock procedures
-
-
-
-
-
-
-
-
-
 
 
 
@@ -59,8 +46,8 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
 
 
-    amalgationA = str(previousBlock.index) + str(previousBlock.timeStamp) + str(previousBlock.timeStamp) + str(previousBlock.nonce)
-    amalgationB = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockNonce)
+    amalgationA = str(previousBlock.index) + str(previousBlock.timeStamp) + str(previousBlock.timeStamp) + str(previousBlock.nonce) + intendedPostsForBlockStr
+    amalgationB = str(blockIndex) + str(blockTimeStamp) + str(previousBlockHash) + str(blockNonce) + intendedPostsForBlockStr
 
     if newBlockStatus == True and amalgationA == amalgationB:
         print("newblock error: Block already exists on chain." )
@@ -72,7 +59,6 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
     if previousBlock.blockHash != previousBlockHash:
 
 
-        #replace this with time since good block
 
         print("previousBlockHash:   " + previousBlock.blockHash)
         print("so called prev hash:   " + previousBlockHash)
@@ -149,7 +135,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
             appendedPostHashesArray.append(feedback[1])
 
 
-    if orphanBlockStatus != True:
+    if orphanBlockStatus != True: #in this situation (if orphan was true) none of the given posts would exist in the database already since they would be deleted/different as different chain
         intendedPostsForBlockLength = len(intendedPostsForBlock)
         if intendedPostsForBlockLength != 0:
             if newBlockStatus and ((amountOfPostsThatAlreadyExist / intendedPostsForBlockLength) < 0.51):
@@ -306,7 +292,8 @@ def getTargetForBlock(index):
     return hex(target)
 
 
-
+#below function will be called at startup or when node hasnt received a valid block for a while (indicates that it may've gone off chain after an orphan block)
+#So it identifies the blocks it is missing when compared to the longest chain and then deletes any 'off chain blocks' and reconfigures to the longest chain.
 
 def badChainFixer(firstBadBlockTimeObject):
 
@@ -340,7 +327,7 @@ def badChainFixer(firstBadBlockTimeObject):
         postArray = []
 
         try:
-            r = requests.post(url, timeout=0.5, data=payload)
+            r = requests.post(url, timeout=2, data=payload)
 
             postArray = ast.literal_eval(str(r.text))
         except:
@@ -379,7 +366,7 @@ def badChainFixer(firstBadBlockTimeObject):
 
     blockArray = []
     try:
-        r = requests.post(url, timeout=1, data=payload)
+        r = requests.post(url, timeout=2, data=payload)
 
 
         blockArray = ast.literal_eval(str(r.text))
@@ -485,7 +472,7 @@ def badChainFixer(firstBadBlockTimeObject):
 
 
     try:
-        r = requests.post(url, timeout=0.5, data=payload)
+        r = requests.post(url, timeout=2, data=payload)
 
 
         postArray = ast.literal_eval(str(r.text))
@@ -506,6 +493,9 @@ def badChainFixer(firstBadBlockTimeObject):
 
 
     return ""
+
+#this function decides whether the node has gone off chain or not (due to orphan block etc).
+
 
 def badBlockHandler(chainableBlockOccured):
     firstbadBlockTime = 0
@@ -529,7 +519,7 @@ def badBlockHandler(chainableBlockOccured):
         print("here^")
         return
 
-    timeToStartBadChainProcedures = firstBadBlockTime + 2400 + random.randint(100, 2400) #change this back to (100, 2400) and 2400
+    timeToStartBadChainProcedures = firstBadBlockTime + 2400 + random.randint(100, 2400) #
     print("timeToStartBadChainProcedures: " + str(timeToStartBadChainProcedures))
     if currentTime - timeToStartBadChainProcedures > 0:
         feedback = "x"

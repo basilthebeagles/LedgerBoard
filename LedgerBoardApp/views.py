@@ -1,11 +1,9 @@
-# Create your views here.
-#need to handle orphans etc.
+
 
 import time
 
 
 from django.http import HttpResponse
-#from django.http import JsonResponse
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
@@ -16,7 +14,6 @@ from LedgerBoardApp.helperFunctions.getBlocks import GetBlocks
 from LedgerBoardApp.helperFunctions.getPosts import GetPosts
 from LedgerBoardApp.helperFunctions.getNodes import GetNodes
 from LedgerBoardApp.helperFunctions.getHeight import GetHeight
-from LedgerBoardApp.helperFunctions.addNewHosts import AddNewHosts
 
 
 
@@ -35,21 +32,16 @@ from LedgerBoardApp.helperFunctions.postHelperFunctions import NewPost
 
 @csrf_exempt
 
-#create a getconnections view
 
 def newPost(request):
-    #error handling pls
 
-    #gen = Block(index = 0, previousBlockHash= "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9", timeStamp= time.time())
-
-    #gen.save()
 
     response = HttpResponse()
     rawPostData = request.POST
     try:
         publicKey = str(rawPostData.__getitem__('pubk'))
 
-        timeStamp = int(rawPostData.__getitem__('ts')) #verify this later
+        timeStamp = int(rawPostData.__getitem__('ts'))
 
         content = str(rawPostData.__getitem__('content'))
 
@@ -127,7 +119,7 @@ def handShake(request):
     version = ""
     currentTime = 0
     givenTime = 0
-   # defaultStatus = False
+
 
     try:
         if rawPostData.__getitem__('programName') == 'LedgerBoard':
@@ -144,7 +136,6 @@ def handShake(request):
 
                 currentTime = time.time()
                 print('handshake fine1')
-                #defaultStatus = rawPostData.__getitem__('defaultStatus')
 
 
 
@@ -234,17 +225,9 @@ def getNodes(request):
     response = HttpResponse()
     rawPostData = request.POST
 
-    ''' 
-    try:
-        attribute = rawPostData.__getitem__('attribute')
-        attributeParameter = rawPostData.__getitem__('attributeData')
 
-    except:
-        response.status_code = 406
-        response.content = "Missing data."
-    '''
 
-    feedback = GetNodes()#attribute, attributeParameter)
+    feedback = GetNodes()
     if feedback[0] == "":
         response.content = str(feedback[1])
         response.status_code = 200
@@ -259,15 +242,7 @@ def getHeight(request):
     response = HttpResponse()
     rawPostData = request.POST
 
-    ''' 
-    try:
-        attribute = rawPostData.__getitem__('attribute')
-        attributeParameter = rawPostData.__getitem__('attributeData')
 
-    except:
-        response.status_code = 406
-        response.content = "Missing data."
-    '''
 
     feedback = GetHeight()
     if feedback[0] == "":

@@ -2,10 +2,9 @@ from LedgerBoardApp.models import Block
 from datetime import datetime, timezone
 
 from LedgerBoardApp.models import Post
-from LedgerBoardApp.helperFunctions.getHeight import GetHeight
 from LedgerBoardApp.Interface.postDetails import PostDetails
 
-
+#this and the others in this folder are used to answer user requests via http for details of blocks etc...
 
 def BlockDetails(blockIndex):
 

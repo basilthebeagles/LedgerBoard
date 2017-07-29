@@ -1,10 +1,9 @@
 
 import requests
 from LedgerBoardApp.models import Node
-from LedgerBoardApp.helperFunctions import getPosts
 
 
-
+#distributes a new post or block to all known nodes
 
 def distributeEntity(dataArray, type, originHost, selfHost):
 
@@ -58,7 +57,7 @@ def distributeEntity(dataArray, type, originHost, selfHost):
         url = "http://" + str(node.host) + urlAddition
         try:
             print("distributing to:" + str(url))
-            r = requests.post(url, data=payload, timeout=1)
+            r = requests.post(url, data=payload, timeout=2)
             feedbackDictionary[str(node.host)] = r.content
             node.secondsSinceLastInteraction = 0
 

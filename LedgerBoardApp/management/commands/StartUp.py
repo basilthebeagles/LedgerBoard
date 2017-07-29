@@ -1,40 +1,29 @@
 from django.core.management.base import BaseCommand, CommandError
-from django.db import models
-import time
 
-from LedgerBoardApp.models import Node
-from LedgerBoardApp.helperFunctions import blockHelperFunctions
 from LedgerBoardApp.models import Data
 from LedgerBoardApp.helperFunctions import getHeight
-import hashlib
 import time
 import requests
 
-import bcrypt
-import operator
 
 from LedgerBoardApp.models import Block
 from LedgerBoardApp.models import Post
-from LedgerBoardApp.models import Node
 
 from LedgerBoardApp.helperFunctions import postHelperFunctions
-from LedgerBoardApp.helperFunctions import nodeHelperFunctions
 from LedgerBoardApp.helperFunctions import blockHelperFunctions
-
-
 
 
 import ast
 
-
-import random
 from LedgerBoardApp.helperFunctions import nodeHelperFunctions
 from LedgerBoardApp.helperFunctions import addNewHosts
 
 from LedgerBoardApp.models import Node
-#call this something else
 
 
+
+
+#this should be called whenever the node starts up. This is because it ensures that the node is up to date.
 class Command(BaseCommand):
 
     def add_arguments(self, parser):

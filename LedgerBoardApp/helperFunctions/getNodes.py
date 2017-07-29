@@ -1,6 +1,7 @@
 from LedgerBoardApp.models import Node
 import random
-import requests
+
+#returns all the node's known nodes.
 
 def GetNodes():
 

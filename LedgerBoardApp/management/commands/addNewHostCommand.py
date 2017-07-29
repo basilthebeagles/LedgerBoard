@@ -4,7 +4,7 @@ from LedgerBoardApp.helperFunctions.addNewHosts import AddNewHosts
 
 #call this something else
 
-
+#used to manually add new node
 
 
 

@@ -1,5 +1,4 @@
 from LedgerBoardApp.models import Node
-from LedgerBoardApp.helperFunctions import getNodes
 import requests
 import time
 
@@ -36,7 +35,7 @@ def getHighestNode(currentIndex):
 
         url = "http://" + host + "/getHeight/"
         try:
-            r = requests.get(url, timeout=1)
+            r = requests.get(url, timeout=2)
 
             height = int(r.text)
             print('height: ' + str(height))

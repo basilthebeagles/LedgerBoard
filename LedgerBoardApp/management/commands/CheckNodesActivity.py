@@ -11,6 +11,8 @@ from LedgerBoardApp.models import Node
 
 
 
+#should be set up so that it is automatically called by the OS. Keeps node fast.
+
 class Command(BaseCommand):
 
     def add_arguments(self, parser):

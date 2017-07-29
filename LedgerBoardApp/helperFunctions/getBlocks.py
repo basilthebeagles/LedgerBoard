@@ -2,6 +2,9 @@ from LedgerBoardApp.models import Block
 import ast
 from LedgerBoardApp.helperFunctions import getPosts
 
+
+#returns an array in this format [blockDataArray, postsOfBlock, ...]
+
 def GetBlocks(attribute, attributeParameters):
 
     parameters = ast.literal_eval(str(attributeParameters))

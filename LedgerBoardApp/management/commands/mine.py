@@ -1,9 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
-from django.db.models import Max
-from django.db import models
+
 import time
 import hashlib
-from LedgerBoardApp.models import Post
 from LedgerBoardApp.models import Block
 from LedgerBoardApp.helperFunctions import blockHelperFunctions
 from LedgerBoardApp.helperFunctions import distributeEntity
