@@ -261,7 +261,6 @@ def interfaceBlockDetails(request):
     rawGetData = request.GET
     print(rawGetData)
     index = rawGetData.get('blockIndex')
-    print(index)
     try:
 
 
