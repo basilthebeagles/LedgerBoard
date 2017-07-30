@@ -46,7 +46,7 @@ class Command(BaseCommand):
         for node in savedNodes:
             url = "http://" + node.host + "/getBlocks/"
             try:
-                r = requests.post(url=url, timeout=1)
+                r = requests.post(url=url, timeout=2)
             except:
                 node.delete()
 

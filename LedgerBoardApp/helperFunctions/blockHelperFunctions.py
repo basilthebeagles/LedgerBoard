@@ -60,15 +60,15 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
 
 
-        print("previousBlockHash:   " + previousBlock.blockHash)
-        print("so called prev hash:   " + previousBlockHash)
+        #print("previousBlockHash:   " + previousBlock.blockHash)
+        #print("so called prev hash:   " + previousBlockHash)
 
 
         if newBlockStatus:
 
             badBlockHandler(False)
 
-        print("newblock error: Block does not fit on chain.")
+        #print("newblock error: Block does not fit on chain.")
 
 
         return "Block does not fit on chain."
@@ -76,7 +76,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
 
 
     if previousBlock.index >= blockIndex and newBlockStatus != True:
-        print("newblock error: block is old")
+        #print("newblock error: block is old")
 
         return "Block is old."
     
@@ -139,7 +139,7 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
         intendedPostsForBlockLength = len(intendedPostsForBlock)
         if intendedPostsForBlockLength != 0:
             if newBlockStatus and ((amountOfPostsThatAlreadyExist / intendedPostsForBlockLength) < 0.51):
-                print("Posts given do not match up enough with node's posts.")
+                #print("Posts given do not match up enough with node's posts.")
                 return "Posts given do not match up enough with node's posts."
 
 
@@ -218,11 +218,11 @@ def blockHandler(blockIndex, blockTimeStamp, previousBlockHash, blockTarget, blo
         newBlock.save()
         if miningStatus != True:
             badBlockHandler(True)
-        print("added new block: " + str(blockHash))
+        #print("added new block: " + str(blockHash))
         return ""
     else:
         badBlockHandler(False)
-        print("newblock error: did not meet target")
+        #print("newblock error: did not meet target")
 
         return "Did not meet target."
 
@@ -359,7 +359,7 @@ def badChainFixer(firstBadBlockTimeObject):
 
     url = "http://" + highestNode['Host'] + "/getBlocks/"
 
-
+    print(url)
 
     payload = {'attribute' : 'index', 'attributeParameters' : str(blockIndexRange)}
 
@@ -515,12 +515,12 @@ def badBlockHandler(chainableBlockOccured):
         firstBadBlockTimeObject.datumContent = int(time.time())
 
         firstBadBlockTimeObject.save()
-        print(firstBadBlockTimeObject.datumContent)
-        print("here^")
+        #print(firstBadBlockTimeObject.datumContent)
+        #print("here^")
         return
 
     timeToStartBadChainProcedures = firstBadBlockTime + 2400 + random.randint(100, 2400) #
-    print("timeToStartBadChainProcedures: " + str(timeToStartBadChainProcedures))
+    #print("timeToStartBadChainProcedures: " + str(timeToStartBadChainProcedures))
     if currentTime - timeToStartBadChainProcedures > 0:
         feedback = "x"
 
