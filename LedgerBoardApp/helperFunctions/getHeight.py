@@ -8,6 +8,5 @@ def GetHeight():
 
 
     height = previousBlock.index
-    print(height)
 
     return ("", str(height))
