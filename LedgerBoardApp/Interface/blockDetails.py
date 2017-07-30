@@ -12,10 +12,10 @@ def BlockDetails(blockIndex):
 
 
     if blockIndex == 'latest':
-
+        print("here")
         currentIndex = int(GetHeight()[1])
 
-        block = Block.objects.get(index=currentIndex)
+        block = Block.objects.filter(index=currentIndex)
 
     else:
         block = Block.objects.filter(index=blockIndex)
