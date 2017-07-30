@@ -12,7 +12,6 @@ def BlockDetails(blockIndex):
 
 
     if blockIndex == 'latest':
-        print("here")
         blockIndex = int(GetHeight()[1])
 
 
