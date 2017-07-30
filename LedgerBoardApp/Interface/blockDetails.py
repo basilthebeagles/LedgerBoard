@@ -37,12 +37,12 @@ def BlockDetails(blockIndex):
         count = 0
         for post in postsOfBlock:
 
-            response += "<br/>" + PostDetails(post.postHash)
+            response += "<br/></br>" + PostDetails(post.postHash)
 
             count += 1
 
         if count == 0:
-            response += "<br/></br><h4>No Posts In Block"
+            response += "<br/><h4>No Posts In Block"
         return response
 
 
