@@ -30,7 +30,7 @@ def PostDetails(postHash):
             text = "not included yet"
             confirmations = "N/A"
         else:
-            confirmations = height - int(post.blockIndex)
+            confirmations = (height - int(post.blockIndex)) + 1
 
             text = str(post.blockIndex)
 

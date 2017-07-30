@@ -12,3 +12,5 @@ LedgerBoardApp/management/commands/__pycache__/*
 LedgerBoardApp/__pycache__/*
 
 
+*.pwc
+*.pyc
