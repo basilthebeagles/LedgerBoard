@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 
 from LedgerBoardApp.models import Post
 from LedgerBoardApp.Interface.postDetails import PostDetails
+from LedgerBoardApp.helperFunctions.getHeight import GetHeight
 
 #this and the others in this folder are used to answer user requests via http for details of blocks etc...
 
@@ -11,7 +12,10 @@ def BlockDetails(blockIndex):
 
 
     if blockIndex == 'latest':
-        block = Block.objects.latest('index')
+
+        currentIndex = int(GetHeight()[1])
+
+        block = Block.objects.get(index=currentIndex)
 
     else:
         block = Block.objects.filter(index=blockIndex)
