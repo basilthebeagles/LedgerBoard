@@ -19,7 +19,7 @@ TBC
 2. Run: `sudo pip3 install django`
 3. Run: `sudo pip3 install requests`
 4. Run: `sudo pip3 install ecdsa`
-5. Run: `sudo pip3 install bcrypt` If this doesn't work use `sudo apt-get install bcrypt`
+5. Run: `sudo pip3 install bcrypt` If this doesn't work use `sudo apt-get install bcrypt` And if that doesn't work use `sudo apt-get install libffi6 libffi-dev` and then `sudo pip3 install bcrypt` again.
 6. Run `sudo pip3 install gunicorn`
 7. If, forwhatever reason, pip is not installed refer to [here.](https://pip.pypa.io/en/stable/installing/)
 8. Clone/download this repository.
