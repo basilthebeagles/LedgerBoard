@@ -1,6 +1,8 @@
 
 import requests
 from LedgerBoardApp.models import Node
+import time
+
 
 
 #distributes a new post or block to all known nodes
@@ -54,14 +56,22 @@ def distributeEntity(dataArray, type, originHost, selfHost):
         if node.host == originHost:
             continue
 
+        currentTime = int(time.time())
+
         url = "http://" + str(node.host) + urlAddition
         try:
             print("distributing to:" + str(url))
-            r = requests.post(url, data=payload, timeout=2)
+            r = requests.post(url, data=payload, timeout=4)
             feedbackDictionary[str(node.host)] = r.content
-            node.secondsSinceLastInteraction = 0
+            node.secondsSinceLastInteraction = currentTime
+            node.save()
 
         except:
+
+            if node.secondsSinceLastInteraction < currentTime - 5400:
+                node.delete()
+
+
             feedbackDictionary[str(node.host)] = "Node took too long."
 
 

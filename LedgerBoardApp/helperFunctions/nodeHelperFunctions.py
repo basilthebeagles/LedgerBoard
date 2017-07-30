@@ -11,8 +11,9 @@ def NewNode(host, version):
         feedback = "Host already exists."
 
         return feedback #basically say it exist already
+    currentTime = int(time.time())
 
-    node = Node(host = host, version=version, secondsSinceLastInteraction=0, timeOfBlackList=0)
+    node = Node(host = host, version=version, secondsSinceLastInteraction=currentTime, timeOfBlackList=0)
     node.save()
     return feedback
 
