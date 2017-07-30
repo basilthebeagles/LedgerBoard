@@ -9,7 +9,12 @@ from LedgerBoardApp.Interface.postDetails import PostDetails
 def BlockDetails(blockIndex):
 
 
-    block = Block.objects.filter(index=blockIndex)
+
+    if blockIndex == 'latest':
+        block = Block.objects.latest('index')
+
+    else:
+        block = Block.objects.filter(index=blockIndex)
 
     if block.exists():
         block = Block.objects.get(index=blockIndex)
@@ -22,7 +27,7 @@ def BlockDetails(blockIndex):
 
         numberOfPosts = len(postsOfBlock)
 
-        response = "Block hash: " + block.blockHash + "<br/>Previous block hash: " + block.previousBlockHash + "<br/>Index(height): " + str(blockIndex) +  "<br/>Created at: " + ts + " (UTC)" + "<br/>Number of posts: " + str(numberOfPosts) + "<br/>Target(difficulty): " + str(block.target) + "<br/>Nonce: " + str(block.nonce)
+        response = "Block hash: " + block.blockHash + "<br/>Previous block hash: " + block.previousBlockHash + "<br/>Index(height): " + str(block.index) +  "<br/>Created at: " + ts + " (UTC)" + "<br/>Number of posts: " + str(numberOfPosts) + "<br/>Target(difficulty): " + str(block.target) + "<br/>Nonce: " + str(block.nonce)
 
 
         response += "<br/></br>Posts of block: "
