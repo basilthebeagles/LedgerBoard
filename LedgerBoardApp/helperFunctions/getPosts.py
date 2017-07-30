@@ -37,7 +37,6 @@ def GetPosts(attribute, attributeParameters):
 
             postArray.append(postDataArray)
 
-            print(post.timeStamp)
         return ("", postArray)
 
 
