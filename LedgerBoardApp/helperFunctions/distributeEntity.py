@@ -68,7 +68,7 @@ def distributeEntity(dataArray, type, originHost, selfHost):
 
         except:
 
-            if node.secondsSinceLastInteraction < currentTime - 5400:
+            if int(node.secondsSinceLastInteraction) < int(currentTime - 5400):
                 node.delete()
 
 

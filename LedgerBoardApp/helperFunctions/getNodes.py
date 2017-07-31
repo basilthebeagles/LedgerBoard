@@ -1,5 +1,6 @@
 from LedgerBoardApp.models import Node
 import random
+import time
 
 #returns all the node's known nodes.
 
@@ -10,11 +11,11 @@ def GetNodes():
 
         nodes = Node.objects.all()
 
-
+        currentTime = int(time.time)
 
         for node in nodes:
 
-            if node.secondsSinceLastInteraction > 5400:
+            if int(node.secondsSinceLastInteraction) < int(currentTime - 5400):
                 node.delete()
             elif node.timeOfBlackList != 0:
                 continue
