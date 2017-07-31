@@ -11,7 +11,7 @@ def GetNodes():
 
         nodes = Node.objects.all()
 
-        currentTime = int(time.time)
+        currentTime = int(time.time())
 
         for node in nodes:
 
