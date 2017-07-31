@@ -14,9 +14,10 @@ from LedgerBoardApp.helperFunctions.getBlocks import GetBlocks
 from LedgerBoardApp.helperFunctions.getPosts import GetPosts
 from LedgerBoardApp.helperFunctions.getNodes import GetNodes
 from LedgerBoardApp.helperFunctions.getHeight import GetHeight
+from LedgerBoardApp.helperFunctions.addNewHosts import AddNewHosts
 
 
-
+from LedgerBoardApp.models import Node
 
 from LedgerBoardApp.Interface.postDetails import PostDetails
 from LedgerBoardApp.Interface.blockDetails import BlockDetails
@@ -50,10 +51,15 @@ def newPost(request):
         selfHost = str(request.get_host())
         originHost = str(rawPostData.__getitem__('originHost'))
 
+
+
+
     except:
         response.status_code = 406
         response.content = "Missing content."
         return response
+
+
 
     feedback = NewPost(publicKey, timeStamp, content, signature, False)
 
@@ -61,6 +67,7 @@ def newPost(request):
         response.status_code = 406
         response.content = feedback
         return response
+    nodeInteractionUpdater(originHost, selfHost)
 
     response.status_code = 201
     response.content = "Success."
@@ -94,12 +101,15 @@ def newBlock(request):
         response.content = "Missing content."
         return response
 
+
+
     feedback = blockHandler(blockIndex, timeStamp, previousBlockHash, target, nonce, postArray, True, False, False, [0, 0])
 
     if feedback != "":
         response.status_code = 406
         response.content = feedback
         return response
+    nodeInteractionUpdater(originHost, selfHost)
 
     response.status_code = 201
     response.content = "Success."
@@ -303,3 +313,22 @@ def interfaceBroadcasterDetails(request):
     except:
         response.content = "no data given."
         return response
+
+
+def nodeInteractionUpdater(host, selfHost):
+
+
+    currentTime = int(time.time())
+
+    try:
+        node = Node.objects.get(host=str(host))
+        node.secondsSinceLastInteraction = currentTime
+        node.save()
+
+    except:
+        try:
+            AddNewHosts(host, 0.1, selfHost)
+        except:
+            print('')
+
+    return
