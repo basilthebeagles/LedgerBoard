@@ -1,10 +1,5 @@
-## Explanation
-TBC
-
-## View the blockchain
-
-Go to [here](http://f-stack.com/LedgerBoard-Blockchain-Information.html) to view information about 
-
+## Explanation and Information
+Refer to [here](http://f-stack.com/LedgerBoard.html). 
 
 
 
@@ -28,6 +23,7 @@ Go to [here](http://f-stack.com/LedgerBoard-Blockchain-Information.html) to view
 
 
 9. Change your directory to this repository.
+10. Make sure that port 4848 is forwarded.
 10. If Linux/Mac: Run: `sudo gunicorn -b "0.0.0.0:4848" LedgerBoard.wsgi` otherwise run `python3 manage.py runserver 0.0.0.0:4848`
 11. Open another terminal window and change your directory to this repository.
 12. Find the IP of whatever machine you are on.
