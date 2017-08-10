@@ -29,13 +29,28 @@ Refer to [here](http://f-stack.com/LedgerBoard.html).
 12. Find the IP of whatever machine you are on.
 13. Run: `sudo python3 manage.py StartUp your.ip:4848` Run this 3-4 times for good measure. 
 
-Now you can leave your node to run in peace. It will update itself to the current chain and will then function normally.
+The following steps are not necessarily necessary but they may be useful. They involve setting up an automated command so that the node regularly updates it's connected nodes and blocks; just incase it missed a few.
+
+Create a file that contains the following text:
+
+`#!/bin/bash`
+`sudo python3 manage.py StartUp your.ip:4848`
+
+1. Make it executable with: `chmod +x file`
+2. Then use `crontab -e` to write: `*/59 * * * * /path/to/LedgerBoard/command.sh`
+3. Save the file.
+
+
+ Now you can leave your node to run in peace. It will update itself to the current chain and will then function normally.
+
+
+
 
 ## Mining
 1. Run `sudo python3 manage.py mine your.ip:4848`
 
 If you wish to mine on multiple cores then open additional windows and run the above command.
-`
+
 
 ## Commands
 
