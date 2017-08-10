@@ -37,7 +37,7 @@ Create a file that contains the following text:
 `sudo python3 manage.py StartUp your.ip:4848`
 
 1. Make it executable with: `chmod +x file`
-2. Then use `crontab -e` to write: `*/59 * * * * /path/to/LedgerBoard/command.sh`
+2. Then use `crontab -e` to write: `*/59 * * * * /path/to/LedgerBoard/file.extension`
 3. Save the file.
 
 
