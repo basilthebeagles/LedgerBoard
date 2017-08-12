@@ -94,7 +94,7 @@ while True:
 
                 if r.text == "Success.":
                     print("\nPost has been successfully broadcasted to node")
-                    print("\nPosted at: " + str(ts))
+                    print("\nPosted at: " + str(ts) + " (UTC)")
 
                     break
 
