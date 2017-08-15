@@ -276,10 +276,8 @@ def getTargetForBlock(index):
     else:
 
         timeBetweenAandB = latestBlock.timeStamp - earliestBlock.timeStamp
-        print("time between a and b:  " + str(timeBetweenAandB))
         target = (timeBetweenAandB/1209600) * intRepLatestBlockTarget
 
-        print(target)
         while (target / intRepLatestBlockTarget) > 4:
             target = target / 1.5
 
