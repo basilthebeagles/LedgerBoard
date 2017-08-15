@@ -50,6 +50,7 @@ Create a file that contains the following text:
 1. Run `sudo python3 manage.py mine your.ip:4848`
 
 If you wish to mine on multiple cores then open additional windows and run the above command.
+Ignore the first 'valid block' time.
 
 
 ## Commands
