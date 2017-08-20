@@ -32,6 +32,9 @@ urlpatterns = [
     url(r'interfaceBlockDetails/', views.interfaceBlockDetails),
     url(r'interfacePostDetails/', views.interfacePostDetails),
     url(r'interfaceBroadcasterDetails/', views.interfaceBroadcasterDetails),
+    url(r'appRequest/', views.appRequest),
+
+
 
 
 

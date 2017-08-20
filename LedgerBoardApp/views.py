@@ -23,6 +23,7 @@ from LedgerBoardApp.Interface.postDetails import PostDetails
 from LedgerBoardApp.Interface.blockDetails import BlockDetails
 from LedgerBoardApp.Interface.broadcasterDetails import BroadcasterDetails
 
+from LedgerBoardApp.Interface.appRequestHandler import AppRequestHandler
 
 
 
@@ -312,6 +313,34 @@ def interfaceBroadcasterDetails(request):
 
     except:
         response.content = "no data given."
+        return response
+
+
+
+@csrf_exempt
+def appRequest(request):
+    response = HttpResponse()
+    rawPostData = request.POST
+
+
+    try:
+        attribute = rawPostData.__getitem__('attribute')
+        attributeParameter = rawPostData.__getitem__('attributeParameter')
+
+    except:
+        response.status_code = 406
+        response.content = "Missing data."
+        return response
+
+    feedback = AppRequestHandler(attribute, attributeParameter)
+
+    if feedback[0] == "":
+        response.content = str(feedback[1])
+        response.status_code = 200
+        return response
+    else:
+        response.content = feedback[0]
+        response.status_code = 404
         return response
 
 
