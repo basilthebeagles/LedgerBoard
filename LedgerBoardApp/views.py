@@ -2,6 +2,7 @@
 
 import time
 
+import json
 
 from django.http import HttpResponse
 
@@ -15,6 +16,7 @@ from LedgerBoardApp.helperFunctions.getPosts import GetPosts
 from LedgerBoardApp.helperFunctions.getNodes import GetNodes
 from LedgerBoardApp.helperFunctions.getHeight import GetHeight
 from LedgerBoardApp.helperFunctions.addNewHosts import AddNewHosts
+from django.http import JsonResponse
 
 
 from LedgerBoardApp.models import Node
@@ -319,7 +321,6 @@ def interfaceBroadcasterDetails(request):
 
 @csrf_exempt
 def appRequest(request):
-    response = HttpResponse()
     rawPostData = request.POST
 
 
@@ -328,18 +329,22 @@ def appRequest(request):
         attributeParameter = rawPostData.__getitem__('attributeParameter')
 
     except:
+        response = JsonResponse({'error':"Missing data."})
+
         response.status_code = 406
-        response.content = "Missing data."
+
         return response
 
     feedback = AppRequestHandler(attribute, attributeParameter)
 
     if feedback[0] == "":
-        response.content = str(feedback[1])
+
+        response = JsonResponse(feedback[1])
         response.status_code = 200
         return response
     else:
-        response.content = feedback[0]
+        response = JsonResponse({'error':feedback[0]})
+
         response.status_code = 404
         return response
 
