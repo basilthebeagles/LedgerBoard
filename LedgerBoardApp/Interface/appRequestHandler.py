@@ -17,13 +17,13 @@ def AppRequestHandler(attribute, parameter):
             functionResponse = GetPosts("publicKey", [parameter])
 
             if functionResponse[0] != "":
-                return functionResponse
+                return ("Could not find broadcaster.", [])
             else:
 
                 broadcasterPostArray = ast.literal_eval(str(functionResponse[1]))
 
                 JSONResponse = {}
-                JSONResponse['currentHeight'] = int(GetHeight()[1])
+                JSONResponse['currentHeight'] = str(GetHeight()[1])
 
                 JSONResponse['postArray'] = []
                 for post in broadcasterPostArray:
@@ -58,7 +58,7 @@ def AppRequestHandler(attribute, parameter):
 
                 blockArray = ast.literal_eval(str(functionResponse[1]))
                 JSONResponse = {}
-                JSONResponse['currentHeight'] = int(GetHeight()[1])
+                JSONResponse['currentHeight'] = str(GetHeight()[1])
                 JSONResponse['blockMetadata'] = {}
                 JSONResponse['blockMetadata']['index'] = blockArray[0][0]
                 JSONResponse['blockMetadata']['timeStamp'] = blockArray[0][1]
@@ -97,7 +97,7 @@ def AppRequestHandler(attribute, parameter):
             if post.exists():
                 post = Post.objects.get(postHash=parameter)
                 JSONResponse = {}
-                JSONResponse['currentHeight'] = int(GetHeight()[1])
+                JSONResponse['currentHeight'] = str(GetHeight()[1])
 
                 JSONResponse['publicKey'] = post.publicKeyOfSender
                 JSONResponse['timeStamp'] = post.timeStamp
