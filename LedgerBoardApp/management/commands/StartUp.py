@@ -79,47 +79,77 @@ class Command(BaseCommand):
                 return feedback[0]
 
             # sorted_nodeData = sorted(nodeData.items(), key=operator.itemgetter(0), reverse=True)
+            nodeHeightA = 1
+
+            nodeHeightB = 20
 
             highestNode = feedback[1]
+            highestNodeHeight = highestNode['Height']
 
-            blockIndexRange = [1, highestNode['Height']]
+            if highestNodeHeight < 20:
+                nodeHeightB = highestNodeHeight
 
-            url = "http://" + highestNode['Host'] + "/getBlocks/"
 
-            payload = {'attribute': 'index', 'attributeParameters': str(blockIndexRange)}
 
-            blockArray = []
-            try:
-                r = requests.post(url, timeout=10, data=payload)
 
-                blockArray = ast.literal_eval(str(r.text))
-            except:
 
-                return 'could not get blockArray from highest node'
+            while nodeHeightA != (highestNodeHeight + 1):
 
-            count = 0
-            for block in blockArray:
 
-                if (count % 2 != 0):
-                    count += 1
-                    continue
 
-                currentIndex = int(getHeight.GetHeight()[1])
+                blockIndexRange = [nodeHeightA, nodeHeightB]
 
-                if block[0] != currentIndex + 1:
-                    nodeHelperFunctions.blackList(highestNode['Host'])
-                    return 'blockArray is not sorted'
-                print(block)
-                blockFeedback = blockHelperFunctions.blockHandler(block[0], block[1], block[2], block[3], block[4],
-                                                                  str(blockArray[count + 1]), True,
-                                                                  False, True, [0, 0])
+                url = "http://" + highestNode['Host'] + "/getBlocks/"
 
-                if blockFeedback != "":
-                    nodeHelperFunctions.blackList(highestNode['Host'])
+                payload = {'attribute': 'index', 'attributeParameters': str(blockIndexRange)}
 
-                    return "invalid blocks given"
+                blockArray = []
+                try:
+                    r = requests.post(url, timeout=10, data=payload)
 
-                count = count + 1
+                    blockArray = ast.literal_eval(str(r.text))
+                except:
+
+                    return 'could not get blockArray from highest node'
+
+                count = 0
+                for block in blockArray:
+
+                    if (count % 2 != 0):
+                        count += 1
+                        continue
+
+                    currentIndex = int(getHeight.GetHeight()[1])
+
+                    if block[0] != currentIndex + 1:
+                        nodeHelperFunctions.blackList(highestNode['Host'])
+                        return 'blockArray is not sorted'
+
+                    print(block)
+                    print("Posts: ")
+                    print(str(blockArray[count + 1]))
+                    blockFeedback = blockHelperFunctions.blockHandler(block[0], block[1], block[2], block[3], block[4],
+                                                                      str(blockArray[count + 1]), True,
+                                                                      False, True, [0, 0])
+
+                    if blockFeedback != "":
+                        nodeHelperFunctions.blackList(highestNode['Host'])
+
+                        return "invalid blocks given"
+
+                    count = count + 1
+
+                if (highestNodeHeight) - (nodeHeightB + 20) < 20:
+
+                    nodeHeightA = nodeHeightB + 1
+
+                    nodeHeightB = highestNodeHeight
+                else:
+                    nodeHeightA = nodeHeightB + 1
+
+                    nodeHeightB = nodeHeightA + 19
+
+
 
             currentTime = int(time.time())
 
@@ -144,7 +174,8 @@ class Command(BaseCommand):
 
             for post in postArray:
                 feedback = postHelperFunctions.NewPost(publicKey=post[0], timeStamp=post[1], content=post[2],
-                                                       signature=post[3], notNewToNetwork=True)
+                                                           signature=post[3], notNewToNetwork=True)
+
 
 
             return "successful start up"

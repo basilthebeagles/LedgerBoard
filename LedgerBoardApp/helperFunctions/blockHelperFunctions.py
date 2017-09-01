@@ -352,26 +352,55 @@ def badChainFixer(firstBadBlockTimeObject):
 
     #loop through our blokc until we find one in node. Then delete all of our one to that block and rebuild
 
-    blockIndexRange = [1, highestNode['Height']] #remember the technical current index is this minus one since its been deleted
 
+    nodeHeightA = 1
+
+    nodeHeightB = 20
+
+    highestNode = feedback[1]
+    highestNodeHeight = highestNode['Height']
+
+    if highestNodeHeight < 20:
+        nodeHeightB = highestNodeHeight
 
     url = "http://" + highestNode['Host'] + "/getBlocks/"
 
-    print(url)
+    print("Connecting to: " + url)
 
-    payload = {'attribute' : 'index', 'attributeParameters' : str(blockIndexRange)}
-
-
+    print("Downloading block index, please wait...")
     blockArray = []
-    try:
-        r = requests.post(url, timeout=20, data=payload)
+
+    while nodeHeightA != (highestNodeHeight + 1):
+        blockIndexRange = [nodeHeightA, nodeHeightB]
 
 
-        blockArray = ast.literal_eval(str(r.text))
-    except:
 
 
-        return 'could not get blockArray from highest node'
+        payload = {'attribute' : 'index', 'attributeParameters' : str(blockIndexRange)}
+
+
+        try:
+            r = requests.post(url, timeout=20, data=payload)
+
+
+            blockArray.extend( ast.literal_eval(str(r.text)))
+        except:
+
+
+            return 'could not get blockArray from highest node'
+
+        if (highestNodeHeight) - (nodeHeightB + 20) < 20:
+
+            nodeHeightA = nodeHeightB + 1
+
+            nodeHeightB = highestNodeHeight
+        else:
+            nodeHeightA = nodeHeightB + 1
+
+            nodeHeightB = nodeHeightA + 19
+
+    if blockArray.__len__() == 0:
+        return "Error building blockArray. Try again later."
 
     count = 0
 
@@ -379,7 +408,7 @@ def badChainFixer(firstBadBlockTimeObject):
 
     breakOutOfSecondLoop = False
 
-    indexToStartFrom = 0
+    indexToStartFrom = 1
 
     for localBlock in allLocalBlocks:
         count = 0
