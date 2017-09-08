@@ -325,7 +325,7 @@ def badChainFixer(firstBadBlockTimeObject):
         postArray = []
 
         try:
-            r = requests.post(url, timeout=10, data=payload)
+            r = requests.post(url, timeout=30, data=payload)
 
             postArray = ast.literal_eval(str(r.text))
         except:

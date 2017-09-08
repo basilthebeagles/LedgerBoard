@@ -24,7 +24,7 @@ def AddNewHosts(host, version, selfHost):
 
 
         try:
-            r = requests.post(url, data=payload, timeout=2)
+            r = requests.post(url, data=payload, timeout=40)
         except requests.exceptions.Timeout:
             return "could not connect"
     except:
