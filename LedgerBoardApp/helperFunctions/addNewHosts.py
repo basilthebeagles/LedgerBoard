@@ -57,7 +57,7 @@ def GetNewHosts(host, selfHost):
     print('here')
 
     try:
-        r = requests.post(url, timeout=2)
+        r = requests.post(url, timeout=12)
         print(r.text)
         nodeArray = ast.literal_eval(str(r.text))
 
