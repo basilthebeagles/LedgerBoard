@@ -34,7 +34,9 @@ The following steps are not necessarily necessary but they may be useful. They i
 Create a file that contains the following text:
 
 `#!/bin/bash`
+
 `cd /path/to/LedgerBoard/`
+
 `sudo python3 manage.py StartUp your.ip:4848`
 
 1. Make it executable with: `chmod +x file`
