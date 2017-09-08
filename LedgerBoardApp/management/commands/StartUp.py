@@ -59,7 +59,7 @@ class Command(BaseCommand):
             except:
                 return "connecting to default node failed."
             print("USING DEFAULT NODE")
-            if feedback != "we are already on other hosts list. But we have now added that host." and feedback != "":
+            if feedback != "we are already on other hosts list. But we have now added that host to our list." and feedback != "":
                 return (feedback)
 
 
