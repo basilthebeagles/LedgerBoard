@@ -44,9 +44,9 @@ class Command(BaseCommand):
 
         savedNodes = Node.objects.all()
         for node in savedNodes:
-            url = "http://" + node.host + "/getBlocks/"
+            url = "http://" + node.host + "/getHeight/"
             try:
-                r = requests.post(url=url, timeout=60)
+                r = requests.post(url=url, timeout=20)
             except:
                 node.delete()
 

@@ -36,7 +36,7 @@ def getHighestNode(currentIndex):
 
         url = "http://" + host + "/getHeight/"
         try:
-            r = requests.get(url, timeout=2)
+            r = requests.get(url, timeout=10)
 
             height = int(r.text)
             print('height: ' + str(height))
