@@ -61,7 +61,7 @@ def distributeEntity(dataArray, type, originHost, selfHost):
         url = "http://" + str(node.host) + urlAddition
         try:
             print("distributing to:" + str(url))
-            r = requests.post(url, data=payload, timeout=4)
+            r = requests.post(url, data=payload, timeout=15)
             feedbackDictionary[str(node.host)] = r.content
             node.secondsSinceLastInteraction = currentTime
             node.save()
