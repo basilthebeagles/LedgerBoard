@@ -29,7 +29,7 @@ Refer to [here](http://f-stack.com/LedgerBoard.html).
 12. Find the IP of whatever machine you are on.
 13. Run: `sudo python3 manage.py StartUp your.ip:4848` Run this 3-4 times for good measure. 
 
-The following steps are not necessarily necessary but they may be useful. They involve setting up an automated command so that the node regularly updates it's connected nodes and blocks; just incase it missed a few.
+The following steps are not necessarily necessary but they may be useful. They involve setting up an automated command so that the node regularly updates and adds to it's connected nodes.
 
 Create a file that contains the following text:
 
