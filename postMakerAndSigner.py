@@ -90,7 +90,8 @@ while True:
 
             try:
                 print("\nBroadcasting to : " + str(url))
-                r = requests.post(url, data=payload, timeout=120)
+                print("This may take 0-10m so please be patient.")
+                r = requests.post(url, data=payload, timeout=600)
 
                 if r.text == "Success.":
                     print("\nPost has been successfully broadcasted to node")
