@@ -71,7 +71,7 @@ class Command(BaseCommand):
                 if (count % 3 != 0) and count != 0:
                     timeForBlockHashing = int(time.time()) - currentTimeForMeasurement
 
-                    timePerBlock = timeForBlockHashing / 204
+                    timePerBlock = 204 / timeForBlockHashing
                     print(str(timePerBlock) + " hashes a second")
 
 
@@ -87,7 +87,7 @@ class Command(BaseCommand):
 
 
                 nonceRange[0] = nonceRange[1] + 1
-                nonceRange[1] = nonceRange[1] + 69 #int(round(nonceRange[1] * 1.5))
+                nonceRange[1] = nonceRange[1] + 69
                 count += 1
             if feedback == "new valid block recieved whilst mining":
                 continue
