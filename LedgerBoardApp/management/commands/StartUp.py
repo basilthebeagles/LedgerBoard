@@ -61,7 +61,10 @@ class Command(BaseCommand):
             print("USING DEFAULT NODE")
             if feedback != "we are already on other hosts list. But we have now added that host to our list." and feedback != "":
                 return (feedback)
-
+        else:
+            ip = socket.gethostbyname("ledgerboard.f-stack.com")
+            host = str(ip) + ":4848"
+            feedback = addNewHosts.AddNewHosts(host, 10, selfHost)
 
         feedback = "-"
         firstBadBlockTimeObject = Data.objects.get(datumTitle="Time of First Bad Block After Chainable Block")
