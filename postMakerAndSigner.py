@@ -91,6 +91,8 @@ while True:
             try:
                 print("\nBroadcasting to : " + str(url))
                 print("This may take 0-10m so please be patient.")
+                print("If you get an error that is not immediate then it is worth checking if the post has been broadcased\non http://f-stack.com/LedgerBoard-Blockchain-Information.html since it is possible that it may've been.")
+
                 r = requests.post(url, data=payload, timeout=600)
 
                 if r.text == "Success.":

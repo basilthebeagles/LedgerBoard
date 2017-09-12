@@ -272,7 +272,6 @@ def getHeight(request):
 def interfaceBlockDetails(request):
     response = HttpResponse()
     rawGetData = request.GET
-    print(rawGetData)
     index = rawGetData.get('blockIndex')
     try:
 
