@@ -17,8 +17,7 @@ def GetNodes():
 
             if int(node.secondsSinceLastInteraction) < int(currentTime - 5400):
                 node.delete()
-            elif node.timeOfBlackList != 0:
-                continue
+
 
             nodeDataArray = []
             nodeDataArray.append(node.host)

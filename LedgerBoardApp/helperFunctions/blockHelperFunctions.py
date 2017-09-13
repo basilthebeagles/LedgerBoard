@@ -470,7 +470,6 @@ def badChainFixer(firstBadBlockTimeObject):
 
         if blockFeedback != "":
 
-            nodeHelperFunctions.blackList(highestNode['Host'])
             print("BLACKLISTINGING AS invalid blocks given")
 
 

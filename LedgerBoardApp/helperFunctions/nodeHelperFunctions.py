@@ -29,8 +29,7 @@ def getHighestNode(currentIndex):
     highestNode = {"Host": '', 'Height': 0}
 
     for node in nodes:
-        if int(node.timeOfBlackList) != 0:
-            continue
+
 
         host = node.host
 

@@ -125,7 +125,6 @@ class Command(BaseCommand):
                     currentIndex = int(getHeight.GetHeight()[1])
 
                     if block[0] != currentIndex + 1:
-                        nodeHelperFunctions.blackList(highestNode['Host'])
                         return 'blockArray is not sorted'
 
                     print(block)
@@ -136,7 +135,6 @@ class Command(BaseCommand):
                                                                       False, True, [0, 0])
 
                     if blockFeedback != "":
-                        nodeHelperFunctions.blackList(highestNode['Host'])
 
                         return "invalid blocks given"
 

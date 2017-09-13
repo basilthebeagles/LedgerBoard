@@ -49,9 +49,7 @@ def distributeEntity(dataArray, type, originHost, selfHost):
 
     for node in nodes:
 
-        if node.timeOfBlackList != 0:
-            print('blacklisted')
-            continue
+
 
         if node.host == originHost:
             continue
